@@ -2,13 +2,13 @@ package beans;
 
 import java.util.Vector;
 
-public class OficinaCorreoVO {
+public class OficinaVO {
 
 	private String nombre;
 	private Vector<CasillaVO> casillas;
 	private Vector<RelacionConfianzaVO> relacionesConfianza;
 
-	public OficinaCorreoVO(String nombre) {
+	public OficinaVO(String nombre) {
 		this.nombre = nombre;
 		this.casillas = new Vector<CasillaVO>();
 		this.relacionesConfianza = new Vector<RelacionConfianzaVO>();

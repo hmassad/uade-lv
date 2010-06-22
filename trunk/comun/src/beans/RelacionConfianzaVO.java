@@ -2,27 +2,27 @@ package beans;
 
 public class RelacionConfianzaVO {
 
-	private OficinaCorreoVO origen;
-	private OficinaCorreoVO destino;
+	private OficinaVO origen;
+	private OficinaVO destino;
 
-	public RelacionConfianzaVO(OficinaCorreoVO origen, OficinaCorreoVO destino) {
+	public RelacionConfianzaVO(OficinaVO origen, OficinaVO destino) {
 		this.origen = origen;
 		this.destino = destino;
 	}
 
-	public OficinaCorreoVO getOrigen() {
+	public OficinaVO getOrigen() {
 		return origen;
 	}
 
-	public void setOrigen(OficinaCorreoVO origen) {
+	public void setOrigen(OficinaVO origen) {
 		this.origen = origen;
 	}
 
-	public OficinaCorreoVO getDestino() {
+	public OficinaVO getDestino() {
 		return destino;
 	}
 
-	public void setDestino(OficinaCorreoVO destino) {
+	public void setDestino(OficinaVO destino) {
 		this.destino = destino;
 	}
 

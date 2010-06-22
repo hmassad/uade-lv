@@ -78,7 +78,7 @@ public class Casilla {
 			mensajes = new ArrayList<Mensaje>();
 		}
 		mensajes.add(mensaje);
-		mensaje.setCasilla(this);
+		mensaje.setCasillaDestinatario(this);
 	}
 
 	public void borrarMensaje(Mensaje mensaje) {

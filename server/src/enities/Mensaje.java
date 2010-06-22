@@ -2,87 +2,92 @@ package enities;
 
 import java.sql.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Mensaje {
-	private Casilla casilla;
 
-	private Date Id_Fecha;
-	private String Id_Casilla_Emisor;
-	private String Id_Casilla_Receptor;
-	private String Asunto;
-	private String Texto;
-	private String Tipo;
-	private String Estado;
+	@Id
+	@GeneratedValue
+	private int id;
+	private Date fecha;
+	private Casilla casillaRemitente;
+	private Casilla casillaDestinatario;
+	private String asunto;
+	private String cuerpo;
+	private String tipo;
+	private String estado;
 
-	public Mensaje(Date id_Fecha, String id_Casilla_Emisor, String id_Casilla_Receptor, String asunto, String texto, String tipo, String estado) {
-		Id_Fecha = id_Fecha;
-		Id_Casilla_Emisor = id_Casilla_Emisor;
-		Id_Casilla_Receptor = id_Casilla_Receptor;
-		Asunto = asunto;
-		Texto = texto;
-		Tipo = tipo;
-		Estado = estado;
+	public Mensaje() {
 	}
 
-	public Date getId_Fecha() {
-		return Id_Fecha;
+	public int getId() {
+		return id;
 	}
 
-	public void setId_Fecha(Date id_Fecha) {
-		Id_Fecha = id_Fecha;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getId_Casilla_Emisor() {
-		return Id_Casilla_Emisor;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setId_Casilla_Emisor(String id_Casilla_Emisor) {
-		Id_Casilla_Emisor = id_Casilla_Emisor;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
-	public String getId_Casilla_Receptor() {
-		return Id_Casilla_Receptor;
+	public Casilla getCasillaRemitente() {
+		return casillaRemitente;
 	}
 
-	public void setId_Casilla_Receptor(String id_Casilla_Receptor) {
-		Id_Casilla_Receptor = id_Casilla_Receptor;
+	public void setCasillaRemitente(Casilla casillaRemitente) {
+		this.casillaRemitente = casillaRemitente;
+	}
+
+	public Casilla getCasillaDestinatario() {
+		return casillaDestinatario;
+	}
+
+	public void setCasillaDestinatario(Casilla casillaDestinatario) {
+		this.casillaDestinatario = casillaDestinatario;
 	}
 
 	public String getAsunto() {
-		return Asunto;
+		return asunto;
 	}
 
 	public void setAsunto(String asunto) {
-		Asunto = asunto;
+		this.asunto = asunto;
 	}
 
-	public String getTexto() {
-		return Texto;
+	public String getCuerpo() {
+		return cuerpo;
 	}
 
-	public void setTexto(String texto) {
-		Texto = texto;
+	public void setCuerpo(String cuerpo) {
+		this.cuerpo = cuerpo;
 	}
 
 	public String getTipo() {
-		return Tipo;
+		return tipo;
 	}
 
 	public void setTipo(String tipo) {
-		Tipo = tipo;
+		this.tipo = tipo;
 	}
 
 	public String getEstado() {
-		return Estado;
+		return estado;
 	}
 
 	public void setEstado(String estado) {
-		Estado = estado;
+		this.estado = estado;
 	}
 
-	public Casilla getCasilla() {
-		return casilla;
-	}
-	public void setCasilla(Casilla casilla) {
-		this.casilla = casilla;
+	public String toString(){
+		return String.format("Mensaje(ID: %d; Fecha: %t; Asunto: %s", getId(), getFecha(), getAsunto());
 	}
 }

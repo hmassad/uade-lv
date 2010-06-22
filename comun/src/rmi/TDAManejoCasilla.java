@@ -2,13 +2,13 @@ package rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Set;
+import java.util.Collection;
 
 import beans.CasillaVO;
 
 public interface TDAManejoCasilla extends Remote {
 
-	public Set<CasillaVO> obtenerCasillas() throws RemoteException;
+	public Collection<CasillaVO> obtenerCasillas() throws RemoteException;
 
 	public CasillaVO obtenerCasilla(String id) throws RemoteException;
 

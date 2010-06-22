@@ -6,12 +6,12 @@ public class CasillaVO {
 
 	private String id;
 	private String password;
-	private Vector<MensajeVO> mensajeVOs;
+	private Vector<MensajeVO> mensajes;
 
 	public CasillaVO(String id, String password) {
 		this.id = id;
 		this.password = password;
-		this.mensajeVOs = new Vector<MensajeVO>();
+		this.mensajes = new Vector<MensajeVO>();
 	}
 
 	public String getId() {
@@ -31,6 +31,6 @@ public class CasillaVO {
 	}
 
 	public Vector<MensajeVO> getMensajes(){
-		return mensajeVOs;
+		return mensajes;
 	}
 }

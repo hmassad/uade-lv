@@ -4,21 +4,20 @@ import java.util.Vector;
 
 public class CasillaVO {
 
-	private String id;
+	private int id;
 	private String password;
+	private String direccion;
 	private Vector<MensajeVO> mensajes;
 
-	public CasillaVO(String id, String password) {
-		this.id = id;
-		this.password = password;
+	public CasillaVO() {
 		this.mensajes = new Vector<MensajeVO>();
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -28,6 +27,14 @@ public class CasillaVO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public Vector<MensajeVO> getMensajes(){

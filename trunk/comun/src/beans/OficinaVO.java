@@ -1,17 +1,29 @@
 package beans;
 
-import java.util.Vector;
+import java.io.Serializable;
 
-public class OficinaVO {
+public class OficinaVO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
+	private int id;
 	private String nombre;
-	private Vector<CasillaVO> casillas;
-	private Vector<RelacionConfianzaVO> relacionesConfianza;
 
-	public OficinaVO(String nombre) {
+	public OficinaVO() {
+
+	}
+
+	public OficinaVO(int id, String nombre) {
+		this.id = id;
 		this.nombre = nombre;
-		this.casillas = new Vector<CasillaVO>();
-		this.relacionesConfianza = new Vector<RelacionConfianzaVO>();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNombre() {
@@ -20,13 +32,5 @@ public class OficinaVO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Vector<CasillaVO> getCasillas() {
-		return casillas;
-	}
-
-	public Vector<RelacionConfianzaVO> getRelacionesConfianza() {
-		return relacionesConfianza;
 	}
 }

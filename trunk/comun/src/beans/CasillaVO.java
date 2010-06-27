@@ -1,16 +1,16 @@
 package beans;
 
-import java.util.Vector;
+import java.io.Serializable;
 
-public class CasillaVO {
+public class CasillaVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private int id;
 	private String password;
 	private String direccion;
-	private Vector<MensajeVO> mensajes;
 
 	public CasillaVO() {
-		this.mensajes = new Vector<MensajeVO>();
 	}
 
 	public int getId() {
@@ -37,7 +37,7 @@ public class CasillaVO {
 		this.direccion = direccion;
 	}
 
-	public Vector<MensajeVO> getMensajes(){
-		return mensajes;
+	public String toString(){
+		return String.format("Casilla(id: %s, password: %s, direccion: %s)", getId(), getPassword(), getDireccion());
 	}
 }

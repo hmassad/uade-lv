@@ -1,15 +1,23 @@
 package beans;
 
-import java.util.Vector;
+import java.io.Serializable;
 
-public class UsuarioVO {
+public class UsuarioVO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
+	private int id;
 	private String nombre;
-	private Vector<CasillaVO> casillas;
 
-	public UsuarioVO(String nombre) {
-		this.nombre = nombre;
-		this.casillas = new Vector<CasillaVO>();
+	public UsuarioVO() {
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNombre() {
@@ -20,7 +28,8 @@ public class UsuarioVO {
 		this.nombre = nombre;
 	}
 
-	public Vector<CasillaVO> getCasillas() {
-		return casillas;
+	@Override
+	public String toString() {
+		return "Usuario(ID: " + getId() + "; Nombre: " + getNombre() + ")";
 	}
 }

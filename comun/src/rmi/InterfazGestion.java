@@ -14,49 +14,64 @@ public interface InterfazGestion extends Remote {
 
 	// Casillas
 
-	public Collection<CasillaVO> obtenerCasillas() throws RemoteException;
+	void agregarCasilla(UsuarioVO u, Collection<OficinaVO> os, CasillaVO c) throws RemoteException;
 
-	public CasillaVO obtenerCasilla(CasillaVO casilla) throws RemoteException;
+	Collection<CasillaVO> obtenerCasillas() throws RemoteException;
 
-	public void modificarCasilla(CasillaVO casillaOriginal, CasillaVO casillaNueva) throws RemoteException;
-	
-	public void borrarCasilla(CasillaVO casilla) throws RemoteException;
+	Collection<CasillaVO> obtenerCasillasPorOficina(OficinaVO o) throws RemoteException;
+
+	Collection<CasillaVO> obtenerCasillasPorUsuario(UsuarioVO u) throws RemoteException;
+
+	CasillaVO obtenerCasilla(CasillaVO c) throws RemoteException;
+
+	void modificarCasilla(CasillaVO cOriginal, CasillaVO cNueva) throws RemoteException;
+
+	void borrarCasilla(CasillaVO c) throws RemoteException;
 
 	// Mensajes
 
-	public Collection<MensajeVO> obtenerMensajes() throws RemoteException;
+	void agregarMensaje(CasillaVO casillaVO, MensajeVO mensajeVO) throws RemoteException;
 
-	public MensajeVO obtenerMensaje(String id) throws RemoteException;
+	Collection<MensajeVO> obtenerMensajes() throws RemoteException;
 
-	public void modificarMensaje(String id, MensajeVO nuevoMensaje) throws RemoteException;
+	MensajeVO obtenerMensaje(MensajeVO mensajeVO) throws RemoteException;
 
-	public void borrarMensaje(String id) throws RemoteException;
+	void modificarMensaje(MensajeVO mensajeVoOriginal, MensajeVO mensajeVoNuevo) throws RemoteException;
+
+	void borrarMensaje(MensajeVO mensajeVO) throws RemoteException;
 
 	// Oficinas
 
-	public Collection<OficinaVO> obtenerOficinas() throws RemoteException;
+	void agregarOficina(OficinaVO o) throws RemoteException;
 
-	public OficinaVO obtenerOficina(String id) throws RemoteException;
+	Collection<OficinaVO> obtenerOficinas() throws RemoteException;
 
-	public void modificarOficina(OficinaVO oficinaOriginal, OficinaVO oficinaNueva) throws RemoteException;
+	OficinaVO obtenerOficina(OficinaVO o) throws RemoteException;
 
-	public void borrarOficina(OficinaVO oficina) throws RemoteException;
+	void modificarOficina(OficinaVO oOriginal, OficinaVO oNueva) throws RemoteException;
+
+	void borrarOficina(OficinaVO o) throws RemoteException;
 
 	// Relaciones de Confianza
 
-	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() throws RemoteException;
+	void agregarRelacionConfianza(RelacionConfianzaVO rc) throws RemoteException;
 
-	public RelacionConfianzaVO obtenerRelacionConfianza(OficinaVO oficinaOrigen, OficinaVO oficinaDestino) throws RemoteException;
+	Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() throws RemoteException;
 
-	public void modificarRelacionConfianza(OficinaVO oficinaOrigen, OficinaVO oficinaDestinoOriginal, OficinaVO oficinaDestinoNueva) throws RemoteException;
+	RelacionConfianzaVO obtenerRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestino) throws RemoteException;
 
-	public void borrarRelacionConfianza(OficinaVO oficinaOrigen, OficinaVO oficinaDestino) throws RemoteException;
+	void modificarRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestinoOriginal, OficinaVO oDestinoNueva) throws RemoteException;
+
+	void borrarRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestino) throws RemoteException;
 
 	// Usuarios
 
-	public void agregarUsuario(UsuarioVO usuario);
+	void agregarUsuario(UsuarioVO usuario) throws RemoteException;
 
-	public void borrarUsuario(UsuarioVO usuario);
+	void modificarUsuario(UsuarioVO uOriginal, UsuarioVO uNuevo) throws RemoteException;
 
-	public void modificarUsuario(UsuarioVO usuario);
+	void borrarUsuario(UsuarioVO usuario) throws RemoteException;
+
+	Collection<UsuarioVO> obtenerUsuarios() throws RemoteException;
+
 }

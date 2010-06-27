@@ -1,6 +1,10 @@
 package beans;
 
-public class RelacionConfianzaVO {
+import java.io.Serializable;
+
+public class RelacionConfianzaVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private OficinaVO origen;
 	private OficinaVO destino;

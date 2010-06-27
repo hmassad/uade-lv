@@ -1,5 +1,9 @@
 package beans;
 
-public class MensajeVO {
+import java.io.Serializable;
+
+public class MensajeVO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 }

@@ -16,9 +16,9 @@ public class Mensajeria extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public void enviarMensaje(MensajeVO mensaje) {
+	public void enviarMensaje(MensajeVO mensaje) throws RemoteException {
 		// TODO Auto-generated method stub
-		
+		throw new RemoteException("No Implementado");
 	}
 
 }

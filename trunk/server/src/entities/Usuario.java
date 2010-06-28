@@ -19,7 +19,7 @@ public class Usuario {
 
 	private String nombre;
 
-	@OneToMany(mappedBy = "usuario", targetEntity = Casilla.class)
+	@OneToMany(targetEntity = Casilla.class, mappedBy = "usuario")
 	private Collection<Casilla> casillas;
 
 	public Usuario() {

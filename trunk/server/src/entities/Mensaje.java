@@ -1,12 +1,18 @@
 package entities;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import enums.MensajeEstado;
 import enums.MensajeTipo;
@@ -17,17 +23,25 @@ public class Mensaje {
 	@Id
 	@GeneratedValue
 	private int id;
+
 	private Date fecha;
+
+	@ManyToOne
+	@JoinColumn(name = "casillaremitenteid")
 	private Casilla casillaRemitente;
-	private Casilla casillaDestinatario;
-	private String asunto;
-	private String cuerpo;
+
+	@OneToMany(targetEntity = Casilla.class, mappedBy = "casilladestinatarioid")
+	@JoinTable(name = "CasillasDestinatarioPorMensaje")
+	private Collection<Casilla> casillasDestinatarios;
 
 	@Enumerated(EnumType.STRING)
 	private MensajeTipo tipo;
 
 	@Enumerated(EnumType.STRING)
 	private MensajeEstado estado;
+
+	private String asunto;
+	private String cuerpo;
 
 	public Mensaje() {
 	}
@@ -56,12 +70,12 @@ public class Mensaje {
 		this.casillaRemitente = casillaRemitente;
 	}
 
-	public Casilla getCasillaDestinatario() {
-		return casillaDestinatario;
+	public Collection<Casilla> getCasillasDestinatarios() {
+		return casillasDestinatarios;
 	}
 
-	public void setCasillaDestinatario(Casilla casillaDestinatario) {
-		this.casillaDestinatario = casillaDestinatario;
+	public void setCasillaDestinatario(Collection<Casilla> casillasDestinatarios) {
+		this.casillasDestinatarios = casillasDestinatarios;
 	}
 
 	public String getAsunto() {
@@ -98,5 +112,12 @@ public class Mensaje {
 
 	public String toString() {
 		return String.format("Mensaje(ID: %d; Fecha: %t; Asunto: %s", getId(), getFecha(), getAsunto());
+	}
+
+	public void agregarCasillaDestinatario(Casilla casilla) {
+		if (casillasDestinatarios == null) {
+			casillasDestinatarios = new ArrayList<Casilla>();
+		}
+		casillasDestinatarios.add(casilla);
 	}
 }

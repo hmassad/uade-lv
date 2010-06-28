@@ -59,9 +59,11 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	private Usuario buscarUsuario(UsuarioVO u) {
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createNamedQuery("SELECT u FROM Usuario u WHERE u.id = :id");
-			query.setParameter("id", u.getId());
-			return (Usuario) query.getSingleResult();
+			// Query query =
+			// em.createNamedQuery("SELECT u FROM Usuario u WHERE u.id = :id");
+			// query.setParameter("id", u.getId());
+			// return (Usuario) query.getSingleResult();
+			return (Usuario) em.find(Usuario.class, u.getId());
 		} finally {
 			em.close();
 		}
@@ -79,41 +81,34 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void agregarCasilla(UsuarioVO u, Collection<OficinaVO> os, CasillaVO c) throws RemoteException {
-		// busco el usuario
-		Usuario usuario = buscarUsuario(u);
-
-		// busco las oficinas
-		Collection<Oficina> oficinas = new ArrayList<Oficina>();
-		for (OficinaVO o : os) {
-			Oficina oficina = buscarOficina(o);
-			oficinas.add(oficina);
-		}
+	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) throws RemoteException {
 
 		// Crear el EntityManager
 		EntityManager em = emf.createEntityManager();
 		try {
+
+			// busco el usuario
+			Usuario usuario = em.find(Usuario.class, u.getId());
+			if (usuario == null){
+				throw new RemoteException("Usuario no encontrado.");
+			}
+			
+			// Creo una Casilla
+			Casilla casilla = new Casilla();
+			casilla.setDireccion(c.getDireccion());
+			casilla.setPassword(c.getPassword());
+			usuario.agregarCasilla(casilla);
+
 			// Inicio Transacción
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
 			try {
-
-				// Creo una Casilla
-				Casilla casilla = new Casilla();
-				casilla.setDireccion(c.getDireccion());
-				casilla.setPassword(c.getPassword());
-				usuario.agregarCasilla(casilla);
 
 				// Persisto la Casilla
 				em.persist(casilla);
 
 				// Persisto el Usuario
 				em.persist(usuario);
-
-				for (Oficina o : oficinas) {
-					o.agregarCasilla(casilla);
-					em.persist(o);
-				}
 
 				// Commit de la Transacción
 				tx.commit();
@@ -125,6 +120,12 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		} finally {
 			em.close();
 		}
+	}
+
+	@Override
+	public void agregarCasillaAOficina(OficinaVO o, CasillaVO c) throws RemoteException {
+		// TODO:
+		throw new RemoteException("No Implementado");
 	}
 
 	@Override
@@ -394,9 +395,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Usuario usuario = new Usuario();
-			usuario.setId(u.getId());
 			usuario.setNombre(u.getNombre());
 			EntityTransaction tx = em.getTransaction();
+			tx.begin();
 			try {
 				em.persist(usuario);
 				tx.commit();
@@ -404,6 +405,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				tx.rollback();
 			}
 		} finally {
+
 			em.close();
 		}
 	}

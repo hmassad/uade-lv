@@ -1,14 +1,13 @@
 package vista;
 
-import java.awt.Container;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class Administrador extends javax.swing.JFrame {
@@ -38,10 +37,11 @@ public class Administrador extends javax.swing.JFrame {
 		super();
 		initGUI();
 	}
-	
+
 	private void initGUI() {
 		try {
 			setSize(400, 300);
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			{
 				mainMenuBar = new JMenuBar();
 				this.setJMenuBar(mainMenuBar);
@@ -50,14 +50,16 @@ public class Administrador extends javax.swing.JFrame {
 					mainMenuBar.add(usuariosMenuItem);
 					usuariosMenuItem.setText("Usuarios");
 					usuariosMenuItem.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							Administrador.this.setContentPane(new JScrollPane());
+							Administrador.this.setContentPane(new JInternalFrame());
+							Administrador.this.getContentPane().setLayout(new BorderLayout());
 							JLabel l = new JLabel();
 							l.setText("usuarios");
-							Administrador.this.getContentPane().add(l);
+							Administrador.this.getContentPane().add(l, BorderLayout.CENTER);
 						}
+
 					});
 				}
 				{
@@ -73,8 +75,7 @@ public class Administrador extends javax.swing.JFrame {
 				{
 					relacionesConfianzaMenuItem = new JMenuItem();
 					mainMenuBar.add(relacionesConfianzaMenuItem);
-					relacionesConfianzaMenuItem
-							.setText("Relaciones de Confianza");
+					relacionesConfianzaMenuItem.setText("Relaciones de Confianza");
 				}
 				{
 					logMenuItem = new JMenuItem();
@@ -90,6 +91,13 @@ public class Administrador extends javax.swing.JFrame {
 					salirMenuItem = new JMenuItem();
 					mainMenuBar.add(salirMenuItem);
 					salirMenuItem.setText("Salir");
+					salirMenuItem.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Administrador.this.dispose();
+						}
+					});
 				}
 			}
 		} catch (Exception e) {

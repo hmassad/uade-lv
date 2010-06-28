@@ -7,7 +7,6 @@ import java.util.Collection;
 import observer.Observable;
 import rmi.InterfazGestion;
 import beans.CasillaVO;
-import beans.OficinaVO;
 import beans.UsuarioVO;
 
 public class ControladorGestion extends Observable {
@@ -26,21 +25,25 @@ public class ControladorGestion extends Observable {
 		return gestion.obtenerCasillas();
 	}
 
-	public void agregarCasilla(UsuarioVO usuario, Collection<OficinaVO> oficinas, CasillaVO casilla) {
-		try {
-			gestion.agregarCasilla(usuario, oficinas, casilla);
-			// this.notifyObservers(this.listarAlumno());
-
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public Collection<UsuarioVO> obtenerUsuarios() throws RemoteException {
 		return gestion.obtenerUsuarios();
 	}
 
 	public Collection<CasillaVO> obtenerCasillasPorUsuario(UsuarioVO u) throws RemoteException {
 		return gestion.obtenerCasillasPorUsuario(u);
+	}
+
+	public void agregarUsuario(UsuarioVO u) throws RemoteException {
+		gestion.agregarUsuario(u);
+	}
+
+	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) {
+		try {
+			gestion.agregarCasillaAUsuario(u, c);
+			// this.notifyObservers(this.listarAlumno());
+
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 }

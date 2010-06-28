@@ -14,7 +14,9 @@ public interface InterfazGestion extends Remote {
 
 	// Casillas
 
-	void agregarCasilla(UsuarioVO u, Collection<OficinaVO> os, CasillaVO c) throws RemoteException;
+	void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) throws RemoteException;
+
+	void agregarCasillaAOficina(OficinaVO o, CasillaVO c) throws RemoteException;
 
 	Collection<CasillaVO> obtenerCasillas() throws RemoteException;
 

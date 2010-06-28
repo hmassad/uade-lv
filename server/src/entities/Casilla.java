@@ -26,8 +26,8 @@ public class Casilla {
 	private String direccion;
 	private String password;
 
-//	@OneToMany(mappedBy = "casilla")
-//	private Collection<Mensaje> mensajes;
+	@OneToMany(targetEntity = Mensaje.class, mappedBy = "casilla")
+	private Collection<Mensaje> mensajes;
 
 	public Casilla() {
 	}
@@ -60,25 +60,25 @@ public class Casilla {
 		this.password = password;
 	}
 
-//	public Collection<Mensaje> getMensajes() {
-//		return this.mensajes;
-//	}
-//
-//	public void setMensajes(Collection<Mensaje> mensajes) {
-//		this.mensajes = mensajes;
-//	}
-//
-//	public void agregarMensaje(Mensaje mensaje) {
-//		if (mensajes == null) {
-//			mensajes = new ArrayList<Mensaje>();
-//		}
-//		mensajes.add(mensaje);
+	public Collection<Mensaje> getMensajes() {
+		return this.mensajes;
+	}
+
+	public void setMensajes(Collection<Mensaje> mensajes) {
+		this.mensajes = mensajes;
+	}
+
+	public void agregarMensaje(Mensaje mensaje) {
+		if (mensajes == null) {
+			mensajes = new ArrayList<Mensaje>();
+		}
+		mensajes.add(mensaje);
 //		mensaje.setCasillaDestinatario(this);
-//	}
-//
-//	public void borrarMensaje(Mensaje mensaje) {
-//		mensajes.remove(mensaje);
-//	}
+	}
+
+	public void borrarMensaje(Mensaje mensaje) {
+		mensajes.remove(mensaje);
+	}
 
 	public String toString() {
 		return "Casilla(ID: " + getId() + "; Usuario: " + getUsuario() + "; Direccion: " + getDireccion() + "; Password: " + getPassword() + ")";

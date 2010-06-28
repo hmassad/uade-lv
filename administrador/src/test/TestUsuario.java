@@ -1,18 +1,24 @@
 package test;
 
 import java.rmi.RemoteException;
-import java.util.Collection;
 
 import beans.UsuarioVO;
 import controlador.ControladorGestion;
 
-public class Usuario {
+public class TestUsuario {
 
 	public static void main(String[] args) {
 		ControladorGestion cg = new ControladorGestion();
 		try {
-			Collection<UsuarioVO> usuarios = cg.obtenerUsuarios();
-			for (UsuarioVO usuario : usuarios) {
+			for (UsuarioVO usuario : cg.obtenerUsuarios()) {
+				System.out.println(usuario.toString());
+			}
+
+			UsuarioVO u = new UsuarioVO();
+			u.setNombre("El 5");
+			cg.agregarUsuario(u);
+
+			for (UsuarioVO usuario : cg.obtenerUsuarios()) {
 				System.out.println(usuario.toString());
 			}
 		} catch (RemoteException e) {

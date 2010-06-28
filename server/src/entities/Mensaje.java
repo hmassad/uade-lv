@@ -8,6 +8,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import enums.MensajeEstado;
+import enums.MensajeTipo;
+
 @Entity
 public class Mensaje {
 

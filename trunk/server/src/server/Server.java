@@ -32,7 +32,7 @@ public class Server {
 
 	private void inicializarRmi() {
 		try {
-			LocateRegistry.createRegistry(1099);
+			LocateRegistry.createRegistry(10099);
 
 			gestion = new Gestion();
 			Naming.rebind("//localhost/gestion", gestion);

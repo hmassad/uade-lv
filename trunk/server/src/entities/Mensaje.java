@@ -1,50 +1,50 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import enums.MensajeEstado;
 import enums.MensajeTipo;
 
 @Entity
-public class Mensaje {
+public class Mensaje implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
+	@Column(name = "mensaje_id", nullable = false)
 	private int id;
 
+	@Column(name = "fecha")
 	private Date fecha;
 
 	@ManyToOne
-	@JoinColumn(name = "casillaremitenteid")
-	private Casilla casillaRemitente;
+	private Casilla origen;
 
-	@OneToMany(targetEntity = Casilla.class, mappedBy = "casilladestinatarioid")
-	@JoinTable(name = "CasillasDestinatarioPorMensaje")
-	private Collection<Casilla> casillasDestinatarios;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.mensaje")
+	private Collection<CasillaMensaje> destinos = new ArrayList<CasillaMensaje>();
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo")
 	private MensajeTipo tipo;
-
-	@Enumerated(EnumType.STRING)
-	private MensajeEstado estado;
-
+	
+	@Column(name = "asunto")
 	private String asunto;
-	private String cuerpo;
 
-	public Mensaje() {
-	}
+	@Column(name = "cuerpo")
+	private String cuerpo;
 
 	public int getId() {
 		return id;
@@ -62,20 +62,28 @@ public class Mensaje {
 		this.fecha = fecha;
 	}
 
-	public Casilla getCasillaRemitente() {
-		return casillaRemitente;
+	public Casilla getOrigen() {
+		return origen;
 	}
 
-	public void setCasillaRemitente(Casilla casillaRemitente) {
-		this.casillaRemitente = casillaRemitente;
+	public void setOrigen(Casilla origen) {
+		this.origen = origen;
 	}
 
-	public Collection<Casilla> getCasillasDestinatarios() {
-		return casillasDestinatarios;
+	public Collection<CasillaMensaje> getDestinos() {
+		return destinos;
 	}
 
-	public void setCasillaDestinatario(Collection<Casilla> casillasDestinatarios) {
-		this.casillasDestinatarios = casillasDestinatarios;
+	public void setDestinos(Collection<CasillaMensaje> destinos) {
+		this.destinos = destinos;
+	}
+
+	public MensajeTipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(MensajeTipo tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getAsunto() {
@@ -94,30 +102,7 @@ public class Mensaje {
 		this.cuerpo = cuerpo;
 	}
 
-	public MensajeTipo getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(MensajeTipo tipo) {
-		this.tipo = tipo;
-	}
-
-	public MensajeEstado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(MensajeEstado estado) {
-		this.estado = estado;
-	}
-
 	public String toString() {
 		return String.format("Mensaje(ID: %d; Fecha: %t; Asunto: %s", getId(), getFecha(), getAsunto());
-	}
-
-	public void agregarCasillaDestinatario(Casilla casilla) {
-		if (casillasDestinatarios == null) {
-			casillasDestinatarios = new ArrayList<Casilla>();
-		}
-		casillasDestinatarios.add(casilla);
 	}
 }

@@ -21,7 +21,6 @@ import entities.Casilla;
 import entities.Oficina;
 import entities.RelacionConfianza;
 import entities.Usuario;
-import entities.RelacionConfianza;
 
 public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 
@@ -60,10 +59,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	private Usuario buscarUsuario(UsuarioVO u) {
 		EntityManager em = emf.createEntityManager();
 		try {
-			// Query query =
-			// em.createNamedQuery("SELECT u FROM Usuario u WHERE u.id = :id");
-			// query.setParameter("id", u.getId());
-			// return (Usuario) query.getSingleResult();
 			return (Usuario) em.find(Usuario.class, u.getId());
 		} finally {
 			em.close();

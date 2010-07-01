@@ -1,39 +1,52 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@UniqueConstraint(columnNames = { "nombre" })
-public class Casilla {
+public class Casilla implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
+	@Column(name = "casilla_id", nullable = false)
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "usuarioid")
 	private Usuario usuario;
 
+	@Column(name = "direccion", unique = true)
 	private String direccion;
+
+	@Column(name = "password")
 	private String password;
 
-	@OneToMany(targetEntity = Mensaje.class, mappedBy = "casilla")
-	private Collection<Mensaje> mensajes;
+	@ManyToMany
+	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "oficina_id") }, inverseJoinColumns = { @JoinColumn(name = "casilla_id") })
+	private Collection<Oficina> oficinas = new ArrayList<Oficina>();
 
-	public Casilla() {
-	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.casilla")
+	private Collection<CasillaMensaje> mensajes = new ArrayList<CasillaMensaje>();
 
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Usuario getUsuario() {
@@ -60,24 +73,20 @@ public class Casilla {
 		this.password = password;
 	}
 
-	public Collection<Mensaje> getMensajes() {
-		return this.mensajes;
+	public Collection<Oficina> getOficinas() {
+		return oficinas;
 	}
 
-	public void setMensajes(Collection<Mensaje> mensajes) {
+	public void setOficinas(Collection<Oficina> oficinas) {
+		this.oficinas = oficinas;
+	}
+
+	public Collection<CasillaMensaje> getMensajes() {
+		return mensajes;
+	}
+
+	public void setMensajes(Collection<CasillaMensaje> mensajes) {
 		this.mensajes = mensajes;
-	}
-
-	public void agregarMensaje(Mensaje mensaje) {
-		if (mensajes == null) {
-			mensajes = new ArrayList<Mensaje>();
-		}
-		mensajes.add(mensaje);
-//		mensaje.setCasillaDestinatario(this);
-	}
-
-	public void borrarMensaje(Mensaje mensaje) {
-		mensajes.remove(mensaje);
 	}
 
 	public String toString() {

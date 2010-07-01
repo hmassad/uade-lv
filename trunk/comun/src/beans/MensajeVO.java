@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -13,8 +14,8 @@ public class MensajeVO implements Serializable {
 
 	private int id;
 	private Date fecha;
-	private CasillaVO casillaRemitente;
-	private Collection<CasillaVO> casillasDestinatarios;
+	private String origen;
+	private Collection<String> destinos = new ArrayList<String>();
 	private MensajeTipo tipo;
 	private MensajeEstado estado;
 	private String asunto;
@@ -36,20 +37,20 @@ public class MensajeVO implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public CasillaVO getCasillaRemitente() {
-		return casillaRemitente;
+	public String getOrigen() {
+		return origen;
 	}
 
-	public void setCasillaRemitente(CasillaVO casillaRemitente) {
-		this.casillaRemitente = casillaRemitente;
+	public void setOrigen(String origen) {
+		this.origen = origen;
 	}
 
-	public Collection<CasillaVO> getCasillasDestinatarios() {
-		return casillasDestinatarios;
+	public Collection<String> getDestinos() {
+		return destinos;
 	}
 
-	public void setCasillasDestinatarios(Collection<CasillaVO> casillasDestinatarios) {
-		this.casillasDestinatarios = casillasDestinatarios;
+	public void setDestinos(Collection<String> destinos) {
+		this.destinos = destinos;
 	}
 
 	public MensajeTipo getTipo() {
@@ -84,4 +85,11 @@ public class MensajeVO implements Serializable {
 		this.cuerpo = cuerpo;
 	}
 
+	public void agregarDestino(String direccion){
+		destinos.add(direccion);
+	}
+
+	public void eliminarDestino(String direccion){
+		destinos.remove(direccion);
+	}
 }

@@ -10,9 +10,6 @@ public class CasillaVO implements Serializable {
 	private String password;
 	private String direccion;
 
-	public CasillaVO() {
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -37,6 +34,7 @@ public class CasillaVO implements Serializable {
 		this.direccion = direccion;
 	}
 
+	@Override
 	public String toString(){
 		return String.format("Casilla(id: %s, password: %s, direccion: %s)", getId(), getPassword(), getDireccion());
 	}

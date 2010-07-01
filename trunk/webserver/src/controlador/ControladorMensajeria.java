@@ -7,7 +7,6 @@ import java.util.Collection;
 import rmi.InterfazMensajeria;
 import beans.CasillaVO;
 import beans.MensajeVO;
-import beans.UsuarioVO;
 
 public class ControladorMensajeria {
 
@@ -15,29 +14,36 @@ public class ControladorMensajeria {
 
 	public ControladorMensajeria() {
 		try {
-			mensajeria = (InterfazMensajeria) Naming.lookup("//localhost/mensajeria");
+			mensajeria = (InterfazMensajeria) Naming
+					.lookup("//localhost/mensajeria");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public boolean validarUsuarioCasilla(String nombreUsuario, String direccionCasilla, String contraseñaCasilla) {
-		UsuarioVO u = new UsuarioVO();
-		u.setNombre(nombreUsuario);
+	public boolean validarUsuario(String direccion, String password) {
 
-		CasillaVO c = new CasillaVO();
-		c.setDireccion(direccionCasilla);
-		c.setPassword(contraseñaCasilla);
-
-		// return mensajeria.validarUsuarioCasilla(u, c);
-
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	public Collection<MensajeVO> obtenerMensajesPorCasilla(String direccion) throws RemoteException {
 		CasillaVO c = new CasillaVO();
 		c.setDireccion(direccion);
-		return mensajeria.listarMensajesPorCasilla(c);
+		c.setPassword(password);
+		try {
+			return mensajeria.validarLogin(direccion, password);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public Collection<MensajeVO> obtenerMensajesPorCasilla(String direccion){
+		CasillaVO c = new CasillaVO();
+		c.setDireccion(direccion);
+		try {
+			return mensajeria.listarMensajesPorCasilla(direccion);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

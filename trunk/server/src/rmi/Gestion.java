@@ -13,7 +13,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import beans.CasillaVO;
-import beans.MensajeVO;
+import beans.LogTraficoVO;
 import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
@@ -56,6 +56,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private Usuario buscarUsuario(UsuarioVO u) {
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -87,8 +88,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			em.close();
 		}
 	}
-	
-	
+
 	@Override
 	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) throws RemoteException {
 
@@ -98,10 +98,10 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 
 			// busco el usuario
 			Usuario usuario = em.find(Usuario.class, u.getId());
-			if (usuario == null){
+			if (usuario == null) {
 				throw new RemoteException("Usuario no encontrado.");
 			}
-			
+
 			// Creo una Casilla
 			Casilla casilla = new Casilla();
 			casilla.setDireccion(c.getDireccion());
@@ -142,17 +142,17 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createQuery("select c from Casilla c");
-			ArrayList<CasillaVO> casillasVO = new ArrayList<CasillaVO>();
+			ArrayList<CasillaVO> casillasVo = new ArrayList<CasillaVO>();
 			@SuppressWarnings("unchecked")
-			List<Casilla> casillas = (List<Casilla>) query.getResultList();
+			ArrayList<Casilla> casillas = (ArrayList<Casilla>) query.getResultList();
 			for (Casilla casilla : casillas) {
 				CasillaVO casillaVO = new CasillaVO();
 				casillaVO.setId(casilla.getId());
 				casillaVO.setDireccion(casilla.getDireccion());
 				casillaVO.setPassword(casilla.getPassword());
-				casillasVO.add(casillaVO);
+				casillasVo.add(casillaVO);
 			}
-			return casillasVO;
+			return casillasVo;
 		} finally {
 			em.close();
 		}
@@ -276,36 +276,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void agregarMensaje(CasillaVO casillaVO, MensajeVO mensajeVO) throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
-	}
-
-	@Override
-	public Collection<MensajeVO> obtenerMensajes() throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
-	}
-
-	@Override
-	public MensajeVO obtenerMensaje(MensajeVO m) throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
-	}
-
-	@Override
-	public void modificarMensaje(MensajeVO mOriginal, MensajeVO mNuevo) throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
-	}
-
-	@Override
-	public void borrarMensaje(MensajeVO m) throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
-	}
-
-	@Override
 	public void agregarOficina(OficinaVO o) throws RemoteException {
 		// Crear el EntityManager
 		EntityManager em = emf.createEntityManager();
@@ -317,13 +287,13 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				// Creo una Oficina
 				Oficina oficina = new Oficina();
 				oficina.setNombre(o.getNombre());
-				
+
 				// Persisto la Oficina
 				em.persist(oficina);
 
 				// Commit de la Transacción
 				tx.commit();
-				
+
 			} catch (Exception e) {
 				tx.rollback();
 				e.printStackTrace();
@@ -392,7 +362,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			em.close();
 		}
 	}
-	
+
 	@Override
 	public void borrarOficina(OficinaVO o) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
@@ -412,8 +382,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		}
 	}
 
-
-
 	@Override
 	public void agregarRelacionConfianza(RelacionConfianzaVO rc) throws RemoteException {
 		// Crear el EntityManager
@@ -427,13 +395,13 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				RelacionConfianza relacion = new RelacionConfianza();
 				relacion.setOrigen(buscarOficina(rc.getOrigen()));
 				relacion.setDestino(buscarOficina(rc.getDestino()));
-				
+
 				// Persisto la RelacionConfianza
 				em.persist(relacion);
 
 				// Commit de la Transacción
 				tx.commit();
-				
+
 			} catch (Exception e) {
 				tx.rollback();
 				e.printStackTrace();
@@ -449,7 +417,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		// TODO Auto-generated method stub
 		throw new RemoteException("No Implementado");
 	}
-	
+
 	@Override
 	public RelacionConfianzaVO obtenerRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestino) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -471,7 +439,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			tx.begin();
 			try {
 				if (oDestinoNueva != null) {
-					// Busco la Oficina	
+					// Busco la Oficina
 					Oficina oficina = buscarOficina(oDestinoNueva);
 					relacion.setDestino(oficina);
 				}
@@ -542,5 +510,11 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	public void modificarUsuario(UsuarioVO uOriginal, UsuarioVO uNuevo) throws RemoteException {
 		// TODO Auto-generated method stub
 		throw new RemoteException("No Implementado");
+	}
+
+	@Override
+	public Collection<LogTraficoVO> obtenerLogs() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

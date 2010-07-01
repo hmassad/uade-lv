@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Oficina implements Serializable {
@@ -27,6 +28,9 @@ public class Oficina implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "casilla_id") }, inverseJoinColumns = { @JoinColumn(name = "oficina_id") })
 	private Collection<Casilla> casillas;
+	
+	@OneToMany
+	private Collection<RelacionConfianza> relacionesConfianza = new ArrayList<RelacionConfianza>();
 
 	public int getId() {
 		return id;
@@ -50,6 +54,14 @@ public class Oficina implements Serializable {
 
 	public void setCasillas(Collection<Casilla> casillas) {
 		this.casillas = casillas;
+	}
+
+	public Collection<RelacionConfianza> getRelacionesConfianza() {
+		return relacionesConfianza;
+	}
+
+	public void setRelacionesConfianza(Collection<RelacionConfianza> relacionesConfianza) {
+		this.relacionesConfianza = relacionesConfianza;
 	}
 
 	public void agregarCasilla(Casilla casilla) {

@@ -7,6 +7,8 @@ import java.util.Collection;
 import observer.Observable;
 import rmi.InterfazGestion;
 import beans.CasillaVO;
+import beans.OficinaVO;
+import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
 
 public class ControladorGestion extends Observable {
@@ -21,20 +23,39 @@ public class ControladorGestion extends Observable {
 		}
 	}
 
-	public Collection<CasillaVO> obtenerCasillas() throws RemoteException {
-		return gestion.obtenerCasillas();
+	public Collection<CasillaVO> obtenerCasillas() {
+		try {
+			return gestion.obtenerCasillas();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	public Collection<UsuarioVO> obtenerUsuarios() throws RemoteException {
-		return gestion.obtenerUsuarios();
+	public Collection<UsuarioVO> obtenerUsuarios() {
+		try {
+			return gestion.obtenerUsuarios();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	public Collection<CasillaVO> obtenerCasillasPorUsuario(UsuarioVO u) throws RemoteException {
-		return gestion.obtenerCasillasPorUsuario(u);
+	public Collection<CasillaVO> obtenerCasillasPorUsuario(UsuarioVO u) {
+		try {
+			return gestion.obtenerCasillasPorUsuario(u);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	public void agregarUsuario(UsuarioVO u) throws RemoteException {
-		gestion.agregarUsuario(u);
+	public void agregarUsuario(UsuarioVO u) {
+		try {
+			gestion.agregarUsuario(u);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) {
@@ -45,5 +66,46 @@ public class ControladorGestion extends Observable {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void eliminarUsuario(int id) {
+		try {
+			gestion.borrarUsuario(new UsuarioVO());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() {
+		try {
+			return gestion.obtenerRelacionesConfianza();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Collection<OficinaVO> obtenerOficinas() {
+		try {
+			return gestion.obtenerOficinas();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void eliminarOficina(int id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void eliminarCasilla(int id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {
+		// TODO Auto-generated method stub
+
 	}
 }

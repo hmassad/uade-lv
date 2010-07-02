@@ -1,16 +1,16 @@
 package vista;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-public class Administrador extends javax.swing.JFrame {
+import controlador.ControladorGestion;
+
+public class Administrador extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +22,8 @@ public class Administrador extends javax.swing.JFrame {
 	private JMenuItem alertasMenuItem;
 	private JMenuItem salirMenuItem;
 	private JMenuBar mainMenuBar;
+
+	private ControladorGestion controladorGestion;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -35,6 +37,7 @@ public class Administrador extends javax.swing.JFrame {
 
 	public Administrador() {
 		super();
+		controladorGestion = new ControladorGestion();
 		initGUI();
 	}
 
@@ -42,6 +45,7 @@ public class Administrador extends javax.swing.JFrame {
 		try {
 			setSize(400, 300);
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			setTitle("Administrador");
 			{
 				mainMenuBar = new JMenuBar();
 				this.setJMenuBar(mainMenuBar);
@@ -53,11 +57,8 @@ public class Administrador extends javax.swing.JFrame {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							Administrador.this.setContentPane(new JInternalFrame());
-							Administrador.this.getContentPane().setLayout(new BorderLayout());
-							JLabel l = new JLabel();
-							l.setText("usuarios");
-							Administrador.this.getContentPane().add(l, BorderLayout.CENTER);
+							Administrador.this.setContentPane(new AbmUsuarios(controladorGestion));
+							Administrador.this.setVisible(true);
 						}
 
 					});
@@ -66,16 +67,40 @@ public class Administrador extends javax.swing.JFrame {
 					oficinasMenuItem = new JMenuItem();
 					mainMenuBar.add(oficinasMenuItem);
 					oficinasMenuItem.setText("Oficinas");
+					oficinasMenuItem.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Administrador.this.setContentPane(new AbmOficinas(controladorGestion));
+							Administrador.this.setVisible(true);
+						}
+					});
 				}
 				{
 					casillasMenuItem = new JMenuItem();
 					mainMenuBar.add(casillasMenuItem);
 					casillasMenuItem.setText("Casillas");
+					casillasMenuItem.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Administrador.this.setContentPane(new AbmCasillas(controladorGestion));
+							Administrador.this.setVisible(true);
+						}
+					});
 				}
 				{
 					relacionesConfianzaMenuItem = new JMenuItem();
 					mainMenuBar.add(relacionesConfianzaMenuItem);
 					relacionesConfianzaMenuItem.setText("Relaciones de Confianza");
+					relacionesConfianzaMenuItem.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Administrador.this.setContentPane(new AbmRelacionesConfianza(controladorGestion));
+							Administrador.this.setVisible(true);
+						}
+					});
 				}
 				{
 					logMenuItem = new JMenuItem();
@@ -92,7 +117,7 @@ public class Administrador extends javax.swing.JFrame {
 					mainMenuBar.add(salirMenuItem);
 					salirMenuItem.setText("Salir");
 					salirMenuItem.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							Administrador.this.dispose();

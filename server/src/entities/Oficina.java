@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,7 +30,7 @@ public class Oficina implements Serializable {
 	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "casilla_id") }, inverseJoinColumns = { @JoinColumn(name = "oficina_id") })
 	private Collection<Casilla> casillas;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.origen")
 	private Collection<RelacionConfianza> relacionesConfianza = new ArrayList<RelacionConfianza>();
 
 	public int getId() {

@@ -414,8 +414,27 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 
 	@Override
 	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT rc FROM RelacionConfianza rc");
+			@SuppressWarnings("unchecked")
+			Collection<RelacionConfianza> relacionesConfianza = (Collection<RelacionConfianza>) q.getResultList();
+			ArrayList<RelacionConfianzaVO> relacionesConfianzaVO = new ArrayList<RelacionConfianzaVO>();
+			for (RelacionConfianza relacionConfianza : relacionesConfianza) {
+				OficinaVO origen = new OficinaVO();
+				origen.setId(relacionConfianza.getOrigen().getId());
+				origen.setNombre(relacionConfianza.getOrigen().getNombre());
+
+				OficinaVO destino = new OficinaVO();
+				destino.setId(relacionConfianza.getDestino().getId());
+				destino.setNombre(relacionConfianza.getDestino().getNombre());
+
+				relacionesConfianzaVO.add(new RelacionConfianzaVO(origen, destino));
+			}
+			return relacionesConfianzaVO;
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
@@ -465,8 +484,10 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query q = em.createQuery("SELECT u FROM Usuario u");
+			
 			@SuppressWarnings("unchecked")
 			List<Usuario> usuarios = (List<Usuario>) q.getResultList();
+			
 			ArrayList<UsuarioVO> usuariosVO = new ArrayList<UsuarioVO>();
 			for (Usuario usuario : usuarios) {
 				UsuarioVO usuarioVO = new UsuarioVO();
@@ -495,7 +516,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				tx.rollback();
 			}
 		} finally {
-
 			em.close();
 		}
 	}

@@ -14,18 +14,13 @@ public class ControladorMensajeria {
 
 	public ControladorMensajeria() {
 		try {
-			mensajeria = (InterfazMensajeria) Naming
-					.lookup("//localhost/mensajeria");
+			mensajeria = (InterfazMensajeria) Naming.lookup("//localhost/mensajeria");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public boolean validarUsuario(String direccion, String password) {
-
-		CasillaVO c = new CasillaVO();
-		c.setDireccion(direccion);
-		c.setPassword(password);
+	public boolean validarLogin(String direccion, String password) {
 		try {
 			return mensajeria.validarLogin(direccion, password);
 		} catch (RemoteException e) {
@@ -35,7 +30,7 @@ public class ControladorMensajeria {
 		return false;
 	}
 
-	public Collection<MensajeVO> obtenerMensajesPorCasilla(String direccion){
+	public Collection<MensajeVO> obtenerMensajesPorCasilla(String direccion) {
 		CasillaVO c = new CasillaVO();
 		c.setDireccion(direccion);
 		try {

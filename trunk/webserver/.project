@@ -3,6 +3,7 @@
 	<name>webserver</name>
 	<comment></comment>
 	<projects>
+		<project>comun</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

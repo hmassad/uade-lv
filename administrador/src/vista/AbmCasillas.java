@@ -27,7 +27,7 @@ public class AbmCasillas extends AbmBase {
 
 		private static final long serialVersionUID = 1L;
 
-		private String[] columnNames = { "id", "Dirección", "Contraseña" };
+		private String[] columnNames = { "id", "Dirección" };
 		private Object[][] data;
 
 		public CasillasTableModel() {
@@ -38,7 +38,6 @@ public class AbmCasillas extends AbmBase {
 				for (CasillaVO u : casillas) {
 					data[i][0] = u.getId();
 					data[i][1] = u.getDireccion();
-					data[i][2] = u.getPassword();
 					i++;
 				}
 			}

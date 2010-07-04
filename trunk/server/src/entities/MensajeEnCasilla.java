@@ -9,33 +9,31 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import enums.MensajeEstado;
 
 @Entity
-@Table(name = "Casilla_Mensaje")
 @AssociationOverrides( {
 	@AssociationOverride(name = "pk.casilla", joinColumns = {@JoinColumn(name = "casilla_id", nullable = false)}),
 	@AssociationOverride(name = "pk.mensaje", joinColumns = {@JoinColumn(name = "mensaje_id", nullable = false)})
 })
-public class CasillaMensaje implements Serializable {
+public class MensajeEnCasilla implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private CasillaMensajePk pk = new CasillaMensajePk();
+	private MensajeEnCasillaPk pk = new MensajeEnCasillaPk();
 
 	@Enumerated(EnumType.STRING)
 	private MensajeEstado estado;
 
 	@SuppressWarnings("unused")
-	private void setPk(CasillaMensajePk pk) {
+	private void setPk(MensajeEnCasillaPk pk) {
 		this.pk = pk;
 	}
 
-	private CasillaMensajePk getPk() {
+	private MensajeEnCasillaPk getPk() {
 		return pk;
 	}
 
@@ -71,7 +69,7 @@ public class CasillaMensaje implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		CasillaMensaje that = (CasillaMensaje) o;
+		MensajeEnCasilla that = (MensajeEnCasilla) o;
 
 		if (getPk() != null ? !getPk().equals(that.getPk()) : that.getPk() != null)
 			return false;

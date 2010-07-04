@@ -6,9 +6,10 @@ import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class CasillaMensajePk implements Serializable {
+public class MensajeEnCasillaPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@ManyToOne
 	private Casilla casilla;
 
@@ -37,7 +38,7 @@ public class CasillaMensajePk implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		CasillaMensajePk that = (CasillaMensajePk) o;
+		MensajeEnCasillaPk that = (MensajeEnCasillaPk) o;
 
 		if (mensaje != null ? !mensaje.equals(that.mensaje) : that.mensaje != null)
 			return false;

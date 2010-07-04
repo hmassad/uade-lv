@@ -7,7 +7,6 @@ public class CasillaVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String password;
 	private String direccion;
 
 	public int getId() {
@@ -16,14 +15,6 @@ public class CasillaVO implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getDireccion() {
@@ -36,6 +27,6 @@ public class CasillaVO implements Serializable {
 
 	@Override
 	public String toString(){
-		return String.format("Casilla(id: %s, password: %s, direccion: %s)", getId(), getPassword(), getDireccion());
+		return String.format("Casilla(id: %s, direccion: %s)", getId(), getDireccion());
 	}
 }

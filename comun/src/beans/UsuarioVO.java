@@ -8,6 +8,7 @@ public class UsuarioVO implements Serializable {
 
 	private int id;
 	private String nombre;
+	private String password;
 
 	public UsuarioVO() {
 	}
@@ -28,8 +29,16 @@ public class UsuarioVO implements Serializable {
 		this.nombre = nombre;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario(ID: " + getId() + "; Nombre: " + getNombre() + ")";
+		return String.format("Usuario(id: %d, nombre: %s, password: %s)", getId(), getNombre(), getPassword());
 	}
 }

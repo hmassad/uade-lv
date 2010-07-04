@@ -9,6 +9,9 @@ public class RelacionConfianzaVO implements Serializable {
 	private OficinaVO origen;
 	private OficinaVO destino;
 
+	public RelacionConfianzaVO() {
+	}
+
 	public RelacionConfianzaVO(OficinaVO origen, OficinaVO destino) {
 		this.origen = origen;
 		this.destino = destino;

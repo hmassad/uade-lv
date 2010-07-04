@@ -144,18 +144,19 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 		EntityManager em = emf.createEntityManager();
 		try {
 			ArrayList<String> direcciones = new ArrayList<String>();
-
 			Casilla casilla = buscarCasillaPorDireccion(direccion, em);
-			for (Oficina o : casilla.getOficinas()) {
-				for (Casilla c : o.getCasillas()) {
-					if (!c.equals(casilla)) {
-						direcciones.add(c.getDireccion());
-					}
-				}
-				for (RelacionConfianza rc : o.getRelacionesConfianza()) {
-					for (Casilla c : rc.getDestino().getCasillas()) {
-						if (!direcciones.contains(c.getDireccion()) && !c.equals(casilla)) {
+			if (casilla != null) {
+				for (Oficina o : casilla.getOficinas()) {
+					for (Casilla c : o.getCasillas()) {
+						if (!c.equals(casilla)) {
 							direcciones.add(c.getDireccion());
+						}
+					}
+					for (RelacionConfianza rc : o.getRelacionesConfianza()) {
+						for (Casilla c : rc.getDestino().getCasillas()) {
+							if (!direcciones.contains(c.getDireccion()) && !c.equals(casilla)) {
+								direcciones.add(c.getDireccion());
+							}
 						}
 					}
 				}

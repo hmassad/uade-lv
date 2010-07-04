@@ -33,7 +33,7 @@ public class Casilla implements Serializable {
 	private String direccion;
 
 	@ManyToMany
-	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "oficina_id") }, inverseJoinColumns = { @JoinColumn(name = "casilla_id") })
+	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "casilla_id") }, inverseJoinColumns = { @JoinColumn(name = "oficina_id") })
 	private Collection<Oficina> oficinas = new ArrayList<Oficina>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.casilla")

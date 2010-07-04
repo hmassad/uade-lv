@@ -15,8 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import enums.MensajeEstado;
-
 @Entity
 public class Casilla implements Serializable {
 
@@ -85,18 +83,6 @@ public class Casilla implements Serializable {
 
 	public void removerDeOficina(Oficina o) {
 		getOficinas().remove(o);
-	}
-
-	public void agregarMensaje(Mensaje m, MensajeEstado me) {
-		MensajeEnCasilla cm = new MensajeEnCasilla();
-		cm.setCasilla(this);
-		cm.setMensaje(m);
-		cm.setEstado(me);
-		getMensajes().add(cm);
-	}
-
-	public void removerMensaje(MensajeEnCasilla cm) {
-		getMensajes().remove(cm);
 	}
 
 	@Override

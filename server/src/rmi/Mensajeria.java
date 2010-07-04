@@ -97,19 +97,30 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 			Casilla casillaOrigen = buscarCasillaPorDireccion(origen, em);
 			EntityTransaction transaction = em.getTransaction();
 			try {
+				transaction.begin();
+
+				Mensaje mensaje;
 				if (id != null) {
-					// mensaje guardado, eliminarlo
-					em.remove((Mensaje) em.find(Mensaje.class, id));
+					// mensaje guardado
+					mensaje = (Mensaje) em.find(Mensaje.class, id);
+				} else {
+					// mensaje nuevo
+					mensaje = new Mensaje();
+
+					MensajeEnCasilla mc = new MensajeEnCasilla();
+					mc.setCasilla(casillaOrigen);
+					mc.setMensaje(mensaje);
+					mc.setEstado(MensajeEstado.Enviado);
+
+					em.persist(mensaje);
+					em.persist(mc);
 				}
 
-				Mensaje mensaje = new Mensaje();
 				mensaje.setFecha(new Date());
 				mensaje.setAsunto(asunto);
 				mensaje.setCuerpo(cuerpo);
 				mensaje.setTipo(tipo);
 				mensaje.setOrigen(casillaOrigen);
-
-				casillaOrigen.agregarMensaje(mensaje, MensajeEstado.Enviado);
 
 				for (String s : destinos) {
 					Casilla casillaDestino = buscarCasillaPorDireccion(s, em);
@@ -122,13 +133,25 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 								s));
 						mensajeBloqueo.setTipo(tipo);
 						mensajeBloqueo.setOrigen(null);
+
+						MensajeEnCasilla mc = new MensajeEnCasilla();
+						mc.setCasilla(casillaDestino);
+						mc.setMensaje(mensajeBloqueo);
+						mc.setEstado(MensajeEstado.NoLeido);
+
 						em.persist(mensajeBloqueo);
-						casillaOrigen.agregarMensaje(mensajeBloqueo, MensajeEstado.NoLeido);
+						em.persist(mc);
 					} else {
-						casillaDestino.agregarMensaje(mensaje, MensajeEstado.NoLeido);
+						MensajeEnCasilla mc = new MensajeEnCasilla();
+						mc.setCasilla(casillaDestino);
+						mc.setMensaje(mensaje);
+						mc.setEstado(MensajeEstado.NoLeido);
+
+						em.persist(mc);
 					}
 				}
 
+				em.flush();
 				transaction.commit();
 			} catch (Exception e) {
 				transaction.rollback();
@@ -226,10 +249,10 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 
 	@Override
 	public Collection<MensajeVO> listarMensajesPorCasillaPorEstado(String direccion, MensajeEstado estado) throws RemoteException {
-		Collection<MensajeVO> mensajesVO = listarMensajesPorCasilla(direccion);
-		for (MensajeVO mensajeVO : mensajesVO) {
-			if (!mensajeVO.getEstado().equals(estado)) {
-				mensajesVO.remove(mensajeVO);
+		Collection<MensajeVO> mensajesVO = new ArrayList<MensajeVO>();
+		for (MensajeVO mensajeVO : listarMensajesPorCasilla(direccion)) {
+			if (mensajeVO.getEstado().equals(estado)) {
+				mensajesVO.add(mensajeVO);
 			}
 		}
 		return mensajesVO;
@@ -239,30 +262,43 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 	public void guardarMensaje(Integer id, String direccion, String asunto, String cuerpo, MensajeTipo tipo) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			Casilla casilla = buscarCasillaPorDireccion(direccion, em);
-			if (casilla == null) {
-				throw new RemoteException("Casilla no encontrada.");
-			}
-
 			EntityTransaction et = em.getTransaction();
 			try {
-				if (id != null) {
-					// mensaje guardado, eliminarlo
-					em.remove((Mensaje) em.find(Mensaje.class, id));
+				et.begin();
+
+				Casilla casilla = buscarCasillaPorDireccion(direccion, em);
+				if (casilla == null) {
+					throw new RemoteException("Casilla no encontrada.");
 				}
 
-				Mensaje mensaje = new Mensaje();
+				Mensaje mensaje;
+				if (id != null) {
+					// mensaje guardado
+					mensaje = (Mensaje) em.find(Mensaje.class, id);
+				} else {
+					// mensaje nuevo
+					mensaje = new Mensaje();
+					MensajeEnCasilla cm = new MensajeEnCasilla();
+					cm.setCasilla(casilla);
+					cm.setMensaje(mensaje);
+					cm.setEstado(MensajeEstado.SinEnviar);
+					casilla.getMensajes().add(cm);
+
+					em.persist(mensaje);
+					em.persist(cm);
+				}
+
 				mensaje.setFecha(new Date());
 				mensaje.setOrigen(casilla);
 				mensaje.setAsunto(asunto);
 				mensaje.setCuerpo(cuerpo);
 				mensaje.setTipo(tipo);
 
-				casilla.agregarMensaje(mensaje, MensajeEstado.SinEnviar);
-
+				em.flush();
 				et.commit();
-			} catch (Exception e) {
+			} catch (RemoteException e) {
 				et.rollback();
+				throw e;
 			}
 		} finally {
 			em.close();
@@ -276,6 +312,106 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 			if (id != null) {
 				em.remove((Mensaje) em.find(Mensaje.class, id));
 			}
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public Collection<MensajeVO> listarMensajesPorUsuario(String nombreUsuario) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Usuario usuario = buscarUsuarioPorNombre(nombreUsuario, em);
+			Collection<MensajeVO> mensajesVO = new ArrayList<MensajeVO>();
+			for (Casilla c : usuario.getCasillas()) {
+				for (MensajeEnCasilla mc : c.getMensajes()) {
+					MensajeVO mensajeVO = new MensajeVO();
+					mensajeVO.setId(mc.getMensaje().getId());
+					mensajeVO.setFecha(mc.getMensaje().getFecha());
+					mensajeVO.setAsunto(mc.getMensaje().getAsunto());
+					mensajeVO.setCuerpo(mc.getMensaje().getCuerpo());
+					mensajeVO.setTipo(mc.getMensaje().getTipo());
+					mensajeVO.setEstado(mc.getEstado());
+					mensajeVO.setOrigen(mc.getMensaje().getOrigen().getDireccion());
+					for (MensajeEnCasilla destino : mc.getMensaje().getDestinos()) {
+						mensajeVO.agregarDestino(destino.getCasilla().getDireccion());
+					}
+				}
+			}
+			return mensajesVO;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public Collection<MensajeVO> listarMensajesPorUsuarioPorEstado(String nombreUsuario, MensajeEstado estado) throws RemoteException {
+		Collection<MensajeVO> mensajesVO = new ArrayList<MensajeVO>();
+		for (MensajeVO m : listarMensajesPorUsuario(nombreUsuario)) {
+			if (m.getEstado().equals(estado)) {
+				mensajesVO.add(m);
+			}
+		}
+		return mensajesVO;
+	}
+
+	@Override
+	public MensajeVO obtenerMensaje(String direccionCasilla, Integer idMensaje) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Casilla casilla = buscarCasillaPorDireccion(direccionCasilla, em);
+			if (casilla == null) {
+				throw new RemoteException("No se encontró la Casilla.");
+			}
+			for (MensajeEnCasilla mc : casilla.getMensajes()) {
+				if (mc.getMensaje().getId() == idMensaje) {
+					MensajeVO mensajeVO = new MensajeVO();
+					mensajeVO.setId(mc.getMensaje().getId());
+					mensajeVO.setFecha(mc.getMensaje().getFecha());
+					mensajeVO.setAsunto(mc.getMensaje().getAsunto());
+					mensajeVO.setCuerpo(mc.getMensaje().getCuerpo());
+					mensajeVO.setTipo(mc.getMensaje().getTipo());
+
+					mensajeVO.setEstado(mc.getEstado());
+					mensajeVO.setOrigen(mc.getMensaje().getOrigen().getDireccion());
+					for (MensajeEnCasilla destino : mc.getMensaje().getDestinos()) {
+						mensajeVO.agregarDestino(destino.getCasilla().getDireccion());
+					}
+					return mensajeVO;
+				}
+			}
+			throw new RemoteException("No se encontró el Mensaje.");
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public void cambiarMensajeEstado(String direccionCasilla, Integer idMensaje, MensajeEstado estado) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Casilla casilla = buscarCasillaPorDireccion(direccionCasilla, em);
+			if (casilla == null) {
+				throw new RemoteException("No se encontró la Casilla.");
+			}
+			for (MensajeEnCasilla mc : casilla.getMensajes()) {
+				if (mc.getMensaje().getId() == idMensaje) {
+					EntityTransaction et = em.getTransaction();
+					try {
+						et.begin();
+
+						mc.setEstado(estado);
+
+						em.flush();
+						et.commit();
+					} catch (Exception e) {
+						et.rollback();
+						throw new RemoteException("Ocurrió un error al cambiar el estado del mensaje.", e);
+					}
+					return;
+				}
+			}
+			throw new RemoteException("No se encontró el Mensaje.");
 		} finally {
 			em.close();
 		}

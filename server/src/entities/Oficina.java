@@ -27,7 +27,7 @@ public class Oficina implements Serializable {
 	private String nombre;
 
 	@ManyToMany
-	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "casilla_id") }, inverseJoinColumns = { @JoinColumn(name = "oficina_id") })
+	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "oficina_id") }, inverseJoinColumns = { @JoinColumn(name = "casilla_id") })
 	private Collection<Casilla> casillas;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.origen")

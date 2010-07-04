@@ -10,6 +10,8 @@ import javax.swing.JTextField;
 
 import javax.swing.WindowConstants;
 
+import beans.CasillaVO;
+import beans.CasillaVO;
 import beans.UsuarioVO;
 
 import controlador.ControladorGestion;
@@ -35,6 +37,10 @@ public class AltaCasillavista extends javax.swing.JFrame implements Observer,Act
 	private JLabel jLabel1;
 	private JTextField jTextField1;
 	private JButton jButton1;
+	private JTextField jTextField3;
+	private JLabel jLabel3;
+	private JTextField jTextField2;
+	private JLabel jLabel2;
 	private ControladorGestion c;
 	private static AltaCasillavista instancia=null;
 	/**
@@ -63,11 +69,11 @@ public class AltaCasillavista extends javax.swing.JFrame implements Observer,Act
 		try {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
-			this.setTitle("Alta usuario");
+			this.setTitle("Alta Casilla");
 			{
 				jLabel1 = new JLabel();
 				getContentPane().add(jLabel1);
-				jLabel1.setText("Nombre:");
+				jLabel1.setText("Direccion");
 				jLabel1.setBounds(47, 69, 60, 30);
 			}
 			{
@@ -79,17 +85,42 @@ public class AltaCasillavista extends javax.swing.JFrame implements Observer,Act
 				jButton1 = new JButton();
 				getContentPane().add(jButton1);
 				jButton1.setText("Aceptar");
-				jButton1.setBounds(140, 154, 105, 28);
+				jButton1.setBounds(139, 217, 105, 26);
 				jButton1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						System.out.println("jButton1.actionPerformed, event="+evt);
 						//TODO add your code for jButton1.actionPerformed
+						CasillaVO ca= new CasillaVO();
 						UsuarioVO u= new UsuarioVO();
-						u.setNombre(jTextField1.getText());
-						u.setId(1);
-						c.agregarUsuario(u);
+						u.setNombre(jTextField3.getText());
+						ca.setDireccion(jTextField1.getText());
+						ca.setPassword(jTextField2.getText());
+						
+						c.agregarCasillaAUsuario(u, ca);
 					}
 				});
+			}
+			{
+				jLabel2 = new JLabel();
+				getContentPane().add(jLabel2);
+				jLabel2.setText("Password");
+				jLabel2.setBounds(47, 123, 50, 16);
+			}
+			{
+				jTextField2 = new JTextField();
+				getContentPane().add(jTextField2);
+				jTextField2.setBounds(146, 116, 105, 23);
+			}
+			{
+				jLabel3 = new JLabel();
+				getContentPane().add(jLabel3);
+				jLabel3.setText("Nro usuario");
+				jLabel3.setBounds(47, 168, 75, 16);
+			}
+			{
+				jTextField3 = new JTextField();
+				getContentPane().add(jTextField3);
+				jTextField3.setBounds(146, 165, 105, 23);
 			}
 			pack();
 			this.setSize(400, 300);

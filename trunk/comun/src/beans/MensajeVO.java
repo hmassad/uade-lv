@@ -1,7 +1,6 @@
 package beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -15,7 +14,7 @@ public class MensajeVO implements Serializable {
 	private int id;
 	private Date fecha;
 	private String origen;
-	private Collection<String> destinos = new ArrayList<String>();
+	private Collection<String> destinos;
 	private MensajeTipo tipo;
 	private MensajeEstado estado;
 	private String asunto;
@@ -85,11 +84,11 @@ public class MensajeVO implements Serializable {
 		this.cuerpo = cuerpo;
 	}
 
-	public void agregarDestino(String direccion){
-		destinos.add(direccion);
+	public void agregarDestino(String destino) {
+		getDestinos().add(destino);
 	}
 
-	public void eliminarDestino(String direccion){
-		destinos.remove(direccion);
+	public void removerDestino(String destino) {
+		getDestinos().remove(destino);
 	}
 }

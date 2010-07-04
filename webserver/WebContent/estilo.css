@@ -1,0 +1,45 @@
+* {
+	font-family: Verdana;
+	font-size: 10pt;
+}
+
+body {
+	
+}
+
+label {
+	float: left;
+	width: 100px;
+}
+
+#encabezado {
+	height: 22px;
+	width: 100%;
+	border-bottom: 1px solid black;
+	clear: both;
+}
+
+#encabezado-izquierda {
+	height: inherit;
+	float: left;
+}
+
+#encabezado-derecha {
+	height: inherit;
+	float: right;
+	text-align: right;
+}
+
+#encabezado-fin {
+	height: 0;
+	clear: both;
+}
+
+#listaAcciones {
+	float: left;
+	width: 150px;
+}
+
+#tablaMensajes {
+	width: 100%;
+}

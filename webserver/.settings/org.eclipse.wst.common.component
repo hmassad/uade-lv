@@ -3,6 +3,9 @@
     <wb-module deploy-name="webserver">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="comun.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/comun/comun">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="webserver"/>
         <property name="java-output-path"/>
     </wb-module>

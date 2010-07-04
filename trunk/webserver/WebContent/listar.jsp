@@ -43,7 +43,15 @@
 </head>
 <body onload="loaded();">
 <%@include file="encabezado.jsp" %>
-<div id="listaAcciones">
+<%
+	String anuncio = request.getParameter("anuncio"); 
+	if(anuncio != null){
+		%>
+		<div id="anuncio"><div id="anuncio-content"><%= anuncio %></div></div>
+		<%
+	}
+%>
+<div id="acciones">
 <ul>
 <li>
 	<a href="redactar.jsp">Redactar</a>
@@ -59,7 +67,8 @@
 </li>
 </ul>
 </div>
-<table id="tablaMensajes">
+<div id="main-content">
+<table id="tabla-mensajes">
 	<%
 		Collection<CasillaVO> casillas = controladorMensajeria.listarCasillasPorUsuario(usuario);
 		for(CasillaVO c:casillas){
@@ -90,5 +99,6 @@
 		}
 	%>
 </table>
+</div>
 </body>
 </html>

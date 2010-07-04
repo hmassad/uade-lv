@@ -6,11 +6,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Collection;
 
-import enums.MensajeEstado;
-
 import rmi.InterfazMensajeria;
 import beans.CasillaVO;
 import beans.MensajeVO;
+import enums.MensajeEstado;
+import enums.MensajeTipo;
 
 public class ControladorMensajeria {
 
@@ -42,5 +42,31 @@ public class ControladorMensajeria {
 
 	public Collection<MensajeVO> listarMensajesPorCasillaPorEstado(String direccion, MensajeEstado estado) throws RemoteException {
 		return mensajeria.listarMensajesPorCasillaPorEstado(direccion, estado);
+	}
+
+	public void enviarMensaje(Integer id, String origen, Collection<String> destinos, String asunto, String cuerpo, MensajeTipo tipo) {
+		try {
+			mensajeria.enviarMensaje(id, origen, destinos, asunto, cuerpo, tipo);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void guardarMensaje(Integer id, String direccion, String asunto, String cuerpo, MensajeTipo tipo) {
+		try {
+			mensajeria.guardarMensaje(id, direccion, asunto, cuerpo, tipo);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Collection<String> listarDireccionesPosibles(String direccion) {
+		try {
+			return mensajeria.listarDireccionesPosibles(direccion);
+		} catch (RemoteException e) {
+			System.err.println("Ocurrió un error al listar las direcciones posibles.");
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

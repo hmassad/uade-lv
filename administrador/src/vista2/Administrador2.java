@@ -10,6 +10,8 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.SwingUtilities;
 
+import vista.Administrador;
+
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -23,10 +25,14 @@ import javax.swing.SwingUtilities;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings("serial")
 public class Administrador2 extends javax.swing.JFrame {
 	private JMenuBar jMenuBar1;
 	private JMenu jMenu5;
 	private JMenu jMenu7;
+	private JMenuItem jMenuItem13;
+	private JMenuItem jMenuItem12;
+	private JMenuItem jMenuItem11;
 	private JMenuItem jMenuItem10;
 	private JMenuItem jMenuItem9;
 	private JMenuItem jMenuItem8;
@@ -64,6 +70,7 @@ public class Administrador2 extends javax.swing.JFrame {
 	private void initGUI() {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			this.setTitle("Gestion de correo");
 			{
 				jMenuBar1 = new JMenuBar();
 				setJMenuBar(jMenuBar1);
@@ -87,11 +94,25 @@ public class Administrador2 extends javax.swing.JFrame {
 						jMenuItem2 = new JMenuItem();
 						jMenu1.add(jMenuItem2);
 						jMenuItem2.setText("Baja usuario");
+						jMenuItem2.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								System.out.println("jMenuItem2.actionPerformed, event="+evt);
+								//TODO add your code for jMenuItem2.actionPerformed
+								BajaUsuariovista.getinstancia(true).setVisible(true);
+							}
+						});
 					}
 					{
 						jMenuItem3 = new JMenuItem();
 						jMenu1.add(jMenuItem3);
 						jMenuItem3.setText("Modificar usuario");
+						jMenuItem3.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								System.out.println("jMenuItem3.actionPerformed, event="+evt);
+								ModificarUsuariovista.getinstancia(true).setVisible(true);
+								//TODO add your code for jMenuItem3.actionPerformed
+							}
+						});
 					}
 					{
 						jMenuItem4 = new JMenuItem();
@@ -107,6 +128,13 @@ public class Administrador2 extends javax.swing.JFrame {
 						jMenuItem5 = new JMenuItem();
 						jMenu2.add(jMenuItem5);
 						jMenuItem5.setText("Alta oficina");
+						jMenuItem5.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								System.out.println("jMenuItem5.actionPerformed, event="+evt);
+								AltaOficinavista.getinstancia(true).setVisible(true);
+								//TODO add your code for jMenuItem5.actionPerformed
+							}
+						});
 					}
 					{
 						jMenuItem6 = new JMenuItem();
@@ -124,6 +152,13 @@ public class Administrador2 extends javax.swing.JFrame {
 						jMenuItem7 = new JMenuItem();
 						jMenu2.add(jMenuItem7);
 						jMenuItem7.setText("Modificar oficina");
+						jMenuItem7.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								System.out.println("jMenuItem7.actionPerformed, event="+evt);
+								//TODO add your code for jMenuItem7.actionPerformed
+							ModificarOficinavista.getinstancia(true).setVisible(true);
+							}
+						});
 					}
 				}
 				{
@@ -162,6 +197,18 @@ public class Administrador2 extends javax.swing.JFrame {
 							}
 						});
 					}
+					{
+						jMenuItem13 = new JMenuItem();
+						jMenu3.add(jMenuItem13);
+						jMenuItem13.setText("Modificar Casilla");
+						jMenuItem13.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								System.out.println("jMenuItem13.actionPerformed, event="+evt);
+								ModificarCasillavista.getinstancia(true).setVisible(true);
+								//TODO add your code for jMenuItem13.actionPerformed
+							}
+						});
+					}
 				}
 				{
 					jMenu4 = new JMenu();
@@ -177,6 +224,24 @@ public class Administrador2 extends javax.swing.JFrame {
 								BajaRelacionConfianzavista.getinstancia(true).setVisible(true);
 							}
 						});
+					}
+					{
+						jMenuItem11 = new JMenuItem();
+						jMenu4.add(jMenuItem11);
+						jMenuItem11.setText("Alta Relacion Confianza");
+						jMenuItem11.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								System.out.println("jMenuItem11.actionPerformed, event="+evt);
+								AltaRelacionConfianzavista.getinstancia(true).setVisible(true);
+								//TODO add your code for jMenuItem11.actionPerformed
+							
+							}
+						});
+					}
+					{
+						jMenuItem12 = new JMenuItem();
+						jMenu4.add(jMenuItem12);
+						jMenuItem12.setText("Modificar Relacion Confianza");
 					}
 				}
 				{
@@ -196,12 +261,13 @@ public class Administrador2 extends javax.swing.JFrame {
 					jMenu7.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							System.out.println("jMenu7.actionPerformed, event="+evt);
-						
+							Administrador2.this.dispose();
 						}
 					});
 				}
 			}
 			pack();
+			this.setSize(400, 200);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

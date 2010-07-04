@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 
-import beans.UsuarioVO;
+import beans.OficinaVO;
 
 import controlador.ControladorGestion;
 
@@ -28,7 +28,7 @@ import controlador.ControladorGestion;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class AltaUsuariovista extends javax.swing.JFrame implements Observer,ActionListener{
+public class AltaOficinavista extends javax.swing.JFrame implements Observer,ActionListener{
 	/**
 	 * 
 	 */
@@ -37,23 +37,23 @@ public class AltaUsuariovista extends javax.swing.JFrame implements Observer,Act
 	private JTextField jTextField3;
 	private JLabel jLabel3;
 	private ControladorGestion c;
-	private static AltaUsuariovista instancia=null;
+	private static AltaOficinavista instancia=null;
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
 	public static void main(String[] args) {
-		AltaUsuariovista inst = new AltaUsuariovista();
+		AltaOficinavista inst = new AltaOficinavista();
 		inst.setVisible(true);
 	}
 	
-	public AltaUsuariovista() {
+	public AltaOficinavista() {
 		super();
 		initGUI();
 	}
-	public static AltaUsuariovista getinstancia(boolean b){
+	public static AltaOficinavista getinstancia(boolean b){
 		if(instancia==null){
 			
-			instancia=new AltaUsuariovista();
+			instancia=new AltaOficinavista();
 		}
 	return instancia;
 	
@@ -64,7 +64,7 @@ public class AltaUsuariovista extends javax.swing.JFrame implements Observer,Act
 		try {
 setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
-			this.setTitle("Alta usuario");
+			this.setTitle("Alta Oficina");
 			{
 				jButton1 = new JButton();
 				getContentPane().add(jButton1);
@@ -75,10 +75,9 @@ setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 						System.out.println("jButton1.actionPerformed, event="+evt);
 						//TODO add your code for jButton1.actionPerformed
 						
-						UsuarioVO u= new UsuarioVO();
-						u.setNombre(jTextField3.getText());
-												
-						c.agregarUsuario(u);
+						OficinaVO u= new OficinaVO();
+						u.setNombre(jTextField3.getText());				
+						c.agregarOficina(u);
 					}
 				});
 			}
@@ -113,3 +112,4 @@ setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
 
 }
+

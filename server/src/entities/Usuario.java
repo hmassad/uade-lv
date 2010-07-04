@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -17,13 +18,14 @@ public class Usuario implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "usuario_id")
 	private int id;
 
-	@Column(name = "nombre", unique = true)
+	@Column(unique = true)
 	private String nombre;
 
-	@OneToMany(mappedBy = "usuario")
+	private String password;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
 	private Collection<Casilla> casillas = new ArrayList<Casilla>();
 
 	@OneToMany
@@ -43,6 +45,14 @@ public class Usuario implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Collection<Casilla> getCasillas() {

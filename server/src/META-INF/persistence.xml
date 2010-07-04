@@ -4,7 +4,7 @@
 	version="1.0">
 	<persistence-unit name="default">
 		<class>entities.Casilla</class>
-		<class>entities.CasillaMensaje</class>
+		<class>entities.MensajeEnCasilla</class>
 		<class>entities.LogTrafico</class>
 		<class>entities.Mensaje</class>
 		<class>entities.Oficina</class>
@@ -27,7 +27,7 @@
 			<property name="hibernate.c3p0.max_statements" value="50" />
 			<property name="hibernate.c3p0.idle_test_period" value="3000" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 		</properties>
 	</persistence-unit>

@@ -34,7 +34,7 @@ public class Mensaje implements Serializable {
 	private Casilla origen;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.mensaje")
-	private Collection<CasillaMensaje> destinos = new ArrayList<CasillaMensaje>();
+	private Collection<MensajeEnCasilla> destinos = new ArrayList<MensajeEnCasilla>();
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo")
@@ -70,11 +70,11 @@ public class Mensaje implements Serializable {
 		this.origen = origen;
 	}
 
-	public Collection<CasillaMensaje> getDestinos() {
+	public Collection<MensajeEnCasilla> getDestinos() {
 		return destinos;
 	}
 
-	public void setDestinos(Collection<CasillaMensaje> destinos) {
+	public void setDestinos(Collection<MensajeEnCasilla> destinos) {
 		this.destinos = destinos;
 	}
 
@@ -103,6 +103,6 @@ public class Mensaje implements Serializable {
 	}
 
 	public String toString() {
-		return String.format("Mensaje(ID: %d; Fecha: %t; Asunto: %s", getId(), getFecha(), getAsunto());
+		return String.format("Mensaje(ID: %d; Fecha: %t; Asunto: %s; Cuerpo: %s", getId(), getFecha(), getAsunto(), getCuerpo());
 	}
 }

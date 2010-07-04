@@ -24,24 +24,20 @@ public class Casilla implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "casilla_id", nullable = false)
 	private int id;
 
 	@ManyToOne
 	private Usuario usuario;
 
-	@Column(name = "direccion", unique = true)
+	@Column(unique = true)
 	private String direccion;
-
-	@Column(name = "password")
-	private String password;
 
 	@ManyToMany
 	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "oficina_id") }, inverseJoinColumns = { @JoinColumn(name = "casilla_id") })
 	private Collection<Oficina> oficinas = new ArrayList<Oficina>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.casilla")
-	private Collection<CasillaMensaje> mensajes = new ArrayList<CasillaMensaje>();
+	private Collection<MensajeEnCasilla> mensajes = new ArrayList<MensajeEnCasilla>();
 
 	public int getId() {
 		return id;
@@ -67,14 +63,6 @@ public class Casilla implements Serializable {
 		this.direccion = direccion;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public Collection<Oficina> getOficinas() {
 		return oficinas;
 	}
@@ -83,11 +71,11 @@ public class Casilla implements Serializable {
 		this.oficinas = oficinas;
 	}
 
-	public Collection<CasillaMensaje> getMensajes() {
+	public Collection<MensajeEnCasilla> getMensajes() {
 		return mensajes;
 	}
 
-	public void setMensajes(Collection<CasillaMensaje> mensajes) {
+	public void setMensajes(Collection<MensajeEnCasilla> mensajes) {
 		this.mensajes = mensajes;
 	}
 
@@ -100,21 +88,19 @@ public class Casilla implements Serializable {
 	}
 
 	public void agregarMensaje(Mensaje m, MensajeEstado me) {
-		CasillaMensaje cm = new CasillaMensaje();
+		MensajeEnCasilla cm = new MensajeEnCasilla();
 		cm.setCasilla(this);
 		cm.setMensaje(m);
 		cm.setEstado(me);
 		getMensajes().add(cm);
 	}
 
-	public void removerMensaje(CasillaMensaje cm) {
+	public void removerMensaje(MensajeEnCasilla cm) {
 		getMensajes().remove(cm);
 	}
 
 	@Override
 	public String toString() {
-		return "Casilla(ID: " + getId() + "; Usuario: " + getUsuario()
-				+ "; Direccion: " + getDireccion() + "; Password: "
-				+ getPassword() + ")";
+		return "Casilla(ID: " + getId() + "; Direccion: " + getDireccion() + ")";
 	}
 }

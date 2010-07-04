@@ -105,7 +105,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			// Creo una Casilla
 			Casilla casilla = new Casilla();
 			casilla.setDireccion(c.getDireccion());
-			casilla.setPassword(c.getPassword());
 			usuario.agregarCasilla(casilla);
 
 			// Inicio Transacción
@@ -149,7 +148,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				CasillaVO casillaVO = new CasillaVO();
 				casillaVO.setId(casilla.getId());
 				casillaVO.setDireccion(casilla.getDireccion());
-				casillaVO.setPassword(casilla.getPassword());
 				casillasVo.add(casillaVO);
 			}
 			return casillasVo;
@@ -172,7 +170,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				CasillaVO casillaVO = new CasillaVO();
 				casillaVO.setId(casilla.getId());
 				casillaVO.setDireccion(casilla.getDireccion());
-				casillaVO.setPassword(casilla.getPassword());
 				casillasVO.add(casillaVO);
 			}
 			return casillasVO;
@@ -199,7 +196,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				CasillaVO casillaVO = new CasillaVO();
 				casillaVO.setId(casilla.getId());
 				casillaVO.setDireccion(casilla.getDireccion());
-				casillaVO.setPassword(casilla.getPassword());
 				casillasVO.add(casillaVO);
 			}
 			return casillasVO;
@@ -221,7 +217,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 
 		CasillaVO casillaVO = new CasillaVO();
 		casillaVO.setId(casilla.getId());
-		casillaVO.setPassword(casilla.getPassword());
 		casillaVO.setDireccion(casilla.getDireccion());
 		return casillaVO;
 	}
@@ -241,9 +236,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				if (cNueva.getDireccion() != null) {
 					casilla.setDireccion(cNueva.getDireccion());
 				}
-				if (cNueva.getPassword() != null) {
-					casilla.setPassword(cNueva.getPassword());
-				}
 				em.persist(casilla);
 				tx.commit();
 			} catch (Exception e) {
@@ -260,7 +252,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		EntityManager em = emf.createEntityManager();
 		try {
 			EntityTransaction tx = em.getTransaction();
-			// Casilla casilla = em.find(Casilla.class, c.getId());
 			Casilla casilla = em.getReference(Casilla.class, c.getId());
 			tx.begin();
 			try {

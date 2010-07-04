@@ -3,13 +3,12 @@
 <%@include file="setup.jsp" %>
 
 <%
-
 	// Cambiar password
-	String mensaje = "";
 	if (request.getMethod().equalsIgnoreCase("POST")) {
 		String password = (String) request.getParameter("password");
 		controladorMensajeria.cambiarPassword(usuario, password);
-		mensaje = "Contraseña cambiada.";
+		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("Contraseña cambiada.", "iso-8859-1"))));
+		return;
 	}
 %>
 
@@ -45,7 +44,7 @@
 
 <h2>Cambiar Password</h2>
 <form method="post" action="/webserver/password" onsubmit="return validar()">
-	<span id="mensaje"><%= mensaje %></span>
+	<span id="mensaje"></span>
 	<p>
 		<label for="password1">Nueva contraseña:</label>
 		<input type="password" id="password1" name="password"></input>

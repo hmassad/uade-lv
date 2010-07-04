@@ -82,4 +82,14 @@
     <servlet-name>mensaje</servlet-name>
     <url-pattern>/mensaje</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListarDireccionesPosibles</display-name>
+    <servlet-name>ListarDireccionesPosibles</servlet-name>
+    <servlet-class>servlets.ListarDireccionesPosibles</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListarDireccionesPosibles</servlet-name>
+    <url-pattern>/ListarDireccionesPosibles</url-pattern>
+  </servlet-mapping>
 </web-app>

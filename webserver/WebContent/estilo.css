@@ -3,13 +3,38 @@
 	font-size: 10pt;
 }
 
-body {
-	
+h1 {
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 12pt;
+	font-style: italic;
 }
 
 label {
 	float: left;
 	width: 100px;
+}
+
+#anuncio {
+	position: absolute;
+	top: 0;
+	left: 50%;
+}
+
+#anuncio-content {
+	position: relative;
+	left: -25%;
+	background-color: yellow;
+	font-weight: bold;
+	padding: 5px;
 }
 
 #encabezado {
@@ -35,11 +60,20 @@ label {
 	clear: both;
 }
 
-#listaAcciones {
+#acciones {
 	float: left;
 	width: 150px;
+	background-color: #FEFEFE;
+	border-right: 1px solid black;
 }
 
-#tablaMensajes {
+#main-content {
+	float: right;
+	margin-left: 151px;
 	width: 100%;
+}
+
+#tabla-mensajes {
+	width: 100%;
+	/*width: auto;*/
 }

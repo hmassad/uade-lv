@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 
 import javax.swing.WindowConstants;
 
+import beans.OficinaVO;
+import beans.RelacionConfianzaVO;
+
 
 import controlador.ControladorGestion;
 
@@ -85,8 +88,12 @@ public class AltaRelacionConfianzavista extends javax.swing.JFrame implements Ob
 					public void actionPerformed(ActionEvent evt) {
 						System.out.println("jButton1.actionPerformed, event="+evt);
 						//TODO add your code for jButton1.actionPerformed
-						
-						c.agregarRelacionConfianza(Integer.parseInt(jTextField1.getText()),Integer.parseInt(jTextField2.getText()));					}
+						OficinaVO origen= new OficinaVO();
+						OficinaVO destino= new OficinaVO();
+						origen.setId(Integer.parseInt(jTextField1.getText()));
+						destino.setId(Integer.parseInt(jTextField2.getText()));
+						RelacionConfianzaVO rc=new RelacionConfianzaVO(origen,destino);
+						c.agregarRelacionConfianza(rc);					}
 				});
 			}
 			{

@@ -58,6 +58,24 @@ public class ControladorGestion extends Observable {
 		}
 	}
 
+	public void agregarOficina(OficinaVO o){
+		try {
+			gestion.agregarOficina(o);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void agregarRelacionConfianza(RelacionConfianzaVO rc){
+		try {
+			gestion.agregarRelacionConfianza(rc);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}	
+		
+	}
+	
 	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) {
 		try {
 			gestion.agregarCasillaAUsuario(u, c);
@@ -95,17 +113,30 @@ public class ControladorGestion extends Observable {
 	}
 
 	public void eliminarOficina(int id) {
-		// TODO Auto-generated method stub
+		try {
+			gestion.borrarOficina(new OficinaVO());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	public void eliminarCasilla(int id) {
-		// TODO Auto-generated method stub
+		try {
+			gestion.borrarCasilla(new CasillaVO());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {
-		// TODO Auto-generated method stub
+		try {
+			gestion.borrarRelacionConfianza(new OficinaVO (), new OficinaVO ());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 	}
+
 }

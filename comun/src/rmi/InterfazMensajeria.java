@@ -25,7 +25,17 @@ public interface InterfazMensajeria extends Remote {
 
 	Collection<String> listarDireccionesPosibles(String direccion) throws RemoteException;
 
+	Collection<String> listarDireccionesPosiblesQueComiencenCon(String direccion, String comienzo) throws RemoteException;
+
 	Collection<CasillaVO> listarCasillasPorUsuario(String usuario) throws RemoteException;
 
 	Collection<MensajeVO> listarMensajesPorCasillaPorEstado(String direccion, MensajeEstado estado) throws RemoteException;
+
+	Collection<MensajeVO> listarMensajesPorUsuario(String usuario) throws RemoteException;
+
+	Collection<MensajeVO> listarMensajesPorUsuarioPorEstado(String usuario, MensajeEstado estado) throws RemoteException;
+
+	MensajeVO obtenerMensaje(String direccionCasilla, Integer idMensaje) throws RemoteException;
+
+	void cambiarMensajeEstado(String direccionCasilla, Integer idMensaje, MensajeEstado estado) throws RemoteException;
 }

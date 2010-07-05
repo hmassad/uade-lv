@@ -11,6 +11,7 @@ h1 {
 h2 {
 	font-size: 12pt;
 	font-weight: bold;
+	text-align: center;
 }
 
 h3 {
@@ -21,6 +22,40 @@ h3 {
 label {
 	float: left;
 	width: 100px;
+}
+
+#login {
+	margin: 0 auto;
+	width: 300px;
+	background-color: #eee;
+	border-color: #ddd;
+	padding: 20px;
+}
+
+#login #mensaje {
+	text-align: center;
+	color: red;
+	line-height: 3em;
+}
+
+#login div {
+	clear: both;
+	margin-bottom: 5px;
+}
+
+#login label {
+	float: left;
+	width: 100px;
+}
+
+#login .input {
+	float: right;
+	width: 200px;
+}
+
+#login #botones {
+	margin-top: 20px;
+	text-align: center;
 }
 
 #anuncio {
@@ -61,19 +96,66 @@ label {
 }
 
 #acciones {
+	padding-top: 10px;
 	float: left;
 	width: 150px;
-	background-color: #FEFEFE;
-	border-right: 1px solid black;
+	background-color: #eee;
+	border-right: 1px solid #ccc;
+	font-weight: bolder;
+}
+
+#acciones ul {
+	margin-left: 5px;
+	list-style-type: none;
+}
+
+#acciones li {
+	line-height: 1.8em;
 }
 
 #main-content {
-	float: right;
-	margin-left: 151px;
-	width: 100%;
+	margin-left: 160px;
+	width: auto;
 }
 
 #tabla-mensajes {
-	width: 100%;
-	/*width: auto;*/
+	margin: 0 auto;
+}
+
+#tabla-mensajes th {
+	background-color: #eee;
+}
+
+#tabla-mensajes td {
+	text-align: center;
+}
+
+#mensaje-recuadro {
+	margin: 10px auto;
+	border: 1px solid #ddd;
+	background-color: #eee;
+}
+
+#mensaje-recuadro div {
+	vertical-align: middle;
+	line-height: 2em;
+}
+
+#mensaje-recuadro label {
+	font-weight: bold;
+}
+
+#direccionesPosibles ul {
+	width: 180px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #7C7C7C;
+	border-bottom: none;
+}
+
+#direccionesPosibles ul li {
+	border-bottom: 1px solid #7C7C7C;
+	border-top: 1px solid #FFF;
+	background: #F4F4F4;
 }

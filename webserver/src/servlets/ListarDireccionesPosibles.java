@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,28 +14,32 @@ public class ListarDireccionesPosibles extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String direccion = (String) request.getParameter("direccion");
-		if (direccion == null) {
-			return;
-		}
+		response.setHeader("Cache-Control", "no-cache"); // HTTP 1.1
+		response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+		response.setDateHeader("Expires", 0); // proxy
 
 		ControladorMensajeria controladorMensajeria = (ControladorMensajeria) request.getSession().getAttribute("ControladorMensajeria");
 		if (controladorMensajeria == null) {
-			//return;
-			try {
-				controladorMensajeria = new ControladorMensajeria();
-			} catch (NotBoundException e) {
-				e.printStackTrace();
-			}
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
 		}
 
-		String s = "";
-		for (String d : controladorMensajeria.listarDireccionesPosibles(direccion)) {
-			if (s.length() > 0) {
-				s += ";";
-			}
-			s += d;
+		String casilla = (String) request.getParameter("casilla");
+		if (casilla == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
 		}
-		response.getWriter().append(s);
+
+		String comienzo = (String) request.getParameter("comienzo");
+		if (comienzo == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+
+		response.getWriter().write("<ul>");
+		for (String d : controladorMensajeria.listarDireccionesPosiblesQueComiencenCon(casilla, comienzo)) {
+			response.getWriter().write(String.format("<li>%s</li>", d));
+		}
+		response.getWriter().write("</ul>");
 	}
 }

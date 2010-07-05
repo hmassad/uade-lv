@@ -90,6 +90,16 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ListarDireccionesPosibles</servlet-name>
-    <url-pattern>/ListarDireccionesPosibles</url-pattern>
+    <url-pattern>/listardireccionesposibles</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>acciones</display-name>
+    <servlet-name>acciones</servlet-name>
+    <jsp-file>/acciones.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>acciones</servlet-name>
+    <url-pattern>/acciones</url-pattern>
   </servlet-mapping>
 </web-app>

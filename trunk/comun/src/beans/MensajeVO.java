@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class MensajeVO implements Serializable {
 	private int id;
 	private Date fecha;
 	private String origen;
-	private Collection<String> destinos;
+	private Collection<String> destinos = new ArrayList<String>();
 	private MensajeTipo tipo;
 	private MensajeEstado estado;
 	private String asunto;

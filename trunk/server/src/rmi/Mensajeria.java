@@ -125,6 +125,10 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 				for (String s : destinos) {
 					Casilla casillaDestino = buscarCasillaPorDireccion(s, em);
 
+					if (casillaDestino == null || !puedeEnviar(casillaOrigen, casillaDestino)) {
+						throw new Exception("Casilla destino no válida.");
+					}
+
 					if (casillaDestino.getUsuario().getCasillasBloqueadas().contains(casillaOrigen)) {
 						Mensaje mensajeBloqueo = new Mensaje();
 						mensajeBloqueo.setFecha(new Date());
@@ -162,26 +166,47 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 		}
 	}
 
+	private Collection<Casilla> listarCasillasPosibles(Casilla remitente) {
+		Collection<Casilla> casillas = new ArrayList<Casilla>();
+		for (Oficina o : remitente.getOficinas()) {
+			for (Casilla c : o.getCasillas()) {
+				if (!c.equals(remitente) && !casillas.contains(c)) {
+					casillas.add(c);
+				}
+			}
+			for (RelacionConfianza rc : o.getRelacionesConfianza()) {
+				for (Casilla c : rc.getDestino().getCasillas()) {
+					if (!c.equals(remitente) && !casillas.contains(c)) {
+						casillas.add(c);
+					}
+				}
+			}
+		}
+		return casillas;
+	}
+
 	@Override
 	public Collection<String> listarDireccionesPosibles(String direccion) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
 			ArrayList<String> direcciones = new ArrayList<String>();
-			Casilla casilla = buscarCasillaPorDireccion(direccion, em);
-			if (casilla != null) {
-				for (Oficina o : casilla.getOficinas()) {
-					for (Casilla c : o.getCasillas()) {
-						if (!c.equals(casilla)) {
-							direcciones.add(c.getDireccion());
-						}
-					}
-					for (RelacionConfianza rc : o.getRelacionesConfianza()) {
-						for (Casilla c : rc.getDestino().getCasillas()) {
-							if (!direcciones.contains(c.getDireccion()) && !c.equals(casilla)) {
-								direcciones.add(c.getDireccion());
-							}
-						}
-					}
+			for (Casilla casilla : listarCasillasPosibles(buscarCasillaPorDireccion(direccion, em))) {
+				direcciones.add(casilla.getDireccion());
+			}
+			return direcciones;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public Collection<String> listarDireccionesPosiblesQueComiencenCon(String direccion, String comienzo) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			ArrayList<String> direcciones = new ArrayList<String>();
+			for (Casilla casilla : listarCasillasPosibles(buscarCasillaPorDireccion(direccion, em))) {
+				if (casilla.getDireccion().startsWith(comienzo)) {
+					direcciones.add(casilla.getDireccion());
 				}
 			}
 			return direcciones;
@@ -375,7 +400,9 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 					mensajeVO.setEstado(mc.getEstado());
 					mensajeVO.setOrigen(mc.getMensaje().getOrigen().getDireccion());
 					for (MensajeEnCasilla destino : mc.getMensaje().getDestinos()) {
-						mensajeVO.agregarDestino(destino.getCasilla().getDireccion());
+						if (!destino.getCasilla().equals(mc.getMensaje().getOrigen())) {
+							mensajeVO.agregarDestino(destino.getCasilla().getDireccion());
+						}
 					}
 					return mensajeVO;
 				}
@@ -415,5 +442,19 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 		} finally {
 			em.close();
 		}
+	}
+
+	private boolean puedeEnviar(Casilla remitente, Casilla destinatario) {
+		for (Oficina o : remitente.getOficinas()) {
+			if (o.getCasillas().contains(destinatario)) {
+				return true;
+			}
+			for (RelacionConfianza rc : o.getRelacionesConfianza()) {
+				if (rc.getDestino().getCasillas().contains(destinatario)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -23,7 +23,7 @@
 	} else {
 		urlDestino = URLDecoder.decode(urlDestino, "iso-8859-1");
 	}
-	String mensajeError = "";
+	String mensajeError = null;
 	if (usuario != null && password != null) {
 		if (controladorMensajeria.validarLogin(usuario, password)) {
 			session.setAttribute("Usuario", usuario);
@@ -46,21 +46,25 @@
 </head>
 <body>
 
+<div id="login">
 <h2>Login</h2>
 <form id="form1" method="post" action="/webserver/login?urlDestino=<%= urlDestino %>">
-<p style="color: red;"><%= mensajeError %></p>
-<p>
+<% if(mensajeError != null) { %>
+	<div id="mensaje"><%= mensajeError %>&nbsp;</div>
+<% } %>
+<div>
 	<label for="usuario">Usuario</label>
-	<input type="text" id="usuario" name="usuario" />
-</p>
-<p>
+	<input type="text" id="usuario" name="usuario" class="input" />
+</div>
+<div>
 	<label for="password">Contraseña</label>
-	<input type="password" id="password" name="password" />
-</p>
-<p>
+	<input type="password" id="password" name="password" class="input" />
+</div>
+<div id="botones">
 	<input type="submit" id="submit" name="submit" value="Iniciar Sesión"></input>
 	<input type="reset" id="reset" name="reset" value="Borrar"></input>
-</p>
+</div>
 </form>
+</div>
 </body>
 </html>

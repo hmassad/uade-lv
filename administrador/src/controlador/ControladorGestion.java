@@ -41,46 +41,44 @@ public class ControladorGestion extends Observable {
 		}
 	}
 
-	public Collection<CasillaVO> obtenerCasillasPorUsuario(UsuarioVO u) {
+	public Collection<CasillaVO> obtenerCasillasPorUsuario(int idUsuario) {
 		try {
-			return gestion.obtenerCasillasPorUsuario(u);
+			return gestion.obtenerCasillasPorUsuario(idUsuario);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public void agregarUsuario(UsuarioVO u) {
+	public void agregarUsuario(String nombreUsuario, String password) {
 		try {
-			gestion.agregarUsuario(u);
+			gestion.agregarUsuario(nombreUsuario, password);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void agregarOficina(OficinaVO o){
+	public void agregarOficina(String nombre) {
 		try {
-			gestion.agregarOficina(o);
+			gestion.agregarOficina(nombre);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public void agregarRelacionConfianza(RelacionConfianzaVO rc){
+
+	public void agregarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {
 		try {
-			gestion.agregarRelacionConfianza(rc);
+			gestion.agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		}	
-		
-	}
-	
-	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) {
-		try {
-			gestion.agregarCasillaAUsuario(u, c);
-			// this.notifyObservers(this.listarAlumno());
+		}
 
+	}
+
+	public void agregarCasilla(int idUsuario, String direccion) {
+		try {
+			gestion.agregarCasilla(idUsuario, direccion);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -88,7 +86,7 @@ public class ControladorGestion extends Observable {
 
 	public void eliminarUsuario(int id) {
 		try {
-			gestion.borrarUsuario(new UsuarioVO());
+			gestion.borrarUsuario(id);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -114,7 +112,7 @@ public class ControladorGestion extends Observable {
 
 	public void eliminarOficina(int id) {
 		try {
-			gestion.borrarOficina(new OficinaVO());
+			gestion.borrarOficina(id);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -123,7 +121,7 @@ public class ControladorGestion extends Observable {
 
 	public void eliminarCasilla(int id) {
 		try {
-			gestion.borrarCasilla(new CasillaVO());
+			gestion.borrarCasilla(id);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -132,7 +130,7 @@ public class ControladorGestion extends Observable {
 
 	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {
 		try {
-			gestion.borrarRelacionConfianza(new OficinaVO (), new OficinaVO ());
+			gestion.borrarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

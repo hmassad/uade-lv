@@ -84,7 +84,7 @@ public class AbmOficinas extends AbmBase {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Agregar Oficina
+				new AgregarOficinaDialog(getControladorGestion());
 			}
 		};
 	}

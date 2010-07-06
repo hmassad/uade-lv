@@ -6,6 +6,36 @@
 <%@page import="java.text.*"%>
 
 <%@include file="setup.jsp"%>
+<%
+	Integer idMensaje;
+	try {
+		idMensaje = Integer.parseInt(request.getParameter("idMensaje"));
+	}catch(Exception e){
+		idMensaje = null;
+	}
+
+	String casilla = request.getParameter("casilla");
+	if(idMensaje == null || casilla == null){
+		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("No se especificó mensaje.", "iso-8859-1"))));
+		return;
+	}
+
+	MensajeVO mensaje = controladorMensajeria.obtenerMensaje(casilla, idMensaje);
+	if(mensaje == null){
+		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("El mensaje no puede ser visualizado.", "iso-8859-1"))));
+		return;
+	}
+
+	if(request.getParameter("borrar") != null){
+		controladorMensajeria.cambiarMensajeEstado(casilla, idMensaje, MensajeEstado.ParaBorrar);
+		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("El mensaje ha sido borrado.", "iso-8859-1"))));
+		return;
+	}
+
+	if(mensaje.getEstado().equals(MensajeEstado.NoLeido)){
+		controladorMensajeria.cambiarMensajeEstado(casilla, idMensaje, MensajeEstado.Leido);
+	}
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -19,28 +49,9 @@
 <%@include file="encabezado.jsp" %>
 <%@include file="acciones.jsp" %>
 <div id="main-content">
-<%
-	Integer idMensaje;
-	try {
-		idMensaje = Integer.parseInt(request.getParameter("idMensaje"));
-	}catch(Exception e){
-		idMensaje = null;
-	}
-	String casilla = request.getParameter("casilla");
-	if(idMensaje == null || casilla == null){
-		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("No se especificó mensaje.", "iso-8859-1"))));
-		return;
-	}
-
-	MensajeVO mensaje = controladorMensajeria.obtenerMensaje(casilla, idMensaje);
-	if(mensaje == null){
-		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("El mensaje no puede ser visualizado.", "iso-8859-1"))));
-		return;
-	}
-	if(mensaje.getEstado().equals(MensajeEstado.NoLeido)){
-		controladorMensajeria.cambiarMensajeEstado(casilla, idMensaje, MensajeEstado.Leido);
-	}
-%>
+<form method="post" action="/webserver/mensaje?casilla=<%= casilla %>&idMensaje=<%= idMensaje %>&">
+	<input type="submit" id="borrar" name="borrar" value="Borrar" />
+</form>
 <div id="mensaje-recuadro">
 	<div><label>Fecha</label> <%= new SimpleDateFormat("d-MMM HH:mm").format(mensaje.getFecha()) %></div>
 	<div><label>Desde</label> <%= mensaje.getOrigen() %></div>

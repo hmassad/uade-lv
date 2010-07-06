@@ -77,11 +77,11 @@ public class Casilla implements Serializable {
 		this.mensajes = mensajes;
 	}
 
-	public void agregarAOficina(Oficina o) {
+	public void agregarOficina(Oficina o) {
 		getOficinas().add(o);
 	}
 
-	public void removerDeOficina(Oficina o) {
+	public void removerOficina(Oficina o) {
 		getOficinas().remove(o);
 	}
 

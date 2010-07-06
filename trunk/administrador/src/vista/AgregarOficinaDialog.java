@@ -21,7 +21,7 @@ import controlador.ControladorGestion;
  * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
  * ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class AgregarUsuarioDialog extends JDialog {
+public class AgregarOficinaDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,12 +31,9 @@ public class AgregarUsuarioDialog extends JDialog {
 	private JLabel nombreLabel;
 	private JTextArea nombreTextArea;
 
-	private JLabel passwordLabel;
-	private JTextArea passwordTextArea;
-
 	private ControladorGestion controladorGestion;
 
-	public AgregarUsuarioDialog(ControladorGestion controladorGestion) {
+	public AgregarOficinaDialog(ControladorGestion controladorGestion) {
 		super();
 		this.setControladorGestion(controladorGestion);
 		initGUI();
@@ -60,16 +57,6 @@ public class AgregarUsuarioDialog extends JDialog {
 		contentPane.add(nombreTextArea);
 		nombreTextArea.setBounds(110, 10, 200, 20);
 
-		passwordLabel = new JLabel();
-		passwordLabel.setText("Contraseña");
-		contentPane.add(passwordLabel);
-		passwordLabel.setBounds(10, 40, 100, 20);
-
-		passwordTextArea = new JTextArea();
-		passwordTextArea.setText("");
-		contentPane.add(passwordTextArea);
-		passwordTextArea.setBounds(110, 40, 200, 20);
-
 		aceptarButton = new JButton();
 		aceptarButton.setText("Aceptar");
 		contentPane.add(aceptarButton);
@@ -78,10 +65,9 @@ public class AgregarUsuarioDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String usuario = nombreTextArea.getText();
-				String password = passwordTextArea.getText();
-				getControladorGestion().agregarUsuario(usuario, password);
-				AgregarUsuarioDialog.this.setVisible(false);
+				String nombre = nombreTextArea.getText();
+				getControladorGestion().agregarOficina(nombre);
+				AgregarOficinaDialog.this.setVisible(false);
 			}
 		});
 
@@ -93,7 +79,7 @@ public class AgregarUsuarioDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AgregarUsuarioDialog.this.setVisible(false);
+				AgregarOficinaDialog.this.setVisible(false);
 			}
 		});
 

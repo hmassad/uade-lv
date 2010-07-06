@@ -34,7 +34,7 @@ public abstract class AbmBase extends JPanel {
 		initGUI();
 	}
 
-	private void initGUI() {
+	protected void initGUI() {
 		this.setLayout(new BorderLayout());
 
 		JPanel tablePane = new JPanel();

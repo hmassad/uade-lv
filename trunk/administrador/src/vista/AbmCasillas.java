@@ -84,7 +84,7 @@ public class AbmCasillas extends AbmBase {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Agregar Casilla
+				new AgregarCasillaDialog(getControladorGestion());
 			}
 		};
 	}

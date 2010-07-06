@@ -41,70 +41,21 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		super.finalize();
 	}
 
-	private Casilla buscarCasilla(CasillaVO c) {
-		// crear el EntityManager
-		EntityManager em = emf.createEntityManager();
-		try {
-			// crear consulta
-			Query query = em.createNamedQuery("SELECT c FROM Casilla c WHERE c.id = :id");
-			// agregar parámetros a consulta
-			query.setParameter("id", c.getId());
-			// ejecutar la consulta y devolver el resultado
-			return (Casilla) query.getSingleResult();
-		} finally {
-			em.close();
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private Usuario buscarUsuario(UsuarioVO u) {
-		EntityManager em = emf.createEntityManager();
-		try {
-			return (Usuario) em.find(Usuario.class, u.getId());
-		} finally {
-			em.close();
-		}
-	}
-
-	private Oficina buscarOficina(OficinaVO o) {
-		EntityManager em = emf.createEntityManager();
-		try {
-			Query query = em.createNamedQuery("SELECT o FROM Oficina o WHERE o.id = :id");
-			query.setParameter("id", o.getId());
-			return (Oficina) query.getSingleResult();
-		} finally {
-			em.close();
-		}
-	}
-
-	private RelacionConfianza buscarRelacionConfianza(RelacionConfianzaVO r) {
-		EntityManager em = emf.createEntityManager();
-		try {
-			Query query = em.createNamedQuery("SELECT r FROM RelacionConfianza r WHERE r.origen = :origen and r.destino = :destino");
-			query.setParameter("origen", r.getOrigen().getId());
-			query.setParameter("destino", r.getDestino().getId());
-			return (RelacionConfianza) query.getSingleResult();
-		} finally {
-			em.close();
-		}
-	}
-
 	@Override
-	public void agregarCasillaAUsuario(UsuarioVO u, CasillaVO c) throws RemoteException {
-
+	public void agregarCasilla(int idUsuario, String direccion) throws RemoteException {
 		// Crear el EntityManager
 		EntityManager em = emf.createEntityManager();
 		try {
 
 			// busco el usuario
-			Usuario usuario = em.find(Usuario.class, u.getId());
+			Usuario usuario = em.find(Usuario.class, idUsuario);
 			if (usuario == null) {
 				throw new RemoteException("Usuario no encontrado.");
 			}
 
 			// Creo una Casilla
 			Casilla casilla = new Casilla();
-			casilla.setDireccion(c.getDireccion());
+			casilla.setDireccion(direccion);
 			usuario.agregarCasilla(casilla);
 
 			// Inicio Transacción
@@ -116,7 +67,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 				em.persist(casilla);
 
 				// Persisto el Usuario
-				em.persist(usuario);
+				em.merge(usuario);
+
+				em.flush();
 
 				// Commit de la Transacción
 				tx.commit();
@@ -128,12 +81,6 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		} finally {
 			em.close();
 		}
-	}
-
-	@Override
-	public void agregarCasillaAOficina(OficinaVO o, CasillaVO c) throws RemoteException {
-		// TODO:
-		throw new RemoteException("No Implementado");
 	}
 
 	@Override
@@ -157,11 +104,11 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public Collection<CasillaVO> obtenerCasillasPorUsuario(UsuarioVO u) throws RemoteException {
+	public Collection<CasillaVO> obtenerCasillasPorUsuario(int idUsuario) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createQuery("select c from Casilla c join c.usuario u where u.id = :usuarioid");
-			query.setParameter("usuarioid", u.getId());
+			query.setParameter("usuarioid", idUsuario);
 			@SuppressWarnings("unchecked")
 			List<Casilla> casillas = (List<Casilla>) query.getResultList();
 
@@ -183,11 +130,11 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public Collection<CasillaVO> obtenerCasillasPorOficina(OficinaVO o) throws RemoteException {
+	public Collection<CasillaVO> obtenerCasillasPorOficina(int idOficina) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createQuery("select c from Casilla c join c.usuario u where u.id = :usuarioid");
-			query.setParameter("usuarioid", o.getId());
+			Query query = em.createQuery("select c from Casilla c join c.oficina o where o.id = :oficina_id");
+			query.setParameter("oficina_id", idOficina);
 			@SuppressWarnings("unchecked")
 			List<Casilla> casillas = (List<Casilla>) query.getResultList();
 
@@ -209,34 +156,38 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public CasillaVO obtenerCasilla(CasillaVO c) throws RemoteException {
-		Casilla casilla = buscarCasilla(c);
-		if (casilla == null) {
-			throw new RemoteException("No encontre la casilla");
-		}
+	public CasillaVO obtenerCasilla(int idCasilla) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Casilla casilla = (Casilla) em.find(Casilla.class, idCasilla);
+			if (casilla == null) {
+				throw new RemoteException("No encontre la casilla");
+			}
 
-		CasillaVO casillaVO = new CasillaVO();
-		casillaVO.setId(casilla.getId());
-		casillaVO.setDireccion(casilla.getDireccion());
-		return casillaVO;
+			CasillaVO casillaVO = new CasillaVO();
+			casillaVO.setId(casilla.getId());
+			casillaVO.setDireccion(casilla.getDireccion());
+			return casillaVO;
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
-	public void modificarCasilla(CasillaVO cOriginal, CasillaVO cNueva) throws RemoteException {
-		Casilla casilla = buscarCasilla(cOriginal);
-		if (casilla == null) {
-			throw new RemoteException("No encontre la casilla");
-		}
-
+	public void modificarCasilla(int idCasilla, String direccion) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
+			Casilla casilla = em.find(Casilla.class, idCasilla);
+			if (casilla == null) {
+				throw new RemoteException("No encontre la casilla");
+			}
+
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
 			try {
-				if (cNueva.getDireccion() != null) {
-					casilla.setDireccion(cNueva.getDireccion());
-				}
-				em.persist(casilla);
+				casilla.setDireccion(direccion);
+				em.merge(casilla);
+				em.flush();
 				tx.commit();
 			} catch (Exception e) {
 				tx.rollback();
@@ -248,14 +199,15 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void borrarCasilla(CasillaVO c) throws RemoteException {
+	public void borrarCasilla(int idCasilla) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
 			EntityTransaction tx = em.getTransaction();
-			Casilla casilla = em.getReference(Casilla.class, c.getId());
+			Casilla casilla = em.getReference(Casilla.class, idCasilla);
 			tx.begin();
 			try {
 				em.remove(casilla);
+				em.flush();
 				tx.commit();
 			} catch (Exception e) {
 				tx.rollback();
@@ -267,7 +219,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void agregarOficina(OficinaVO o) throws RemoteException {
+	public void agregarOficina(String nombre) throws RemoteException {
 		// Crear el EntityManager
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -277,14 +229,13 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			try {
 				// Creo una Oficina
 				Oficina oficina = new Oficina();
-				oficina.setNombre(o.getNombre());
+				oficina.setNombre(nombre);
 
 				// Persisto la Oficina
 				em.persist(oficina);
 
 				// Commit de la Transacción
 				tx.commit();
-
 			} catch (Exception e) {
 				tx.rollback();
 				e.printStackTrace();
@@ -316,34 +267,38 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public OficinaVO obtenerOficina(OficinaVO o) throws RemoteException {
-		Oficina oficina = buscarOficina(o);
-		if (oficina == null) {
-			throw new RemoteException("No encontre la oficina");
-		}
+	public OficinaVO obtenerOficina(int idOficina) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Oficina oficina = em.find(Oficina.class, idOficina);
+			if (oficina == null) {
+				throw new RemoteException("No encontre la oficina.");
+			}
 
-		OficinaVO oficinaVO = new OficinaVO();
-		oficinaVO.setId(oficina.getId());
-		oficinaVO.setNombre(oficina.getNombre());
-		return oficinaVO;
+			OficinaVO oficinaVO = new OficinaVO();
+			oficinaVO.setId(oficina.getId());
+			oficinaVO.setNombre(oficina.getNombre());
+			return oficinaVO;
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
-	public void modificarOficina(OficinaVO oOriginal, OficinaVO oNueva) throws RemoteException {
-		Oficina oficina = buscarOficina(oOriginal);
-		if (oficina == null) {
-			throw new RemoteException("No encontre la oficina");
-		}
-
+	public void modificarOficina(int idOficina, String nombre) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
+			Oficina oficina = (Oficina) em.find(Oficina.class, idOficina);
+			if (oficina == null) {
+				throw new RemoteException("No encontre la oficina");
+			}
+
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
 			try {
-				if (oNueva.getNombre() != null) {
-					oficina.setNombre(oNueva.getNombre());
-				}
-				em.persist(oficina);
+				oficina.setNombre(nombre);
+				em.merge(oficina);
+				em.flush();
 				tx.commit();
 			} catch (Exception e) {
 				tx.rollback();
@@ -355,14 +310,15 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void borrarOficina(OficinaVO o) throws RemoteException {
+	public void borrarOficina(int idOficina) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
 			EntityTransaction tx = em.getTransaction();
-			Oficina oficina = em.getReference(Oficina.class, o.getId());
+			Oficina oficina = em.getReference(Oficina.class, idOficina);
 			tx.begin();
 			try {
 				em.remove(oficina);
+				em.flush();
 				tx.commit();
 			} catch (Exception e) {
 				tx.rollback();
@@ -374,7 +330,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void agregarRelacionConfianza(RelacionConfianzaVO rc) throws RemoteException {
+	public void agregarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws RemoteException {
 		// Crear el EntityManager
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -384,11 +340,12 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			try {
 				// Creo una RelacionConfianza
 				RelacionConfianza relacion = new RelacionConfianza();
-				relacion.setOrigen(buscarOficina(rc.getOrigen()));
-				relacion.setDestino(buscarOficina(rc.getDestino()));
+				relacion.setOrigen((Oficina) em.find(Oficina.class, idOficinaOrigen));
+				relacion.setDestino((Oficina) em.find(Oficina.class, idOficinaDestino));
 
 				// Persisto la RelacionConfianza
 				em.persist(relacion);
+				em.flush();
 
 				// Commit de la Transacción
 				tx.commit();
@@ -396,7 +353,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 			} catch (Exception e) {
 				tx.rollback();
 				e.printStackTrace();
-				throw new RemoteException(e.getMessage());
+				throw new RemoteException(e.getMessage(), e);
 			}
 		} finally {
 			em.close();
@@ -429,35 +386,55 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public RelacionConfianzaVO obtenerRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestino) throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
+	public RelacionConfianzaVO obtenerRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("SELECT r FROM RelacionConfianza r WHERE r.origen.id = :origen_id and r.destino = :destino_id");
+			query.setParameter("origen_id", idOficinaOrigen);
+			query.setParameter("destino_id", idOficinaDestino);
+			RelacionConfianza relacion = (RelacionConfianza) query.getSingleResult();
+
+			RelacionConfianzaVO rcVO = new RelacionConfianzaVO();
+
+			OficinaVO oficinaOrigenVO = new OficinaVO();
+			oficinaOrigenVO.setId(relacion.getOrigen().getId());
+			oficinaOrigenVO.setNombre(relacion.getOrigen().getNombre());
+			rcVO.setOrigen(oficinaOrigenVO);
+
+			OficinaVO oficinaDestinoVO = new OficinaVO();
+			oficinaOrigenVO.setId(relacion.getDestino().getId());
+			oficinaOrigenVO.setNombre(relacion.getDestino().getNombre());
+			rcVO.setDestino(oficinaDestinoVO);
+
+			return rcVO;
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
-	public void modificarRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestinoOriginal, OficinaVO oDestinoNueva) throws RemoteException {
-		// Busco la RelacionConfianza
-		RelacionConfianzaVO relacionVO = new RelacionConfianzaVO(oOrigen, oDestinoOriginal);
-		RelacionConfianza relacion = buscarRelacionConfianza(relacionVO);
-		if (relacion == null) {
-			throw new RemoteException("No encontre la relacion de confianza");
-		}
-
+	public void modificarRelacionConfianza(int idOficinaOrigen, int idOficinaDestinoOriginal, int idOficinaDestinoNueva) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			EntityTransaction tx = em.getTransaction();
-			tx.begin();
+			EntityTransaction et = em.getTransaction();
 			try {
-				if (oDestinoNueva != null) {
-					// Busco la Oficina
-					Oficina oficina = buscarOficina(oDestinoNueva);
-					relacion.setDestino(oficina);
-				}
-				em.persist(relacion);
-				tx.commit();
+				et.begin();
+
+				Query query = em.createNamedQuery("SELECT r FROM RelacionConfianza r WHERE r.origen.id = :origen_id and r.destino = :destino_id");
+				query.setParameter("origen_id", idOficinaOrigen);
+				query.setParameter("destino_id", idOficinaDestinoOriginal);
+				RelacionConfianza relacion = (RelacionConfianza) query.getSingleResult();
+
+				Oficina oficinaDestinoNueva = (Oficina) em.find(Oficina.class, idOficinaDestinoNueva);
+				relacion.setDestino(oficinaDestinoNueva);
+
+				em.merge(relacion);
+
+				em.flush();
+				et.commit();
 			} catch (Exception e) {
-				tx.rollback();
-				throw new RemoteException(e.getMessage());
+				et.rollback();
+				throw new RemoteException(e.getMessage(), e);
 			}
 		} finally {
 			em.close();
@@ -465,7 +442,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void borrarRelacionConfianza(OficinaVO oOrigen, OficinaVO oDestino) throws RemoteException {
+	public void borrarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws RemoteException {
 		// TODO Auto-generated method stub
 		throw new RemoteException("No Implementado");
 	}
@@ -475,10 +452,10 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query q = em.createQuery("SELECT u FROM Usuario u");
-			
+
 			@SuppressWarnings("unchecked")
 			List<Usuario> usuarios = (List<Usuario>) q.getResultList();
-			
+
 			ArrayList<UsuarioVO> usuariosVO = new ArrayList<UsuarioVO>();
 			for (Usuario usuario : usuarios) {
 				UsuarioVO usuarioVO = new UsuarioVO();
@@ -493,14 +470,15 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void agregarUsuario(UsuarioVO u) throws RemoteException {
+	public void agregarUsuario(String nombreUsuario, String password) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			Usuario usuario = new Usuario();
-			usuario.setNombre(u.getNombre());
 			EntityTransaction tx = em.getTransaction();
-			tx.begin();
 			try {
+				tx.begin();
+				Usuario usuario = new Usuario();
+				usuario.setNombre(nombreUsuario);
+				usuario.setPassword(password);
 				em.persist(usuario);
 				tx.commit();
 			} catch (Exception e) {
@@ -512,20 +490,66 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 	}
 
 	@Override
-	public void borrarUsuario(UsuarioVO u) throws RemoteException {
+	public void borrarUsuario(int id) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				Usuario usuario = em.getReference(Usuario.class, id);
+				em.remove(usuario);
+				em.flush();
+				tx.commit();
+			} catch (Exception e) {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+			}
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public void modificarUsuario(int idUsuario, String nombre, String password) throws RemoteException {
 		// TODO Auto-generated method stub
 		throw new RemoteException("No Implementado");
 	}
 
 	@Override
-	public void modificarUsuario(UsuarioVO uOriginal, UsuarioVO uNuevo) throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
+	public void agregarCasillaAOficina(int idOficina, int idCasilla) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				Oficina oficina = em.find(Oficina.class, idOficina);
+				Casilla casilla = em.find(Casilla.class, idCasilla);
+
+				oficina.agregarCasilla(casilla);
+
+				em.merge(oficina);
+				em.merge(casilla);
+				em.flush();
+
+				tx.commit();
+			} catch (Exception e) {
+				tx.rollback();
+			}
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public Collection<LogTraficoVO> obtenerLogs() throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		throw new RemoteException("No Implementado");
+	}
+
+	@Override
+	public void borrarLogs() throws RemoteException {
+		// TODO Auto-generated method stub
+		throw new RemoteException("No Implementado");
 	}
 }

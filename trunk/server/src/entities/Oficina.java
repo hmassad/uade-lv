@@ -70,9 +70,11 @@ public class Oficina implements Serializable {
 			casillas = new ArrayList<Casilla>();
 		}
 		casillas.add(casilla);
+		casilla.agregarOficina(this);
 	}
 
 	public void borrarCasilla(Casilla casilla) {
 		casillas.remove(casilla);
+		casilla.removerOficina(this);
 	}
 }

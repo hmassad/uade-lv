@@ -17,7 +17,7 @@ import javax.swing.table.TableModel;
 
 import controlador.ControladorGestion;
 
-public abstract class AbmBase extends JPanel {
+public abstract class AbmBasePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public abstract class AbmBase extends JPanel {
 	private JButton modificarButton;
 	private JButton eliminarButton;
 
-	public AbmBase(ControladorGestion controladorGestion) {
+	public AbmBasePanel(ControladorGestion controladorGestion) {
 		super();
 		this.controladorGestion = controladorGestion;
 		initGUI();
@@ -38,7 +38,6 @@ public abstract class AbmBase extends JPanel {
 		this.setLayout(new BorderLayout());
 
 		JPanel tablePane = new JPanel();
-		//tablePane.setLayout(new BoxLayout(tablePane, BoxLayout.PAGE_AXIS));
 		tablePane.setLayout(new BoxLayout(tablePane, BoxLayout.Y_AXIS));
 		JLabel label = new JLabel();
 		label.setText(getTitulo());

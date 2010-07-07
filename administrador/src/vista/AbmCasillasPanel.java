@@ -10,11 +10,11 @@ import javax.swing.table.TableModel;
 import beans.CasillaVO;
 import controlador.ControladorGestion;
 
-public class AbmCasillas extends AbmBase {
+public class AbmCasillasPanel extends AbmBasePanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public AbmCasillas(ControladorGestion controladorGestion) {
+	public AbmCasillasPanel(ControladorGestion controladorGestion) {
 		super(controladorGestion);
 	}
 
@@ -100,8 +100,9 @@ public class AbmCasillas extends AbmBase {
 					int id = (Integer) row[0];
 					try {
 						getControladorGestion().eliminarCasilla(id);
-					} catch (Exception e) {
-
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			}

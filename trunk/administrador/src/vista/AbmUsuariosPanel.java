@@ -7,37 +7,38 @@ import java.util.Collection;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import beans.OficinaVO;
 import controlador.ControladorGestion;
 
-public class AbmOficinas extends AbmBase {
+import beans.UsuarioVO;
+
+public class AbmUsuariosPanel extends AbmBasePanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public AbmOficinas(ControladorGestion controladorGestion) {
+	public AbmUsuariosPanel(ControladorGestion controladorGestion) {
 		super(controladorGestion);
 	}
 
 	@Override
 	public TableModel getTableModel() {
-		return new OficinasTableModel();
+		return new UsuariosTableModel();
 	}
 
-	class OficinasTableModel extends AbstractTableModel {
+	class UsuariosTableModel extends AbstractTableModel {
 
 		private static final long serialVersionUID = 1L;
 
 		private String[] columnNames = { "id", "Nombre" };
 		private Object[][] data;
 
-		public OficinasTableModel() {
-			Collection<OficinaVO> oficinas = getControladorGestion().obtenerOficinas();
-			if (oficinas != null) {
-				data = new Object[oficinas.size()][columnNames.length];
+		public UsuariosTableModel() {
+			Collection<UsuarioVO> usuarios = getControladorGestion().obtenerUsuarios();
+			if (usuarios != null) {
+				data = new Object[usuarios.size()][columnNames.length];
 				int i = 0;
-				for (OficinaVO o : oficinas) {
-					data[i][0] = o.getId();
-					data[i][1] = o.getNombre();
+				for (UsuarioVO u : usuarios) {
+					data[i][0] = u.getId();
+					data[i][1] = u.getNombre();
 					i++;
 				}
 			}
@@ -75,7 +76,7 @@ public class AbmOficinas extends AbmBase {
 	}
 
 	protected String getTitulo() {
-		return "Oficinas";
+		return "Usuarios";
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class AbmOficinas extends AbmBase {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new AgregarOficinaDialog(getControladorGestion());
+				new AgregarUsuarioDialog(getControladorGestion());
 			}
 		};
 	}
@@ -98,7 +99,7 @@ public class AbmOficinas extends AbmBase {
 				Object[] row = getSelectedRow();
 				if (row != null) {
 					int id = (Integer) row[0];
-					getControladorGestion().eliminarOficina(id);
+					getControladorGestion().eliminarUsuario(id);
 				}
 			}
 		};
@@ -110,7 +111,7 @@ public class AbmOficinas extends AbmBase {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Modificar Oficina
+				// TODO: Abrir Ventana de Modificar Usuario
 			}
 		};
 	}

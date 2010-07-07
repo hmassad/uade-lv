@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 
 import controlador.ControladorGestion;
 
-public class Administrador extends JFrame {
+public class AdministradorFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class Administrador extends JFrame {
 	private JMenuItem oficinasMenuItem;
 	private JMenuItem casillasMenuItem;
 	private JMenuItem relacionesConfianzaMenuItem;
-	private JMenuItem logMenuItem;
+	private JMenuItem logsMenuItem;
 	private JMenuItem alertasMenuItem;
 	private JMenuItem salirMenuItem;
 	private JMenuBar mainMenuBar;
@@ -28,14 +28,14 @@ public class Administrador extends JFrame {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				Administrador inst = new Administrador();
+				AdministradorFrame inst = new AdministradorFrame();
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 			}
 		});
 	}
 
-	public Administrador() {
+	public AdministradorFrame() {
 		super();
 		controladorGestion = new ControladorGestion();
 		initGUI();
@@ -57,8 +57,8 @@ public class Administrador extends JFrame {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							Administrador.this.setContentPane(new AbmUsuarios(controladorGestion));
-							Administrador.this.setVisible(true);
+							AdministradorFrame.this.setContentPane(new AbmUsuariosPanel(controladorGestion));
+							AdministradorFrame.this.setVisible(true);
 						}
 
 					});
@@ -71,8 +71,8 @@ public class Administrador extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Administrador.this.setContentPane(new AbmOficinas(controladorGestion));
-							Administrador.this.setVisible(true);
+							AdministradorFrame.this.setContentPane(new AbmOficinasPanel(controladorGestion));
+							AdministradorFrame.this.setVisible(true);
 						}
 					});
 				}
@@ -84,8 +84,8 @@ public class Administrador extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Administrador.this.setContentPane(new AbmCasillas(controladorGestion));
-							Administrador.this.setVisible(true);
+							AdministradorFrame.this.setContentPane(new AbmCasillasPanel(controladorGestion));
+							AdministradorFrame.this.setVisible(true);
 						}
 					});
 				}
@@ -97,15 +97,23 @@ public class Administrador extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Administrador.this.setContentPane(new AbmRelacionesConfianza(controladorGestion));
-							Administrador.this.setVisible(true);
+							AdministradorFrame.this.setContentPane(new AbmRelacionesConfianzaPanel(controladorGestion));
+							AdministradorFrame.this.setVisible(true);
 						}
 					});
 				}
 				{
-					logMenuItem = new JMenuItem();
-					mainMenuBar.add(logMenuItem);
-					logMenuItem.setText("Logs");
+					logsMenuItem = new JMenuItem();
+					mainMenuBar.add(logsMenuItem);
+					logsMenuItem.setText("Logs");
+					logsMenuItem.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							AdministradorFrame.this.setContentPane(new LogsPanel(controladorGestion));
+							AdministradorFrame.this.setVisible(true);
+						}
+					});
 				}
 				{
 					alertasMenuItem = new JMenuItem();
@@ -120,7 +128,7 @@ public class Administrador extends JFrame {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Administrador.this.dispose();
+							AdministradorFrame.this.dispose();
 						}
 					});
 				}

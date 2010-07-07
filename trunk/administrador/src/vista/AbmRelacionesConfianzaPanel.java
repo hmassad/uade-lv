@@ -10,11 +10,11 @@ import javax.swing.table.TableModel;
 import beans.RelacionConfianzaVO;
 import controlador.ControladorGestion;
 
-public class AbmRelacionesConfianza extends AbmBase {
+public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public AbmRelacionesConfianza(ControladorGestion controladorGestion) {
+	public AbmRelacionesConfianzaPanel(ControladorGestion controladorGestion) {
 		super(controladorGestion);
 	}
 

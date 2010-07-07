@@ -60,7 +60,7 @@ public class AbmCasillas extends AbmBase {
 			return data[row][col];
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Class getColumnClass(int c) {
 			if (data.length > 0) {
 				return getValueAt(0, c).getClass();
@@ -94,11 +94,15 @@ public class AbmCasillas extends AbmBase {
 		return new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent ae) {
 				Object[] row = getSelectedRow();
 				if (row != null) {
 					int id = (Integer) row[0];
-					getControladorGestion().eliminarCasilla(id);
+					try {
+						getControladorGestion().eliminarCasilla(id);
+					} catch (Exception e) {
+
+					}
 				}
 			}
 		};

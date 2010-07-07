@@ -119,13 +119,12 @@ public class ControladorGestion extends Observable {
 
 	}
 
-	public void eliminarCasilla(int id) {
+	public void eliminarCasilla(int id) throws Exception {
 		try {
 			gestion.borrarCasilla(id);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {

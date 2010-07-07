@@ -60,7 +60,7 @@ public class AbmOficinas extends AbmBase {
 			return data[row][col];
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Class getColumnClass(int c) {
 			if (data.length > 0) {
 				return getValueAt(0, c).getClass();

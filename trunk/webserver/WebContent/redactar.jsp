@@ -169,7 +169,7 @@ function actualizarDireccionesPosibles(){
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
            	div.innerHTML = xmlhttp.responseText;
         }
-    }
+    };
     xmlhttp.send("");
 }
 
@@ -203,7 +203,7 @@ function actualizarDireccionesPosibles(){
 	<% if (mensaje != null) { %>
 		<span id="casilla"><%= mensaje.getOrigen() %></span><input type="hidden" id="casilla" name="casilla" value="<%= mensaje.getOrigen() %>" />
 	<% } else { %>
-		<select id="casilla" name="casilla" <% if(mensaje != null) { %> disabled="disabled" <% } %>>
+		<select id="casilla" name="casilla">
 			<% for (CasillaVO casilla : controladorMensajeria.listarCasillasPorUsuario(usuario)) { %>
 			<option value="<%=casilla.getDireccion()%>"><%=casilla.getDireccion()%></option>
 			<% } %>

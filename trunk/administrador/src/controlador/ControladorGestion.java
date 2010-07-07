@@ -7,6 +7,7 @@ import java.util.Collection;
 import observer.Observable;
 import rmi.InterfazGestion;
 import beans.CasillaVO;
+import beans.LogTraficoVO;
 import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
@@ -134,6 +135,23 @@ public class ControladorGestion extends Observable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public Collection<LogTraficoVO> obtenerLogs() {
+		try {
+			return gestion.obtenerLogs();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void borrarLogs() {
+		try {
+			gestion.borrarLogs();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

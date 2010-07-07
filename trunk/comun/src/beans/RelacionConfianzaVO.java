@@ -33,4 +33,8 @@ public class RelacionConfianzaVO implements Serializable {
 		this.destino = destino;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("'%s' a '%s'", origen.getNombre(), destino.getNombre());
+	}
 }

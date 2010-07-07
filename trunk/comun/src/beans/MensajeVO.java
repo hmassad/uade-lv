@@ -21,6 +21,21 @@ public class MensajeVO implements Serializable {
 	private String asunto;
 	private String cuerpo;
 
+	public MensajeVO() {
+	}
+
+	public MensajeVO(int id, Date fecha, String origen, Collection<String> destinos, MensajeTipo tipo, MensajeEstado estado, String asunto, String cuerpo) {
+		super();
+		this.id = id;
+		this.fecha = fecha;
+		this.origen = origen;
+		this.destinos = destinos;
+		this.tipo = tipo;
+		this.estado = estado;
+		this.asunto = asunto;
+		this.cuerpo = cuerpo;
+	}
+
 	public int getId() {
 		return id;
 	}

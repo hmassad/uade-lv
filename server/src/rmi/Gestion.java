@@ -18,6 +18,7 @@ import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
 import entities.Casilla;
+import entities.LogTrafico;
 import entities.Oficina;
 import entities.RelacionConfianza;
 import entities.Usuario;
@@ -543,13 +544,53 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion {
 
 	@Override
 	public Collection<LogTraficoVO> obtenerLogs() throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query q = em.createQuery("SELECT l FROM LogTrafico l");
+
+			@SuppressWarnings("unchecked")
+			List<LogTrafico> logs = (List<LogTrafico>) q.getResultList();
+
+			ArrayList<LogTraficoVO> logsVO = new ArrayList<LogTraficoVO>();
+			for (LogTrafico log : logs) {
+				LogTraficoVO logVO = new LogTraficoVO();
+				logVO.setFecha(log.getFecha());
+				logVO.setOrigen(log.getOrigen().getDireccion());
+				for (Casilla c : log.getDestinos()) {
+					logVO.getDestinos().add(c.getDireccion());
+				}
+				logsVO.add(logVO);
+			}
+			return logsVO;
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public void borrarLogs() throws RemoteException {
-		// TODO Auto-generated method stub
-		throw new RemoteException("No Implementado");
+		EntityManager em = emf.createEntityManager();
+		try {
+			EntityTransaction et = em.getTransaction();
+			try {
+				et.begin();
+
+				Query q = em.createQuery("SELECT l FROM LogTrafico l");
+				@SuppressWarnings("unchecked")
+				List<LogTrafico> logs = (List<LogTrafico>) q.getResultList();
+				for (LogTrafico log : logs) {
+					em.remove(log);
+				}
+				em.flush();
+				et.commit();
+			} catch (Exception e) {
+				if (et.isActive()) {
+					et.rollback();
+				}
+				throw new RemoteException("Sucedió un error al borrar los log de tráfico.", e);
+			}
+		} finally {
+			em.close();
+		}
 	}
 }

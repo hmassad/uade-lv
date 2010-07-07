@@ -13,6 +13,12 @@ public class UsuarioVO implements Serializable {
 	public UsuarioVO() {
 	}
 
+	public UsuarioVO(int id, String nombre, String password) {
+		this.id = id;
+		this.nombre = nombre;
+		this.password = password;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -39,6 +45,7 @@ public class UsuarioVO implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Usuario(id: %d, nombre: %s, password: %s)", getId(), getNombre(), getPassword());
+		//return String.format("Usuario(id: %d, nombre: %s, password: %s)", getId(), getNombre(), getPassword());
+		return getNombre();
 	}
 }

@@ -2,26 +2,21 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
+import remoteObserver.EventoObservable;
 import beans.CasillaVO;
 import controlador.ControladorGestion;
 
 public class AbmCasillasPanel extends AbmBasePanel {
 
 	private static final long serialVersionUID = 1L;
-
-	public AbmCasillasPanel(ControladorGestion controladorGestion) {
-		super(controladorGestion);
-	}
-
-	@Override
-	public TableModel getTableModel() {
-		return new CasillasTableModel();
-	}
 
 	class CasillasTableModel extends AbstractTableModel {
 
@@ -31,15 +26,20 @@ public class AbmCasillasPanel extends AbmBasePanel {
 		private Object[][] data;
 
 		public CasillasTableModel() {
-			Collection<CasillaVO> casillas = getControladorGestion().obtenerCasillas();
-			if (casillas != null) {
-				data = new Object[casillas.size()][columnNames.length];
-				int i = 0;
-				for (CasillaVO u : casillas) {
-					data[i][0] = u.getId();
-					data[i][1] = u.getDireccion();
-					i++;
+			try {
+				Collection<CasillaVO> casillas = getControladorGestion().obtenerCasillas();
+				if (casillas != null) {
+					data = new Object[casillas.size()][columnNames.length];
+					int i = 0;
+					for (CasillaVO u : casillas) {
+						data[i][0] = u.getId();
+						data[i][1] = u.getDireccion();
+						i++;
+					}
 				}
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Casillas.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		}
 
@@ -48,7 +48,8 @@ public class AbmCasillasPanel extends AbmBasePanel {
 		}
 
 		public int getRowCount() {
-
+			if (data == null)
+				return -1;
 			return data.length;
 		}
 
@@ -57,11 +58,15 @@ public class AbmCasillasPanel extends AbmBasePanel {
 		}
 
 		public Object getValueAt(int row, int col) {
+			if (data == null)
+				return null;
 			return data[row][col];
 		}
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+		@SuppressWarnings( { "unchecked" })
 		public Class getColumnClass(int c) {
+			if (data == null)
+				return null;
 			if (data.length > 0) {
 				return getValueAt(0, c).getClass();
 			} else {
@@ -72,6 +77,15 @@ public class AbmCasillasPanel extends AbmBasePanel {
 		public boolean isCellEditable(int row, int col) {
 			return false;
 		}
+	}
+
+	public AbmCasillasPanel(ControladorGestion controladorGestion) {
+		super(controladorGestion);
+	}
+
+	@Override
+	public TableModel getTableModel() {
+		return new CasillasTableModel();
 	}
 
 	protected String getTitulo() {
@@ -99,9 +113,11 @@ public class AbmCasillasPanel extends AbmBasePanel {
 				if (row != null) {
 					int id = (Integer) row[0];
 					try {
-						getControladorGestion().eliminarCasilla(id);
+						if (JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar la Casilla? Se borrarán todos los mensajes.", "Confirmación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							getControladorGestion().borrarCasilla(id);
+						}
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al eliminar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 				}
@@ -120,4 +136,48 @@ public class AbmCasillasPanel extends AbmBasePanel {
 		};
 	}
 
+	@Override
+	protected JButton[] getBotonesAdicionales() {
+		Collection<JButton> botones = new ArrayList<JButton>();
+		JButton agregarAOficinaButton = new JButton();
+		agregarAOficinaButton.setText("Agregar A Oficina");
+		agregarAOficinaButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					int idCasilla = (Integer) row[0];
+					String direccionCasilla = (String) row[1];
+					new AgregarCasillaAOficinaDialog(getControladorGestion(), idCasilla, direccionCasilla);
+				}
+
+			}
+		});
+		botones.add(agregarAOficinaButton);
+		JButton borrarDeOficinaButton = new JButton();
+		borrarDeOficinaButton.setText("Borrar De Oficina");
+		borrarDeOficinaButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					int idCasilla = (Integer) row[0];
+					String direccionCasilla = (String) row[1];
+					new BorrarCasillaDeOficinaDialog(getControladorGestion(), idCasilla, direccionCasilla);
+				}
+
+			}
+		});
+		botones.add(borrarDeOficinaButton);
+		return (JButton[]) botones.toArray();
+	}
+
+	@Override
+	protected boolean getCondicionActualizacion(Object eventoObservable) {
+		return eventoObservable.equals(EventoObservable.Usuarios) || eventoObservable.equals(EventoObservable.Casillas);
+	}
 }

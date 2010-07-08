@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import beans.CasillaVO;
 import beans.MensajeVO;
 import entities.Casilla;
+import entities.LogTrafico;
 import entities.Mensaje;
 import entities.MensajeEnCasilla;
 import entities.Oficina;
@@ -99,6 +100,8 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 			try {
 				transaction.begin();
 
+				LogTrafico log = new LogTrafico();
+
 				Mensaje mensaje;
 				if (id != null) {
 					// mensaje guardado
@@ -121,6 +124,10 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 				mensaje.setCuerpo(cuerpo);
 				mensaje.setTipo(tipo);
 				mensaje.setOrigen(casillaOrigen);
+
+				log.setFecha(mensaje.getFecha());
+				log.setMensaje(mensaje);
+				log.setOrigen(casillaOrigen);
 
 				for (String s : destinos) {
 					Casilla casillaDestino = buscarCasillaPorDireccion(s, em);
@@ -153,8 +160,10 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 
 						em.persist(mc);
 					}
+					log.agregarDestino(casillaDestino);
 				}
 
+				em.persist(log);
 				em.flush();
 				transaction.commit();
 			} catch (Exception e) {

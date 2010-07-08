@@ -69,4 +69,12 @@ public class LogTrafico {
 	public void setDestinos(Collection<Casilla> destinos) {
 		this.destinos = destinos;
 	}
+
+	public void agregarDestino(Casilla casillaDestino) {
+		getDestinos().add(casillaDestino);
+	}
+
+	public void removerDestino(Casilla casillaDestino) {
+		getDestinos().remove(casillaDestino);
+	}
 }

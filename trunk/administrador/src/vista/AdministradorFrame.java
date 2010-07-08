@@ -2,10 +2,13 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import controlador.ControladorGestion;
@@ -19,7 +22,6 @@ public class AdministradorFrame extends JFrame {
 	private JMenuItem casillasMenuItem;
 	private JMenuItem relacionesConfianzaMenuItem;
 	private JMenuItem logsMenuItem;
-	private JMenuItem alertasMenuItem;
 	private JMenuItem salirMenuItem;
 	private JMenuBar mainMenuBar;
 
@@ -37,14 +39,24 @@ public class AdministradorFrame extends JFrame {
 
 	public AdministradorFrame() {
 		super();
-		controladorGestion = new ControladorGestion();
+		try {
+			controladorGestion = new ControladorGestion();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, String.format("Ocurrió un conectarse al servidor.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+			e1.printStackTrace();
+			System.exit(-1);
+		}
 		initGUI();
 	}
 
 	private void initGUI() {
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
 		try {
-			setSize(400, 300);
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			setSize(600, 400);
 			setTitle("Administrador");
 			{
 				mainMenuBar = new JMenuBar();
@@ -68,7 +80,7 @@ public class AdministradorFrame extends JFrame {
 					mainMenuBar.add(oficinasMenuItem);
 					oficinasMenuItem.setText("Oficinas");
 					oficinasMenuItem.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							AdministradorFrame.this.setContentPane(new AbmOficinasPanel(controladorGestion));
@@ -81,7 +93,7 @@ public class AdministradorFrame extends JFrame {
 					mainMenuBar.add(casillasMenuItem);
 					casillasMenuItem.setText("Casillas");
 					casillasMenuItem.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							AdministradorFrame.this.setContentPane(new AbmCasillasPanel(controladorGestion));
@@ -94,7 +106,7 @@ public class AdministradorFrame extends JFrame {
 					mainMenuBar.add(relacionesConfianzaMenuItem);
 					relacionesConfianzaMenuItem.setText("Relaciones de Confianza");
 					relacionesConfianzaMenuItem.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							AdministradorFrame.this.setContentPane(new AbmRelacionesConfianzaPanel(controladorGestion));
@@ -107,18 +119,13 @@ public class AdministradorFrame extends JFrame {
 					mainMenuBar.add(logsMenuItem);
 					logsMenuItem.setText("Logs");
 					logsMenuItem.addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							AdministradorFrame.this.setContentPane(new LogsPanel(controladorGestion));
 							AdministradorFrame.this.setVisible(true);
 						}
 					});
-				}
-				{
-					alertasMenuItem = new JMenuItem();
-					mainMenuBar.add(alertasMenuItem);
-					alertasMenuItem.setText("Alertas");
 				}
 				{
 					salirMenuItem = new JMenuItem();
@@ -128,7 +135,7 @@ public class AdministradorFrame extends JFrame {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							AdministradorFrame.this.dispose();
+							System.exit(0);
 						}
 					});
 				}
@@ -137,5 +144,4 @@ public class AdministradorFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -4,9 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
+import remoteObserver.EventoObservable;
 import beans.OficinaVO;
 import controlador.ControladorGestion;
 
@@ -31,15 +34,20 @@ public class AbmOficinasPanel extends AbmBasePanel {
 		private Object[][] data;
 
 		public OficinasTableModel() {
-			Collection<OficinaVO> oficinas = getControladorGestion().obtenerOficinas();
-			if (oficinas != null) {
-				data = new Object[oficinas.size()][columnNames.length];
-				int i = 0;
-				for (OficinaVO o : oficinas) {
-					data[i][0] = o.getId();
-					data[i][1] = o.getNombre();
-					i++;
+			try {
+				Collection<OficinaVO> oficinas = getControladorGestion().obtenerOficinas();
+				if (oficinas != null) {
+					data = new Object[oficinas.size()][columnNames.length];
+					int i = 0;
+					for (OficinaVO o : oficinas) {
+						data[i][0] = o.getId();
+						data[i][1] = o.getNombre();
+						i++;
+					}
 				}
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Oficinas.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		}
 
@@ -48,7 +56,8 @@ public class AbmOficinasPanel extends AbmBasePanel {
 		}
 
 		public int getRowCount() {
-
+			if (data == null)
+				return -1;
 			return data.length;
 		}
 
@@ -57,11 +66,15 @@ public class AbmOficinasPanel extends AbmBasePanel {
 		}
 
 		public Object getValueAt(int row, int col) {
+			if (data == null)
+				return null;
 			return data[row][col];
 		}
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+		@SuppressWarnings( { "unchecked" })
 		public Class getColumnClass(int c) {
+			if (data == null)
+				return null;
 			if (data.length > 0) {
 				return getValueAt(0, c).getClass();
 			} else {
@@ -98,7 +111,14 @@ public class AbmOficinasPanel extends AbmBasePanel {
 				Object[] row = getSelectedRow();
 				if (row != null) {
 					int id = (Integer) row[0];
-					getControladorGestion().eliminarOficina(id);
+					try {
+						if (JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar la Oficina? Se eliminarán todas las Relaciones de Confianza.", "Confirmación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							getControladorGestion().borrarOficina(id);
+						}
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al eliminar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}
 				}
 			}
 		};
@@ -115,4 +135,13 @@ public class AbmOficinasPanel extends AbmBasePanel {
 		};
 	}
 
+	@Override
+	protected JButton[] getBotonesAdicionales() {
+		return null;
+	}
+
+	@Override
+	protected boolean getCondicionActualizacion(Object eventoObservable) {
+		return eventoObservable.equals(EventoObservable.Oficinas);
+	}
 }

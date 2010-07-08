@@ -3,6 +3,8 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -17,21 +19,28 @@ import javax.swing.table.TableModel;
 
 import controlador.ControladorGestion;
 
-public abstract class AbmBasePanel extends JPanel {
+public abstract class AbmBasePanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
 	private ControladorGestion controladorGestion;
 
-	private JTable table;
+	private JTable abmTable;
 	private JButton agregarButton;
 	private JButton modificarButton;
-	private JButton eliminarButton;
+	private JButton borrarButton;
 
 	public AbmBasePanel(ControladorGestion controladorGestion) {
 		super();
 		this.controladorGestion = controladorGestion;
+		controladorGestion.addObserver(this);
 		initGUI();
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		controladorGestion.deleteObserver(this);
+		super.finalize();
 	}
 
 	protected void initGUI() {
@@ -44,14 +53,13 @@ public abstract class AbmBasePanel extends JPanel {
 		tablePane.add(label);
 		tablePane.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		table = new JTable();
-		table.setModel(getTableModel());
-		JScrollPane tableScroller = new JScrollPane(table);
+		abmTable = new JTable();
+		abmTable.setModel(getTableModel());
+		JScrollPane tableScroller = new JScrollPane(abmTable);
 
 		tablePane.add(tableScroller);
 		tablePane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		// Lay out the buttons from left to right.
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
 		buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
@@ -69,12 +77,16 @@ public abstract class AbmBasePanel extends JPanel {
 		buttonPane.add(modificarButton);
 		buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
 
-		eliminarButton = new JButton();
-		eliminarButton.setText("Eliminar");
-		eliminarButton.addActionListener(getBorrarActionListener());
-		buttonPane.add(eliminarButton);
+		borrarButton = new JButton();
+		borrarButton.setText("Borrar");
+		borrarButton.addActionListener(getBorrarActionListener());
+		buttonPane.add(borrarButton);
 
-		// Put everything together
+		for (JButton boton : getBotonesAdicionales()) {
+			buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+			buttonPane.add(boton);
+		}
+
 		this.add(tablePane, BorderLayout.CENTER);
 		this.add(buttonPane, BorderLayout.PAGE_END);
 	}
@@ -83,14 +95,25 @@ public abstract class AbmBasePanel extends JPanel {
 		return controladorGestion;
 	}
 
+	@Override
+	public void update(Observable o, Object eventoObservable) {
+		if (getCondicionActualizacion(eventoObservable)) {
+			actualizarTabla();
+		}
+	}
+
+	private void actualizarTabla() {
+		abmTable.setModel(getTableModel());
+	}
+
 	protected Object[] getSelectedRow() {
-		if (table.getSelectedRow() == -1) {
+		if (abmTable.getSelectedRow() == -1) {
 			return null;
 		}
 
 		Vector<Object> row = new Vector<Object>();
-		for (int i = 0; i < table.getModel().getColumnCount(); i++) {
-			row.add(table.getModel().getValueAt(table.getSelectedRow(), i));
+		for (int i = 0; i < abmTable.getModel().getColumnCount(); i++) {
+			row.add(abmTable.getModel().getValueAt(abmTable.getSelectedRow(), i));
 		}
 		return row.toArray();
 	}
@@ -104,4 +127,9 @@ public abstract class AbmBasePanel extends JPanel {
 	protected abstract ActionListener getModificarActionListener();
 
 	protected abstract ActionListener getBorrarActionListener();
+
+	protected abstract boolean getCondicionActualizacion(Object eventoObservable);
+
+	protected abstract JButton[] getBotonesAdicionales();
+
 }

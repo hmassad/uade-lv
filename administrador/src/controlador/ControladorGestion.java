@@ -1,10 +1,15 @@
 package controlador;
 
+import java.io.Serializable;
 import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.Collection;
+import java.util.Observable;
 
-import observer.Observable;
+import remoteObserver.EventoObservable;
+import remoteObserver.RemoteObservable;
+import remoteObserver.RemoteObserver;
 import rmi.InterfazGestion;
 import beans.CasillaVO;
 import beans.LogTraficoVO;
@@ -12,146 +17,98 @@ import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
 
-public class ControladorGestion extends Observable {
+public class ControladorGestion extends Observable implements RemoteObserver, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private InterfazGestion gestion;
 
-	public ControladorGestion() {
-		try {
-			gestion = (InterfazGestion) Naming.lookup("//localhost/gestion");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public ControladorGestion() throws Exception {
+		System.setSecurityManager(new RMISecurityManager());
+		gestion = (InterfazGestion) Naming.lookup("//localhost/gestion");
+		gestion.addRemoteObserver(this);
 	}
 
-	public Collection<CasillaVO> obtenerCasillas() {
-		try {
-			return gestion.obtenerCasillas();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		}
+	@Override
+	protected void finalize() throws Throwable {
+		gestion.removeRemoteObserver(this);
+		super.finalize();
 	}
 
-	public Collection<UsuarioVO> obtenerUsuarios() {
-		try {
-			return gestion.obtenerUsuarios();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		}
+	@Override
+	public void update(RemoteObservable observable, EventoObservable roe) throws RemoteException {
+		notifyObservers(roe);
 	}
 
-	public Collection<CasillaVO> obtenerCasillasPorUsuario(int idUsuario) {
-		try {
-			return gestion.obtenerCasillasPorUsuario(idUsuario);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Collection<CasillaVO> obtenerCasillas() throws Exception {
+		return gestion.obtenerCasillas();
 	}
 
-	public void agregarUsuario(String nombreUsuario, String password) {
-		try {
-			gestion.agregarUsuario(nombreUsuario, password);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+	public Collection<UsuarioVO> obtenerUsuarios() throws Exception {
+		return gestion.obtenerUsuarios();
 	}
 
-	public void agregarOficina(String nombre) {
-		try {
-			gestion.agregarOficina(nombre);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
+	public Collection<CasillaVO> obtenerCasillasPorUsuario(int idUsuario) throws Exception {
+		return gestion.obtenerCasillasPorUsuario(idUsuario);
 	}
 
-	public void agregarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {
-		try {
-			gestion.agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
+	public Collection<OficinaVO> obtenerOficinasPorCasilla(int idCasilla) throws Exception {
+		return gestion.obtenerOficinasPorCasilla(idCasilla);
 	}
 
-	public void agregarCasilla(int idUsuario, String direccion) {
-		try {
-			gestion.agregarCasilla(idUsuario, direccion);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+	public void agregarUsuario(String nombreUsuario, String password) throws Exception {
+		gestion.agregarUsuario(nombreUsuario, password);
 	}
 
-	public void eliminarUsuario(int id) {
-		try {
-			gestion.borrarUsuario(id);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+	public void agregarOficina(String nombre) throws Exception {
+		gestion.agregarOficina(nombre);
 	}
 
-	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() {
-		try {
-			return gestion.obtenerRelacionesConfianza();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public void agregarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws Exception {
+		gestion.agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 	}
 
-	public Collection<OficinaVO> obtenerOficinas() {
-		try {
-			return gestion.obtenerOficinas();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public void agregarCasilla(int idUsuario, String direccion) throws Exception {
+		gestion.agregarCasilla(idUsuario, direccion);
 	}
 
-	public void eliminarOficina(int id) {
-		try {
-			gestion.borrarOficina(id);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
+	public void agregarCasillaAOficina(int idOficina, int idCasilla) throws RemoteException {
+		gestion.agregarCasillaAOficina(idOficina, idCasilla);
 	}
 
-	public void eliminarCasilla(int id) throws Exception {
-		try {
-			gestion.borrarCasilla(id);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+	public void borrarCasillaDeOficina(int idOficina, int idCasilla) throws RemoteException {
+		gestion.borrarCasillaDeOficina(idOficina, idCasilla);
 	}
 
-	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) {
-		try {
-			gestion.borrarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-
+	public void eliminarUsuario(int id) throws Exception {
+		gestion.borrarUsuario(id);
 	}
 
-	public Collection<LogTraficoVO> obtenerLogs() {
-		try {
-			return gestion.obtenerLogs();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() throws Exception {
+		return gestion.obtenerRelacionesConfianza();
 	}
 
-	public void borrarLogs() {
-		try {
-			gestion.borrarLogs();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+	public Collection<OficinaVO> obtenerOficinas() throws Exception {
+		return gestion.obtenerOficinas();
 	}
 
+	public void borrarOficina(int id) throws Exception {
+		gestion.borrarOficina(id);
+	}
+
+	public void borrarCasilla(int id) throws Exception {
+		gestion.borrarCasilla(id);
+	}
+
+	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws Exception {
+		gestion.borrarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
+	}
+
+	public Collection<LogTraficoVO> obtenerLogsTrafico() throws Exception {
+		return gestion.obtenerLogs();
+	}
+
+	public void borrarLogsTrafico() throws Exception {
+		gestion.borrarLogs();
+	}
 }

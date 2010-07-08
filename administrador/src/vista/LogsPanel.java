@@ -5,29 +5,33 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import remoteObserver.EventoObservable;
 import beans.LogTraficoVO;
 import controlador.ControladorGestion;
 
-public class LogsPanel extends JPanel {
+public class LogsPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
 	private ControladorGestion controladorGestion;
-	private JTable table;
-	private JButton eliminarButton;
-	
-	public LogsPanel(ControladorGestion controladorGestion){
+	private JTable logTable;
+	private JButton borrarButton;
+
+	public LogsPanel(ControladorGestion controladorGestion) {
 		super();
 		setControladorGestion(controladorGestion);
 		initGUI();
@@ -49,16 +53,21 @@ public class LogsPanel extends JPanel {
 		private Object[][] data;
 
 		public LogTableModel() {
-			Collection<LogTraficoVO> logs = getControladorGestion().obtenerLogs();
-			if (logs != null) {
-				data = new Object[logs.size()][columnNames.length];
-				int i = 0;
-				for (LogTraficoVO l : logs) {
-					data[i][0] = l.getFecha();
-					data[i][1] = l.getOrigen();
-					data[i][2] = l.getDestinos().toString();
-					i++;
+			try {
+				Collection<LogTraficoVO> logs = getControladorGestion().obtenerLogsTrafico();
+				if (logs != null) {
+					data = new Object[logs.size()][columnNames.length];
+					int i = 0;
+					for (LogTraficoVO l : logs) {
+						data[i][0] = l.getFecha();
+						data[i][1] = l.getOrigen();
+						data[i][2] = l.getDestinos().toString();
+						i++;
+					}
 				}
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Logs.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		}
 
@@ -67,6 +76,8 @@ public class LogsPanel extends JPanel {
 		}
 
 		public int getRowCount() {
+			if (data == null)
+				return -1;
 			return data.length;
 		}
 
@@ -75,11 +86,15 @@ public class LogsPanel extends JPanel {
 		}
 
 		public Object getValueAt(int row, int col) {
+			if (data == null)
+				return null;
 			return data[row][col];
 		}
 
 		@SuppressWarnings("unchecked")
 		public Class getColumnClass(int c) {
+			if (data == null)
+				return null;
 			if (data.length > 0) {
 				return getValueAt(0, c).getClass();
 			} else {
@@ -92,9 +107,9 @@ public class LogsPanel extends JPanel {
 		}
 	}
 
-	private void initGUI(){
+	private void initGUI() {
 		this.setLayout(new BorderLayout());
-		
+
 		JPanel tablePane = new JPanel();
 		tablePane.setLayout(new BoxLayout(tablePane, BoxLayout.Y_AXIS));
 		JLabel label = new JLabel();
@@ -102,10 +117,10 @@ public class LogsPanel extends JPanel {
 		tablePane.add(label);
 		tablePane.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		table = new JTable();
-		table.setModel(new LogTableModel());
-		
-		JScrollPane tableScroller = new JScrollPane(table);
+		logTable = new JTable();
+		logTable.setModel(new LogTableModel());
+
+		JScrollPane tableScroller = new JScrollPane(logTable);
 
 		tablePane.add(tableScroller);
 		tablePane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -116,17 +131,29 @@ public class LogsPanel extends JPanel {
 		buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		buttonPane.add(Box.createHorizontalGlue());
 
-		eliminarButton = new JButton();
-		eliminarButton.setText("Eliminar");
-		eliminarButton.addActionListener(new ActionListener() {
+		borrarButton = new JButton();
+		borrarButton.setText("Borrar");
+		borrarButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				getControladorGestion().borrarLogs();
+				try {
+					getControladorGestion().borrarLogsTrafico();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Logs.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
 			}
 		});
-		buttonPane.add(eliminarButton);
+		buttonPane.add(borrarButton);
 
 		this.add(tablePane, BorderLayout.CENTER);
 		this.add(buttonPane, BorderLayout.PAGE_END);
+	}
+
+	@Override
+	public void update(Observable o, Object eventoOvservable) {
+		if (eventoOvservable.equals(EventoObservable.LogTrafico)) {
+			logTable.setModel(new LogTableModel());
+		}
 	}
 }

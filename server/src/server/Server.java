@@ -21,6 +21,18 @@ public class Server {
 	private InterfazMensajeria mensajeria;
 
 	public Server() {
+		try {
+			gestion = new Gestion();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		try {
+			mensajeria = new Mensajeria();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		inicializarRmi();
 	}
 
@@ -32,21 +44,18 @@ public class Server {
 
 	private void inicializarRmi() {
 		try {
+			// System.setSecurityManager(new RMISecurityManager());
 			LocateRegistry.createRegistry(1099);
-
-			gestion = new Gestion();
 			Naming.rebind("//localhost/gestion", gestion);
-
-			mensajeria = (InterfazMensajeria) new Mensajeria();
 			Naming.rebind("//localhost/mensajeria", mensajeria);
-
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 
 	private void desinicializarRmi() throws RemoteException, MalformedURLException, NotBoundException {
-		Naming.unbind("//localhost/mensajeria");
 		Naming.unbind("//localhost/gestion");
+		Naming.unbind("//localhost/mensajeria");
 	}
 }

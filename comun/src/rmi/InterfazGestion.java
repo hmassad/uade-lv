@@ -4,13 +4,14 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
 
+import remoteObserver.RemoteObservable;
 import beans.CasillaVO;
 import beans.LogTraficoVO;
 import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
 
-public interface InterfazGestion extends Remote {
+public interface InterfazGestion extends Remote, RemoteObservable {
 
 	// Casillas
 
@@ -26,6 +27,8 @@ public interface InterfazGestion extends Remote {
 
 	void agregarCasillaAOficina(int idOficina, int idCasilla) throws RemoteException;
 
+	void borrarCasillaDeOficina(int idOficina, int idCasilla) throws RemoteException;
+
 	void modificarCasilla(int idCasilla, String direccion) throws RemoteException;
 
 	void borrarCasilla(int idCasilla) throws RemoteException;
@@ -35,6 +38,8 @@ public interface InterfazGestion extends Remote {
 	Collection<OficinaVO> obtenerOficinas() throws RemoteException;
 
 	OficinaVO obtenerOficina(int id) throws RemoteException;
+
+	Collection<OficinaVO> obtenerOficinasPorCasilla(int idUsuario) throws RemoteException;
 
 	void agregarOficina(String nombre) throws RemoteException;
 

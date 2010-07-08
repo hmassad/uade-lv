@@ -4,12 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import controlador.ControladorGestion;
-
+import remoteObserver.EventoObservable;
 import beans.UsuarioVO;
+import controlador.ControladorGestion;
 
 public class AbmUsuariosPanel extends AbmBasePanel {
 
@@ -32,15 +34,20 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 		private Object[][] data;
 
 		public UsuariosTableModel() {
-			Collection<UsuarioVO> usuarios = getControladorGestion().obtenerUsuarios();
-			if (usuarios != null) {
-				data = new Object[usuarios.size()][columnNames.length];
-				int i = 0;
-				for (UsuarioVO u : usuarios) {
-					data[i][0] = u.getId();
-					data[i][1] = u.getNombre();
-					i++;
+			try {
+				Collection<UsuarioVO> usuarios = getControladorGestion().obtenerUsuarios();
+				if (usuarios != null) {
+					data = new Object[usuarios.size()][columnNames.length];
+					int i = 0;
+					for (UsuarioVO u : usuarios) {
+						data[i][0] = u.getId();
+						data[i][1] = u.getNombre();
+						i++;
+					}
 				}
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Usuarios.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		}
 
@@ -49,7 +56,8 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 		}
 
 		public int getRowCount() {
-
+			if (data == null)
+				return -1;
 			return data.length;
 		}
 
@@ -58,11 +66,15 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 		}
 
 		public Object getValueAt(int row, int col) {
+			if (data == null)
+				return null;
 			return data[row][col];
 		}
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+		@SuppressWarnings( { "unchecked" })
 		public Class getColumnClass(int c) {
+			if (data == null)
+				return null;
 			if (data.length > 0) {
 				return getValueAt(0, c).getClass();
 			} else {
@@ -82,7 +94,6 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 	@Override
 	public ActionListener getAgregarActionListener() {
 		return new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new AgregarUsuarioDialog(getControladorGestion());
@@ -99,7 +110,14 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 				Object[] row = getSelectedRow();
 				if (row != null) {
 					int id = (Integer) row[0];
-					getControladorGestion().eliminarUsuario(id);
+					try {
+						if (JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar el Usuario? Se eliminarán todas las Casillas y sus Mensajes.", "Confirmación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							getControladorGestion().eliminarUsuario(id);
+						}
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al eliminar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}
 				}
 			}
 		};
@@ -116,4 +134,13 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 		};
 	}
 
+	@Override
+	protected JButton[] getBotonesAdicionales() {
+		return null;
+	}
+
+	@Override
+	protected boolean getCondicionActualizacion(Object eventoObservable) {
+		return eventoObservable.equals(EventoObservable.Usuarios);
+	}
 }

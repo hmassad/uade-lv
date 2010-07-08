@@ -11,27 +11,26 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
-import beans.UsuarioVO;
+import beans.OficinaVO;
 import controlador.ControladorGestion;
 
-public class AgregarCasillaDialog extends JDialog {
+public class AgregarRelacionConfianzaDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private ControladorGestion controladorGestion;
+	private JLabel oficinaOrigenLabel;
+	private JComboBox oficinaOrigenComboBox;
 
-	private JLabel direccionLabel;
-	private JTextField direccionTextField;
-
-	private JLabel usuarioLabel;
-	private JComboBox usuarioComboBox;
+	private JLabel oficinaDestinoLabel;
+	private JComboBox oficinaDestinoComboBox;
 
 	private JButton aceptarButton;
 	private JButton cancelarButton;
 
-	public AgregarCasillaDialog(ControladorGestion controladorGestion) {
+	private ControladorGestion controladorGestion;
+
+	public AgregarRelacionConfianzaDialog(ControladorGestion controladorGestion) {
 		super();
 		this.setControladorGestion(controladorGestion);
 		initGUI();
@@ -40,48 +39,49 @@ public class AgregarCasillaDialog extends JDialog {
 
 	private void cargarDatos() {
 		try {
-			for (UsuarioVO u : controladorGestion.obtenerUsuarios()) {
-				usuarioComboBox.addItem(u);
+			for (OficinaVO o : controladorGestion.obtenerOficinas()) {
+				oficinaOrigenComboBox.addItem(o);
+				oficinaDestinoComboBox.addItem(o);
 			}
 		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Usuarios.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Oficinas.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 			dispose();
 		}
+
 	}
 
 	private void initGUI() {
-		this.setTitle("Agregar Casilla");
+		this.setTitle("Agregar Relación de Confianza");
 		this.setLayout(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(340, 140);
 		this.setResizable(false);
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				AgregarCasillaDialog.this.dispose();
+				AgregarRelacionConfianzaDialog.this.dispose();
 			}
 		});
 
 		Container contentPane = getContentPane();
 
-		direccionLabel = new JLabel();
-		direccionLabel.setText("Dirección");
-		contentPane.add(direccionLabel);
-		direccionLabel.setBounds(10, 10, 100, 20);
+		oficinaOrigenLabel = new JLabel();
+		oficinaOrigenLabel.setText("Oficina Origen");
+		contentPane.add(oficinaOrigenLabel);
+		oficinaOrigenLabel.setBounds(10, 40, 100, 20);
 
-		direccionTextField = new JTextField();
-		direccionTextField.setText("");
-		contentPane.add(direccionTextField);
-		direccionTextField.setBounds(110, 10, 200, 20);
+		oficinaOrigenComboBox = new JComboBox();
+		contentPane.add(oficinaOrigenComboBox);
+		oficinaDestinoComboBox.setBounds(110, 10, 200, 20);
 
-		usuarioLabel = new JLabel();
-		usuarioLabel.setText("Usuario");
-		contentPane.add(usuarioLabel);
-		usuarioLabel.setBounds(10, 40, 100, 20);
+		oficinaDestinoLabel = new JLabel();
+		oficinaDestinoLabel.setText("Oficina Destino");
+		contentPane.add(oficinaDestinoLabel);
+		oficinaDestinoLabel.setBounds(10, 10, 100, 20);
 
-		usuarioComboBox = new JComboBox();
-		contentPane.add(usuarioComboBox);
-		usuarioComboBox.setBounds(110, 40, 200, 20);
+		oficinaDestinoComboBox = new JComboBox();
+		contentPane.add(oficinaDestinoComboBox);
+		oficinaOrigenComboBox.setBounds(110, 40, 200, 20);
 
 		aceptarButton = new JButton();
 		aceptarButton.setText("Aceptar");
@@ -91,15 +91,15 @@ public class AgregarCasillaDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int idUsuario = ((UsuarioVO) usuarioComboBox.getSelectedItem()).getId();
-				String direccion = direccionTextField.getText();
+				int idOficinaOrigen = ((OficinaVO) oficinaOrigenComboBox.getSelectedItem()).getId();
+				int idOficinaDestino = ((OficinaVO) oficinaDestinoComboBox.getSelectedItem()).getId();
 				try {
-					getControladorGestion().agregarCasilla(idUsuario, direccion);
+					getControladorGestion().agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al agregar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al agregar la Relación de Confianza.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
-				AgregarCasillaDialog.this.dispose();
+				AgregarRelacionConfianzaDialog.this.dispose();
 			}
 		});
 
@@ -111,7 +111,7 @@ public class AgregarCasillaDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AgregarCasillaDialog.this.setVisible(false);
+				AgregarRelacionConfianzaDialog.this.setVisible(false);
 			}
 		});
 

@@ -7,20 +7,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import controlador.ControladorGestion;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 public class AgregarUsuarioDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -29,10 +21,10 @@ public class AgregarUsuarioDialog extends JDialog {
 	private JButton cancelarButton;
 
 	private JLabel nombreLabel;
-	private JTextArea nombreTextArea;
+	private JTextField nombreTextField;
 
 	private JLabel passwordLabel;
-	private JTextArea passwordTextArea;
+	private JTextField passwordTextField;
 
 	private ControladorGestion controladorGestion;
 
@@ -43,6 +35,7 @@ public class AgregarUsuarioDialog extends JDialog {
 	}
 
 	private void initGUI() {
+		this.setTitle("Agregar Usuario");
 		this.setLayout(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(340, 140);
@@ -55,20 +48,20 @@ public class AgregarUsuarioDialog extends JDialog {
 		contentPane.add(nombreLabel);
 		nombreLabel.setBounds(10, 10, 100, 20);
 
-		nombreTextArea = new JTextArea();
-		nombreTextArea.setText("");
-		contentPane.add(nombreTextArea);
-		nombreTextArea.setBounds(110, 10, 200, 20);
+		nombreTextField = new JTextField();
+		nombreTextField.setText("");
+		contentPane.add(nombreTextField);
+		nombreTextField.setBounds(110, 10, 200, 20);
 
 		passwordLabel = new JLabel();
 		passwordLabel.setText("Contraseña");
 		contentPane.add(passwordLabel);
 		passwordLabel.setBounds(10, 40, 100, 20);
 
-		passwordTextArea = new JTextArea();
-		passwordTextArea.setText("");
-		contentPane.add(passwordTextArea);
-		passwordTextArea.setBounds(110, 40, 200, 20);
+		passwordTextField = new JPasswordField();
+		passwordTextField.setText("");
+		contentPane.add(passwordTextField);
+		passwordTextField.setBounds(110, 40, 200, 20);
 
 		aceptarButton = new JButton();
 		aceptarButton.setText("Aceptar");
@@ -78,9 +71,14 @@ public class AgregarUsuarioDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String usuario = nombreTextArea.getText();
-				String password = passwordTextArea.getText();
-				getControladorGestion().agregarUsuario(usuario, password);
+				String usuario = nombreTextField.getText();
+				String password = passwordTextField.getText();
+				try {
+					getControladorGestion().agregarUsuario(usuario, password);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al agregar el Usuario.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
 				AgregarUsuarioDialog.this.setVisible(false);
 			}
 		});

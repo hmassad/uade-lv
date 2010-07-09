@@ -33,9 +33,8 @@ public class AgregarCasillaDialog extends JDialog {
 
 	public AgregarCasillaDialog(ControladorGestion controladorGestion) {
 		super();
-		this.setControladorGestion(controladorGestion);
+		this.controladorGestion = controladorGestion;
 		initGUI();
-		cargarDatos();
 	}
 
 	private void cargarDatos() {
@@ -82,6 +81,7 @@ public class AgregarCasillaDialog extends JDialog {
 		usuarioComboBox = new JComboBox();
 		contentPane.add(usuarioComboBox);
 		usuarioComboBox.setBounds(110, 40, 200, 20);
+		cargarDatos();
 
 		aceptarButton = new JButton();
 		aceptarButton.setText("Aceptar");
@@ -94,7 +94,7 @@ public class AgregarCasillaDialog extends JDialog {
 				int idUsuario = ((UsuarioVO) usuarioComboBox.getSelectedItem()).getId();
 				String direccion = direccionTextField.getText();
 				try {
-					getControladorGestion().agregarCasilla(idUsuario, direccion);
+					controladorGestion.agregarCasilla(idUsuario, direccion);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al agregar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
@@ -117,13 +117,5 @@ public class AgregarCasillaDialog extends JDialog {
 
 		this.setModal(true);
 		this.setVisible(true);
-	}
-
-	public ControladorGestion getControladorGestion() {
-		return controladorGestion;
-	}
-
-	public void setControladorGestion(ControladorGestion controladorGestion) {
-		this.controladorGestion = controladorGestion;
 	}
 }

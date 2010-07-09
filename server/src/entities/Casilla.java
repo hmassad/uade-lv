@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +35,7 @@ public class Casilla implements Serializable {
 	@JoinTable(name = "CasillasPorOficina", joinColumns = { @JoinColumn(name = "casilla_id") }, inverseJoinColumns = { @JoinColumn(name = "oficina_id") })
 	private Collection<Oficina> oficinas = new ArrayList<Oficina>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.casilla")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.casilla", cascade = { CascadeType.ALL })
 	private Collection<MensajeEnCasilla> mensajes = new ArrayList<MensajeEnCasilla>();
 
 	public int getId() {

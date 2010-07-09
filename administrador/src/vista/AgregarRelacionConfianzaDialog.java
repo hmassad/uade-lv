@@ -34,7 +34,6 @@ public class AgregarRelacionConfianzaDialog extends JDialog {
 		super();
 		this.setControladorGestion(controladorGestion);
 		initGUI();
-		cargarDatos();
 	}
 
 	private void cargarDatos() {
@@ -68,20 +67,22 @@ public class AgregarRelacionConfianzaDialog extends JDialog {
 		oficinaOrigenLabel = new JLabel();
 		oficinaOrigenLabel.setText("Oficina Origen");
 		contentPane.add(oficinaOrigenLabel);
-		oficinaOrigenLabel.setBounds(10, 40, 100, 20);
+		oficinaOrigenLabel.setBounds(10, 10, 100, 20);
 
 		oficinaOrigenComboBox = new JComboBox();
 		contentPane.add(oficinaOrigenComboBox);
-		oficinaDestinoComboBox.setBounds(110, 10, 200, 20);
+		oficinaOrigenComboBox.setBounds(110, 10, 200, 20);
 
 		oficinaDestinoLabel = new JLabel();
 		oficinaDestinoLabel.setText("Oficina Destino");
 		contentPane.add(oficinaDestinoLabel);
-		oficinaDestinoLabel.setBounds(10, 10, 100, 20);
+		oficinaDestinoLabel.setBounds(10, 40, 100, 20);
 
 		oficinaDestinoComboBox = new JComboBox();
 		contentPane.add(oficinaDestinoComboBox);
-		oficinaOrigenComboBox.setBounds(110, 40, 200, 20);
+		oficinaDestinoComboBox.setBounds(110, 40, 200, 20);
+
+		cargarDatos();
 
 		aceptarButton = new JButton();
 		aceptarButton.setText("Aceptar");

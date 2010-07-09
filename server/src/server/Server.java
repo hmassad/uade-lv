@@ -44,10 +44,9 @@ public class Server {
 
 	private void inicializarRmi() {
 		try {
-			// System.setSecurityManager(new RMISecurityManager());
 			LocateRegistry.createRegistry(1099);
-			Naming.rebind("//localhost/gestion", gestion);
-			Naming.rebind("//localhost/mensajeria", mensajeria);
+			Naming.rebind("rmi://localhost/gestion", gestion);
+			Naming.rebind("rmi://localhost/mensajeria", mensajeria);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -55,7 +54,7 @@ public class Server {
 	}
 
 	private void desinicializarRmi() throws RemoteException, MalformedURLException, NotBoundException {
-		Naming.unbind("//localhost/gestion");
-		Naming.unbind("//localhost/mensajeria");
+		Naming.unbind("rmi://localhost/gestion");
+		Naming.unbind("rmi://localhost/mensajeria");
 	}
 }

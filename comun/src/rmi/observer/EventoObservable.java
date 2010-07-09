@@ -1,4 +1,4 @@
-package remoteObserver;
+package rmi.observer;
 
 public enum EventoObservable {
 	Usuarios,

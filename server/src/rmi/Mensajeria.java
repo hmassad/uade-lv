@@ -44,6 +44,20 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 		super.finalize();
 	}
 
+	@Override
+	public boolean validarLogin(String nombreUsuario, String password) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			Usuario usuario = buscarUsuarioPorNombre(nombreUsuario, em);
+			if (usuario == null) {
+				throw new RemoteException("Usuario no encontrado.");
+			}
+			return usuario.getPassword().equals(password);
+		} finally {
+			em.close();
+		}
+	}
+
 	private Usuario buscarUsuarioPorNombre(String nombreUsuario, EntityManager em) {
 		try {
 			return (Usuario) em.createQuery("select u from Usuario u where u.nombre = :nombre").setParameter("nombre", nombreUsuario).getSingleResult();
@@ -219,20 +233,6 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 				}
 			}
 			return direcciones;
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public boolean validarLogin(String nombreUsuario, String password) throws RemoteException {
-		EntityManager em = emf.createEntityManager();
-		try {
-			Usuario usuario = buscarUsuarioPorNombre(nombreUsuario, em);
-			if (usuario == null) {
-				throw new RemoteException("Usuario no encontrado.");
-			}
-			return usuario.getPassword().equals(password);
 		} finally {
 			em.close();
 		}

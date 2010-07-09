@@ -3,8 +3,8 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
+import java.rmi.RemoteException;
+import java.util.Collection;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -12,14 +12,18 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
+import rmi.observer.EventoObservable;
+import rmi.observer.LocalObserver;
+import rmi.observer.RemoteObserverLocalObservable;
 import controlador.ControladorGestion;
 
-public abstract class AbmBasePanel extends JPanel implements Observer {
+public abstract class AbmBasePanel extends JPanel implements LocalObserver {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,13 +37,18 @@ public abstract class AbmBasePanel extends JPanel implements Observer {
 	public AbmBasePanel(ControladorGestion controladorGestion) {
 		super();
 		this.controladorGestion = controladorGestion;
-		controladorGestion.addObserver(this);
+		try {
+			controladorGestion.addLocalObserver(this);
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al suscribirse al Server.\n\"%s\"", e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 		initGUI();
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-		controladorGestion.deleteObserver(this);
+		controladorGestion.deleteLocalObserver(this);
 		super.finalize();
 	}
 
@@ -96,7 +105,7 @@ public abstract class AbmBasePanel extends JPanel implements Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object eventoObservable) {
+	public void update(RemoteObserverLocalObservable remoteObserverLocalObservable, EventoObservable eventoObservable) {
 		if (getCondicionActualizacion(eventoObservable)) {
 			actualizarTabla();
 		}
@@ -130,6 +139,6 @@ public abstract class AbmBasePanel extends JPanel implements Observer {
 
 	protected abstract boolean getCondicionActualizacion(Object eventoObservable);
 
-	protected abstract JButton[] getBotonesAdicionales();
+	protected abstract Collection<JButton> getBotonesAdicionales();
 
 }

@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import remoteObserver.EventoObservable;
+import rmi.observer.EventoObservable;
 import beans.LogTraficoVO;
 import controlador.ControladorGestion;
 

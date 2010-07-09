@@ -16,6 +16,8 @@
 	}
 	// Validar usuario e insertar los atributos a la sesión
 	String usuario = (String) request.getParameter("usuario");
+	
+	// TODO: Agregar método de encriptación
 	String password = (String) request.getParameter("password");
 	String urlDestino =  (String) request.getParameter("urlDestino");
 	if (urlDestino == null) {

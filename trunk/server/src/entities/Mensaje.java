@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,13 +34,13 @@ public class Mensaje implements Serializable {
 	@ManyToOne
 	private Casilla origen;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.mensaje")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.mensaje", cascade = { CascadeType.ALL })
 	private Collection<MensajeEnCasilla> destinos = new ArrayList<MensajeEnCasilla>();
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo")
 	private MensajeTipo tipo;
-	
+
 	@Column(name = "asunto")
 	private String asunto;
 

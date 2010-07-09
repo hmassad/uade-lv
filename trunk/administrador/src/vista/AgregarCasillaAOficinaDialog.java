@@ -39,7 +39,6 @@ public class AgregarCasillaAOficinaDialog extends JDialog {
 		this.idCasilla = idCasilla;
 		this.direccionCasilla = direccionCasilla;
 		initGUI();
-		cargarDatos();
 	}
 
 	private void cargarDatos() {
@@ -93,6 +92,7 @@ public class AgregarCasillaAOficinaDialog extends JDialog {
 		oficinasComboBox = new JComboBox();
 		contentPane.add(oficinasComboBox);
 		oficinasComboBox.setBounds(110, 40, 200, 20);
+		cargarDatos();
 
 		aceptarButton = new JButton();
 		aceptarButton.setText("Aceptar");

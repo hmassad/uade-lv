@@ -150,6 +150,7 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 						throw new Exception("Casilla destino no válida.");
 					}
 
+					// TODO: Probar bloqueo
 					if (casillaDestino.getUsuario().getCasillasBloqueadas().contains(casillaOrigen)) {
 						Mensaje mensajeBloqueo = new Mensaje();
 						mensajeBloqueo.setFecha(new Date());

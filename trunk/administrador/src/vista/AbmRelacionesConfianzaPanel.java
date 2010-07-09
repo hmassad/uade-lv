@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JButton;
@@ -9,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import remoteObserver.EventoObservable;
+import rmi.observer.EventoObservable;
 import beans.RelacionConfianzaVO;
 import controlador.ControladorGestion;
 
@@ -139,8 +140,8 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 	}
 
 	@Override
-	protected JButton[] getBotonesAdicionales() {
-		return null;
+	protected Collection<JButton> getBotonesAdicionales() {
+		return new ArrayList<JButton>();
 	}
 
 	@Override

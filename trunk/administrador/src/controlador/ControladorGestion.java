@@ -1,71 +1,75 @@
 package controlador;
 
-import java.io.Serializable;
 import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.Collection;
-import java.util.Observable;
 
-import remoteObserver.EventoObservable;
-import remoteObserver.RemoteObservable;
-import remoteObserver.RemoteObserver;
 import rmi.InterfazGestion;
+import rmi.observer.EventoObservable;
+import rmi.observer.LocalObserver;
+import rmi.observer.RemoteObservable;
+import rmi.observer.RemoteObserverLocalObservable;
+import rmi.observer.RemoteObserverLocalObservableImpl;
 import beans.CasillaVO;
 import beans.LogTraficoVO;
 import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
 
-public class ControladorGestion extends Observable implements RemoteObserver, Serializable {
+public class ControladorGestion implements RemoteObserverLocalObservable {
 
 	private static final long serialVersionUID = 1L;
 
 	private InterfazGestion gestion;
 
+	private RemoteObserverLocalObservable remoteObserverLocalObservable;
+
 	public ControladorGestion() throws Exception {
-		System.setSecurityManager(new RMISecurityManager());
-		gestion = (InterfazGestion) Naming.lookup("//localhost/gestion");
-		gestion.addRemoteObserver(this);
+		super();
+		gestion = (InterfazGestion) Naming.lookup("rmi://localhost/gestion");
+		remoteObserverLocalObservable = new RemoteObserverLocalObservableImpl();
+		gestion.addRemoteObserver(remoteObserverLocalObservable);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-		gestion.removeRemoteObserver(this);
+		gestion.deleteRemoteObserver(remoteObserverLocalObservable);
 		super.finalize();
 	}
 
 	@Override
-	public void update(RemoteObservable observable, EventoObservable roe) throws RemoteException {
-		notifyObservers(roe);
+	public void addLocalObserver(LocalObserver localObserver) throws RemoteException {
+		remoteObserverLocalObservable.addLocalObserver(localObserver);
 	}
 
-	public Collection<CasillaVO> obtenerCasillas() throws Exception {
-		return gestion.obtenerCasillas();
+	@Override
+	public void deleteLocalObserver(LocalObserver localObserver) throws RemoteException {
+		remoteObserverLocalObservable.deleteLocalObserver(localObserver);
+	}
+
+	@Override
+	public void update(RemoteObservable observable, EventoObservable eventoObservable) throws RemoteException {
+		remoteObserverLocalObservable.update(observable, eventoObservable);
 	}
 
 	public Collection<UsuarioVO> obtenerUsuarios() throws Exception {
 		return gestion.obtenerUsuarios();
 	}
 
-	public Collection<CasillaVO> obtenerCasillasPorUsuario(int idUsuario) throws Exception {
-		return gestion.obtenerCasillasPorUsuario(idUsuario);
-	}
-
-	public Collection<OficinaVO> obtenerOficinasPorCasilla(int idCasilla) throws Exception {
-		return gestion.obtenerOficinasPorCasilla(idCasilla);
-	}
-
 	public void agregarUsuario(String nombreUsuario, String password) throws Exception {
 		gestion.agregarUsuario(nombreUsuario, password);
 	}
 
-	public void agregarOficina(String nombre) throws Exception {
-		gestion.agregarOficina(nombre);
+	public void borrarUsuario(int id) throws Exception {
+		gestion.borrarUsuario(id);
 	}
 
-	public void agregarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws Exception {
-		gestion.agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
+	public Collection<CasillaVO> obtenerCasillas() throws Exception {
+		return gestion.obtenerCasillas();
+	}
+
+	public Collection<CasillaVO> obtenerCasillasPorUsuario(int idUsuario) throws Exception {
+		return gestion.obtenerCasillasPorUsuario(idUsuario);
 	}
 
 	public void agregarCasilla(int idUsuario, String direccion) throws Exception {
@@ -80,24 +84,32 @@ public class ControladorGestion extends Observable implements RemoteObserver, Se
 		gestion.borrarCasillaDeOficina(idOficina, idCasilla);
 	}
 
-	public void eliminarUsuario(int id) throws Exception {
-		gestion.borrarUsuario(id);
+	public void borrarCasilla(int id) throws Exception {
+		gestion.borrarCasilla(id);
 	}
 
-	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() throws Exception {
-		return gestion.obtenerRelacionesConfianza();
+	public Collection<OficinaVO> obtenerOficinasPorCasilla(int idCasilla) throws Exception {
+		return gestion.obtenerOficinasPorCasilla(idCasilla);
 	}
 
 	public Collection<OficinaVO> obtenerOficinas() throws Exception {
 		return gestion.obtenerOficinas();
 	}
 
+	public void agregarOficina(String nombre) throws Exception {
+		gestion.agregarOficina(nombre);
+	}
+
 	public void borrarOficina(int id) throws Exception {
 		gestion.borrarOficina(id);
 	}
 
-	public void borrarCasilla(int id) throws Exception {
-		gestion.borrarCasilla(id);
+	public Collection<RelacionConfianzaVO> obtenerRelacionesConfianza() throws Exception {
+		return gestion.obtenerRelacionesConfianza();
+	}
+
+	public void agregarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws Exception {
+		gestion.agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 	}
 
 	public void eliminarRelacionConfianza(int idOficinaOrigen, int idOficinaDestino) throws Exception {

@@ -4,7 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
 
-import remoteObserver.RemoteObservable;
+import rmi.observer.RemoteObservable;
+
 import beans.CasillaVO;
 import beans.LogTraficoVO;
 import beans.OficinaVO;

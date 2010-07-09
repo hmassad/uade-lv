@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import remoteObserver.EventoObservable;
+import rmi.observer.EventoObservable;
 import beans.CasillaVO;
 import controlador.ControladorGestion;
 
@@ -137,7 +137,7 @@ public class AbmCasillasPanel extends AbmBasePanel {
 	}
 
 	@Override
-	protected JButton[] getBotonesAdicionales() {
+	protected Collection<JButton> getBotonesAdicionales() {
 		Collection<JButton> botones = new ArrayList<JButton>();
 		JButton agregarAOficinaButton = new JButton();
 		agregarAOficinaButton.setText("Agregar A Oficina");
@@ -173,7 +173,7 @@ public class AbmCasillasPanel extends AbmBasePanel {
 			}
 		});
 		botones.add(borrarDeOficinaButton);
-		return (JButton[]) botones.toArray();
+		return botones;
 	}
 
 	@Override

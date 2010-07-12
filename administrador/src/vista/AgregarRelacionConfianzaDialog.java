@@ -1,21 +1,19 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.Collection;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import beans.OficinaVO;
 import controlador.ControladorGestion;
 
-public class AgregarRelacionConfianzaDialog extends JDialog {
+public class AgregarRelacionConfianzaDialog extends BaseDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,43 +23,40 @@ public class AgregarRelacionConfianzaDialog extends JDialog {
 	private JLabel oficinaDestinoLabel;
 	private JComboBox oficinaDestinoComboBox;
 
-	private JButton aceptarButton;
-	private JButton cancelarButton;
-
-	private ControladorGestion controladorGestion;
-
 	public AgregarRelacionConfianzaDialog(ControladorGestion controladorGestion) {
-		super();
-		this.setControladorGestion(controladorGestion);
-		initGUI();
+		super(controladorGestion);
+		super.init();
 	}
 
-	private void cargarDatos() {
+	@Override
+	protected void cargarDatos() throws Exception {
+		Collection<OficinaVO> oficinas;
 		try {
-			for (OficinaVO o : controladorGestion.obtenerOficinas()) {
-				oficinaOrigenComboBox.addItem(o);
-				oficinaDestinoComboBox.addItem(o);
-			}
+			oficinas = controladorGestion.obtenerOficinas();
 		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Oficinas.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
-			e1.printStackTrace();
-			dispose();
+			throw new Exception(String.format("Ocurrió un error al listar Oficinas.\n\"%s\"", e1.getMessage()));
 		}
-
+		if (oficinas.size() == 0) {
+			throw new Exception("No se registran Oficinas.");
+		}
+		for (OficinaVO o : oficinas) {
+			oficinaOrigenComboBox.addItem(o);
+			oficinaDestinoComboBox.addItem(o);
+		}
 	}
 
-	private void initGUI() {
-		this.setTitle("Agregar Relación de Confianza");
-		this.setLayout(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(340, 140);
-		this.setResizable(false);
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				AgregarRelacionConfianzaDialog.this.dispose();
-			}
-		});
+	@Override
+	protected String getTitulo() {
+		return "Agregar Relación de Confianza";
+	}
 
+	@Override
+	protected Dimension getTamaño() {
+		return new Dimension(340, 140);
+	}
+
+	@Override
+	protected void inicializarVentanaEspecializada() {
 		Container contentPane = getContentPane();
 
 		oficinaOrigenLabel = new JLabel();
@@ -81,50 +76,24 @@ public class AgregarRelacionConfianzaDialog extends JDialog {
 		oficinaDestinoComboBox = new JComboBox();
 		contentPane.add(oficinaDestinoComboBox);
 		oficinaDestinoComboBox.setBounds(110, 40, 200, 20);
+	}
 
-		cargarDatos();
-
-		aceptarButton = new JButton();
-		aceptarButton.setText("Aceptar");
-		contentPane.add(aceptarButton);
-		aceptarButton.setBounds(110, 70, 80, 20);
-		aceptarButton.addActionListener(new ActionListener() {
+	@Override
+	protected ActionListener getAceptarActionListener() {
+		return new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int idOficinaOrigen = ((OficinaVO) oficinaOrigenComboBox.getSelectedItem()).getId();
 				int idOficinaDestino = ((OficinaVO) oficinaDestinoComboBox.getSelectedItem()).getId();
 				try {
-					getControladorGestion().agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
+					controladorGestion.agregarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al agregar la Relación de Confianza.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 				AgregarRelacionConfianzaDialog.this.dispose();
 			}
-		});
-
-		cancelarButton = new JButton();
-		cancelarButton.setText("Cancelar");
-		contentPane.add(cancelarButton);
-		cancelarButton.setBounds(230, 70, 80, 20);
-		cancelarButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AgregarRelacionConfianzaDialog.this.setVisible(false);
-			}
-		});
-
-		this.setModal(true);
-		this.setVisible(true);
-	}
-
-	public ControladorGestion getControladorGestion() {
-		return controladorGestion;
-	}
-
-	public void setControladorGestion(ControladorGestion controladorGestion) {
-		this.controladorGestion = controladorGestion;
+		};
 	}
 }

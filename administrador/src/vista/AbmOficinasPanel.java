@@ -72,8 +72,7 @@ public class AbmOficinasPanel extends AbmBasePanel {
 			return data[row][col];
 		}
 
-		@SuppressWarnings( { "unchecked" })
-		public Class getColumnClass(int c) {
+		public Class<?> getColumnClass(int c) {
 			if (data == null)
 				return null;
 			if (data.length > 0) {
@@ -117,7 +116,7 @@ public class AbmOficinasPanel extends AbmBasePanel {
 							getControladorGestion().borrarOficina(id);
 						}
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al eliminar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(AbmOficinasPanel.this, String.format("Ocurrió un error al eliminar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 				}
@@ -131,7 +130,10 @@ public class AbmOficinasPanel extends AbmBasePanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Modificar Oficina
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					new ModificarOficinaDialog(getControladorGestion(), (Integer) row[0], (String) row[1]);
+				}
 			}
 		};
 	}

@@ -4,9 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,10 +19,12 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import rmi.observer.EventoObservable;
+import rmi.observer.LocalObserver;
+import rmi.observer.RemoteObserverLocalObservable;
 import beans.LogTraficoVO;
 import controlador.ControladorGestion;
 
-public class LogsPanel extends JPanel implements Observer {
+public class LogsPanel extends JPanel implements LocalObserver {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +35,12 @@ public class LogsPanel extends JPanel implements Observer {
 	public LogsPanel(ControladorGestion controladorGestion) {
 		super();
 		setControladorGestion(controladorGestion);
+		try {
+			controladorGestion.addLocalObserver(this);
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(this, String.format("Ocurrió un error al suscribirse al Server.\n\"%s\"", e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 		initGUI();
 	}
 
@@ -91,8 +98,7 @@ public class LogsPanel extends JPanel implements Observer {
 			return data[row][col];
 		}
 
-		@SuppressWarnings("unchecked")
-		public Class getColumnClass(int c) {
+		public Class<?> getColumnClass(int c) {
 			if (data == null)
 				return null;
 			if (data.length > 0) {
@@ -139,7 +145,7 @@ public class LogsPanel extends JPanel implements Observer {
 				try {
 					getControladorGestion().borrarLogsTrafico();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Logs.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(LogsPanel.this, String.format("Ocurrió un error al listar Logs.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
@@ -151,8 +157,8 @@ public class LogsPanel extends JPanel implements Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object eventoOvservable) {
-		if (eventoOvservable.equals(EventoObservable.LogTrafico)) {
+	public void update(RemoteObserverLocalObservable remoteObserverLocalObservable, EventoObservable eventoObservable) throws RemoteException {
+		if (eventoObservable.equals(EventoObservable.LogTrafico)) {
 			logTable.setModel(new LogTableModel());
 		}
 	}

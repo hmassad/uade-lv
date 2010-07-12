@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import seguridad.Encriptador;
 import beans.CasillaVO;
 import beans.MensajeVO;
 import entities.Casilla;
@@ -49,10 +50,12 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 		EntityManager em = emf.createEntityManager();
 		try {
 			Usuario usuario = buscarUsuarioPorNombre(nombreUsuario, em);
-			if (usuario == null) {
-				throw new RemoteException("Usuario no encontrado.");
+			try {
+				return usuario.getPassword().equals(Encriptador.encriptar(password));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
 			}
-			return usuario.getPassword().equals(password);
 		} finally {
 			em.close();
 		}
@@ -91,7 +94,11 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 				m.setCuerpo(cm.getMensaje().getCuerpo());
 				m.setTipo(cm.getMensaje().getTipo());
 
-				m.setOrigen(cm.getMensaje().getOrigen().getDireccion());
+				if (cm.getMensaje().getOrigen() != null) {
+					m.setOrigen(cm.getMensaje().getOrigen().getDireccion());
+				} else {
+					m.setOrigen(null);
+				}
 				for (MensajeEnCasilla destino : cm.getMensaje().getDestinos()) {
 					m.agregarDestino(destino.getCasilla().getDireccion());
 				}
@@ -140,8 +147,8 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 				mensaje.setOrigen(casillaOrigen);
 
 				log.setFecha(mensaje.getFecha());
-				log.setMensaje(mensaje);
-				log.setOrigen(casillaOrigen);
+				log.setMensaje(mensaje.getAsunto());
+				log.setOrigen(casillaOrigen.getDireccion());
 
 				for (String s : destinos) {
 					Casilla casillaDestino = buscarCasillaPorDireccion(s, em);
@@ -150,18 +157,17 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 						throw new Exception("Casilla destino no válida.");
 					}
 
-					// TODO: Probar bloqueo
 					if (casillaDestino.getUsuario().getCasillasBloqueadas().contains(casillaOrigen)) {
 						Mensaje mensajeBloqueo = new Mensaje();
 						mensajeBloqueo.setFecha(new Date());
 						mensajeBloqueo.setAsunto("Aviso de Bloqueo");
 						mensajeBloqueo.setCuerpo(String.format("Su mensaje con asunto \"%s\", enviado a \"%s\", no se puede enviar porque el usuario bloqueó la recepción desde esta casilla.", asunto,
 								s));
-						mensajeBloqueo.setTipo(tipo);
+						mensajeBloqueo.setTipo(MensajeTipo.Informativo);
 						mensajeBloqueo.setOrigen(null);
 
 						MensajeEnCasilla mc = new MensajeEnCasilla();
-						mc.setCasilla(casillaDestino);
+						mc.setCasilla(casillaOrigen);
 						mc.setMensaje(mensajeBloqueo);
 						mc.setEstado(MensajeEstado.NoLeido);
 
@@ -175,7 +181,7 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 
 						em.persist(mc);
 					}
-					log.agregarDestino(casillaDestino);
+					log.agregarDestino(casillaDestino.getDireccion());
 				}
 
 				em.persist(log);
@@ -183,6 +189,7 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 				transaction.commit();
 			} catch (Exception e) {
 				transaction.rollback();
+				e.printStackTrace();
 				throw new RemoteException("Ocurrió un error al enviar el mensaje.", e);
 			}
 		} finally {
@@ -244,20 +251,20 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 		EntityManager em = emf.createEntityManager();
 		try {
 			Usuario usuario = buscarUsuarioPorNombre(nombreUsuario, em);
-			if (usuario == null) {
-				throw new RemoteException("Usuario no encontrado.");
+			try {
+				usuario.setPassword(Encriptador.encriptar(password));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
 			}
-			usuario.setPassword(password);
 			EntityTransaction et = em.getTransaction();
 			try {
 				et.begin();
 				em.flush();
-				if (et.isActive()) {
-					et.commit();
-				}
+				et.commit();
 			} catch (Exception e) {
 				et.rollback();
-				throw new RemoteException("Ocurrió un error al cambiar la contraseña.", e);
+				throw new RemoteException(e.getMessage());
 			}
 		} finally {
 			em.close();
@@ -367,10 +374,11 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 					mensajeVO.setCuerpo(mc.getMensaje().getCuerpo());
 					mensajeVO.setTipo(mc.getMensaje().getTipo());
 					mensajeVO.setEstado(mc.getEstado());
-					mensajeVO.setOrigen(mc.getMensaje().getOrigen().getDireccion());
+					mensajeVO.setOrigen(mc.getMensaje().getOrigen() == null ? null : mc.getMensaje().getOrigen().getDireccion());
 					for (MensajeEnCasilla destino : mc.getMensaje().getDestinos()) {
 						mensajeVO.agregarDestino(destino.getCasilla().getDireccion());
 					}
+					mensajesVO.add(mensajeVO);
 				}
 			}
 			return mensajesVO;
@@ -408,7 +416,11 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 					mensajeVO.setTipo(mc.getMensaje().getTipo());
 
 					mensajeVO.setEstado(mc.getEstado());
-					mensajeVO.setOrigen(mc.getMensaje().getOrigen().getDireccion());
+					if (mc.getMensaje().getOrigen() != null) {
+						mensajeVO.setOrigen(mc.getMensaje().getOrigen().getDireccion());
+					} else {
+						mensajeVO.setOrigen(null);
+					}
 					for (MensajeEnCasilla destino : mc.getMensaje().getDestinos()) {
 						if (!destino.getCasilla().equals(mc.getMensaje().getOrigen())) {
 							mensajeVO.agregarDestino(destino.getCasilla().getDireccion());
@@ -466,5 +478,32 @@ public class Mensajeria extends UnicastRemoteObject implements InterfazMensajeri
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void bloquearCasilla(String nombreUsuario, String direccionCasilla) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			EntityTransaction et = em.getTransaction();
+			try {
+				et.begin();
+				Usuario usuario = buscarUsuarioPorNombre(nombreUsuario, em);
+				Casilla casilla = buscarCasillaPorDireccion(direccionCasilla, em);
+				usuario.agregarCasillaBloqueada(casilla);
+				em.merge(usuario);
+				et.commit();
+			} catch (Exception e) {
+				et.rollback();
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
+			}
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public int obtenerCantidadMensajesNoLeidosDeUsuario(String nombreUsuario) throws RemoteException {
+		return listarMensajesPorUsuarioPorEstado(nombreUsuario, MensajeEstado.NoLeido).size();
 	}
 }

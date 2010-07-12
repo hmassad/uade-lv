@@ -22,9 +22,9 @@ public class Oficina implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "oficina_id", unique = true)
 	private int id;
 
+	@Column(unique = true)
 	private String nombre;
 
 	@ManyToMany
@@ -77,5 +77,18 @@ public class Oficina implements Serializable {
 	public void borrarCasilla(Casilla casilla) {
 		casillas.remove(casilla);
 		casilla.removerOficina(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Oficina) {
+			return this.getId() == ((Oficina) obj).getId();
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "[id: " + getId() + "; nombre: " + getNombre() + "]";
 	}
 }

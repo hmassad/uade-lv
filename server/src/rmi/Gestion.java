@@ -3,8 +3,10 @@ package rmi;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,6 +19,7 @@ import rmi.observer.EventoObservable;
 import rmi.observer.RemoteObservable;
 import rmi.observer.RemoteObservableImpl;
 import rmi.observer.RemoteObserver;
+import seguridad.Encriptador;
 import beans.CasillaVO;
 import beans.LogTraficoVO;
 import beans.OficinaVO;
@@ -71,10 +74,10 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query q = em.createQuery("SELECT u FROM Usuario u");
-	
+
 			@SuppressWarnings("unchecked")
 			List<Usuario> usuarios = (List<Usuario>) q.getResultList();
-	
+
 			ArrayList<UsuarioVO> usuariosVO = new ArrayList<UsuarioVO>();
 			for (Usuario usuario : usuarios) {
 				UsuarioVO usuarioVO = new UsuarioVO();
@@ -92,16 +95,16 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 	public void agregarUsuario(String nombreUsuario, String password) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			EntityTransaction tx = em.getTransaction();
+			EntityTransaction et = em.getTransaction();
 			try {
-				tx.begin();
+				et.begin();
 				Usuario usuario = new Usuario();
 				usuario.setNombre(nombreUsuario);
-				usuario.setPassword(password);
+				usuario.setPassword(Encriptador.encriptar(password));
 				em.persist(usuario);
-				tx.commit();
+				et.commit();
 			} catch (Exception e) {
-				tx.rollback();
+				et.rollback();
 				e.printStackTrace();
 				throw new RemoteException(e.getMessage());
 			}
@@ -109,45 +112,68 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 			em.close();
 		}
 		notifyRemoteObservers(EventoObservable.Usuarios);
+	}
+
+	@Override
+	public void modificarUsuario(int idUsuario, String nombre) throws RemoteException {
+		EntityManager em = emf.createEntityManager();
+		try {
+			EntityTransaction et = em.getTransaction();
+			try {
+				et.begin();
+
+				Usuario usuario = em.find(Usuario.class, idUsuario);
+				usuario.setNombre(nombre);
+				em.merge(usuario);
+
+				et.commit();
+			} catch (Exception e) {
+				et.rollback();
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
+			}
+		} finally {
+			em.close();
+		}
+		notifyRemoteObservers(EventoObservable.Usuarios);
+	}
+
+	@Override
+	public String resetearContraseña(int idUsuario) throws RemoteException {
+		String nuevaContraseña = new SimpleDateFormat("ddMMyyyy").format(new Date());
+		EntityManager em = emf.createEntityManager();
+		try {
+			EntityTransaction et = em.getTransaction();
+			try {
+				et.begin();
+				Usuario usuario = em.find(Usuario.class, idUsuario);
+				usuario.setPassword(Encriptador.encriptar(nuevaContraseña));
+				em.merge(usuario);
+				et.commit();
+			} catch (Exception e) {
+				et.rollback();
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
+			}
+			return nuevaContraseña;
+		} finally {
+			em.close();
+		}
 	}
 
 	@Override
 	public void borrarUsuario(int id) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			EntityTransaction tx = em.getTransaction();
+			EntityTransaction et = em.getTransaction();
 			try {
-				tx.begin();
+				et.begin();
 				Usuario usuario = em.getReference(Usuario.class, id);
 				em.remove(usuario);
 				em.flush();
-				tx.commit();
+				et.commit();
 			} catch (Exception e) {
-				tx.rollback();
-				e.printStackTrace();
-				throw new RemoteException(e.getMessage());
-			}
-		} finally {
-			em.close();
-		}
-		notifyRemoteObservers(EventoObservable.Usuarios);
-	}
-
-	@Override
-	public void modificarUsuario(int idUsuario, String nombre, String password) throws RemoteException {
-		EntityManager em = emf.createEntityManager();
-		try {
-			EntityTransaction tx = em.getTransaction();
-			try {
-				tx.begin();
-				Usuario u = em.find(Usuario.class, idUsuario);
-				u.setNombre(nombre);
-				u.setPassword(password);
-				em.merge(u);
-				em.flush();
-				tx.commit();
-			} catch (Exception e) {
-				tx.rollback();
+				et.rollback();
 				e.printStackTrace();
 				throw new RemoteException(e.getMessage());
 			}
@@ -183,7 +209,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 		try {
 			Casilla casilla = (Casilla) em.find(Casilla.class, idCasilla);
 			if (casilla == null) {
-				throw new RemoteException("No encontre la casilla");
+				throw new RemoteException("Casilla no encontrada.");
 			}
 
 			CasillaVO casillaVO = new CasillaVO();
@@ -215,7 +241,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RemoteException(e.getMessage(), e);
+			throw new RemoteException(e.getMessage());
 		} finally {
 			em.close();
 		}
@@ -241,7 +267,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RemoteException(e.getMessage(), e);
+			throw new RemoteException(e.getMessage());
 		} finally {
 			em.close();
 		}
@@ -265,8 +291,8 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 			usuario.agregarCasilla(casilla);
 
 			// Inicio Transacción
-			EntityTransaction tx = em.getTransaction();
-			tx.begin();
+			EntityTransaction et = em.getTransaction();
+			et.begin();
 			try {
 
 				// Persisto la Casilla
@@ -278,9 +304,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 				em.flush();
 
 				// Commit de la Transacción
-				tx.commit();
+				et.commit();
 			} catch (Exception e) {
-				tx.rollback();
+				et.rollback();
 				e.printStackTrace();
 				throw new RemoteException(e.getMessage());
 			}
@@ -294,9 +320,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 	public void agregarCasillaAOficina(int idOficina, int idCasilla) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			EntityTransaction tx = em.getTransaction();
+			EntityTransaction et = em.getTransaction();
 			try {
-				tx.begin();
+				et.begin();
 				Oficina oficina = em.find(Oficina.class, idOficina);
 				Casilla casilla = em.find(Casilla.class, idCasilla);
 
@@ -306,9 +332,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 				em.merge(casilla);
 				em.flush();
 
-				tx.commit();
+				et.commit();
 			} catch (Exception e) {
-				tx.rollback();
+				et.rollback();
 				e.printStackTrace();
 				throw new RemoteException(e.getMessage());
 			}
@@ -324,7 +350,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 		try {
 			Casilla casilla = em.find(Casilla.class, idCasilla);
 			if (casilla == null) {
-				throw new RemoteException("No encontre la casilla");
+				throw new RemoteException("Casilla no encontrada.");
 			}
 
 			EntityTransaction tx = em.getTransaction();
@@ -350,7 +376,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 		EntityManager em = emf.createEntityManager();
 		try {
 			EntityTransaction tx = em.getTransaction();
-			Casilla casilla = em.getReference(Casilla.class, idCasilla);
+			Casilla casilla = em.find(Casilla.class, idCasilla);
 			tx.begin();
 			try {
 				em.remove(casilla);
@@ -421,7 +447,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 		try {
 			Oficina oficina = em.find(Oficina.class, idOficina);
 			if (oficina == null) {
-				throw new RemoteException("No encontre la oficina.");
+				throw new RemoteException("Oficina no encontrada.");
 			}
 
 			OficinaVO oficinaVO = new OficinaVO();
@@ -437,7 +463,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 	public Collection<OficinaVO> obtenerOficinasPorCasilla(int idCasilla) throws RemoteException {
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createQuery("select o from Oficina o join o.casilla c where c.id = :casilla_id");
+			Query query = em.createQuery("select o from Oficina o join o.casillas c where c.id = :casilla_id");
 			query.setParameter("casilla_id", idCasilla);
 			@SuppressWarnings("unchecked")
 			List<Oficina> oficinas = (List<Oficina>) query.getResultList();
@@ -453,7 +479,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RemoteException(e.getMessage(), e);
+			throw new RemoteException(e.getMessage());
 		} finally {
 			em.close();
 		}
@@ -494,7 +520,7 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 		try {
 			Oficina oficina = (Oficina) em.find(Oficina.class, idOficina);
 			if (oficina == null) {
-				throw new RemoteException("No encontre la oficina");
+				throw new RemoteException("Oficina no encontrada.");
 			}
 
 			EntityTransaction tx = em.getTransaction();
@@ -629,21 +655,19 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 			try {
 				et.begin();
 
-				Query query = em.createNamedQuery("SELECT r FROM RelacionConfianza r WHERE r.origen.id = :origen_id and r.destino = :destino_id");
-				query.setParameter("origen_id", idOficinaOrigen);
-				query.setParameter("destino_id", idOficinaDestinoOriginal);
-				RelacionConfianza relacion = (RelacionConfianza) query.getSingleResult();
-
-				Oficina oficinaDestinoNueva = (Oficina) em.find(Oficina.class, idOficinaDestinoNueva);
-				relacion.setDestino(oficinaDestinoNueva);
-
-				em.merge(relacion);
-
+				RelacionConfianzaPk rcpk = new RelacionConfianzaPk();
+				rcpk.setOrigen(em.find(Oficina.class, idOficinaOrigen));
+				rcpk.setDestino(em.find(Oficina.class, idOficinaDestinoOriginal));
+				RelacionConfianza rc = em.find(RelacionConfianza.class, rcpk);
+				rc.setDestino(em.find(Oficina.class, idOficinaDestinoNueva));
+				em.merge(rc);
 				em.flush();
+
 				et.commit();
 			} catch (Exception e) {
 				et.rollback();
-				throw new RemoteException(e.getMessage(), e);
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
 			}
 		} finally {
 			em.close();
@@ -659,19 +683,18 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 			try {
 				et.begin();
 
-				Oficina oficinaOrigen = em.find(Oficina.class, idOficinaOrigen);
-				Oficina oficinaDestino = em.find(Oficina.class, idOficinaDestino);
 				RelacionConfianzaPk rcpk = new RelacionConfianzaPk();
-				rcpk.setOrigen(oficinaOrigen);
-				rcpk.setDestino(oficinaDestino);
+				rcpk.setOrigen(em.find(Oficina.class, idOficinaOrigen));
+				rcpk.setDestino(em.find(Oficina.class, idOficinaDestino));
 				RelacionConfianza rc = em.find(RelacionConfianza.class, rcpk);
 				em.remove(rc);
 				em.flush();
+
 				et.commit();
 			} catch (Exception e) {
 				et.rollback();
 				e.printStackTrace();
-				throw new RemoteException(e.getMessage(), e);
+				throw new RemoteException(e.getMessage());
 			}
 		} finally {
 			em.close();
@@ -692,9 +715,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 			for (LogTrafico log : logs) {
 				LogTraficoVO logVO = new LogTraficoVO();
 				logVO.setFecha(log.getFecha());
-				logVO.setOrigen(log.getOrigen().getDireccion());
-				for (Casilla c : log.getDestinos()) {
-					logVO.getDestinos().add(c.getDireccion());
+				logVO.setOrigen(log.getOrigen());
+				for (String destino : log.getDestinos()) {
+					logVO.agregarDestino(destino);
 				}
 				logsVO.add(logVO);
 			}
@@ -721,10 +744,9 @@ public class Gestion extends UnicastRemoteObject implements InterfazGestion, Ser
 				em.flush();
 				et.commit();
 			} catch (Exception e) {
-				if (et.isActive()) {
-					et.rollback();
-				}
-				throw new RemoteException("Sucedió un error al borrar los log de tráfico.", e);
+				et.rollback();
+				e.printStackTrace();
+				throw new RemoteException(e.getMessage());
 			}
 		} finally {
 			em.close();

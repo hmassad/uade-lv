@@ -1,40 +1,39 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CollectionOfElements;
 
 @Entity
-public class LogTrafico {
+public class LogTrafico implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	@Column(name = "log_trafico_id", unique = true)
 	private int id;
 
 	private Date fecha;
-	private Mensaje mensaje;
+	private String origen;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Casilla.class)
-	private Casilla origen;
+	@CollectionOfElements(targetElement = String.class, fetch = FetchType.LAZY)
+	private Collection<String> destinos = new ArrayList<String>();
 
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Casilla.class)
-	private Collection<Casilla> destinos = new ArrayList<Casilla>();
+	private String mensaje;
 
 	public int getId() {
 		return id;
 	}
 
-	@SuppressWarnings("unused")
-	private void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -46,35 +45,48 @@ public class LogTrafico {
 		this.fecha = fecha;
 	}
 
-	public Mensaje getMensaje() {
+	public String getMensaje() {
 		return mensaje;
 	}
 
-	public void setMensaje(Mensaje mensaje) {
+	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
 
-	public Casilla getOrigen() {
+	public String getOrigen() {
 		return origen;
 	}
 
-	public void setOrigen(Casilla origen) {
+	public void setOrigen(String origen) {
 		this.origen = origen;
 	}
 
-	public Collection<Casilla> getDestinos() {
+	public Collection<String> getDestinos() {
 		return destinos;
 	}
 
-	public void setDestinos(Collection<Casilla> destinos) {
+	public void setDestinos(Collection<String> destinos) {
 		this.destinos = destinos;
 	}
 
-	public void agregarDestino(Casilla casillaDestino) {
+	public void agregarDestino(String casillaDestino) {
 		getDestinos().add(casillaDestino);
 	}
 
-	public void removerDestino(Casilla casillaDestino) {
+	public void removerDestino(String casillaDestino) {
 		getDestinos().remove(casillaDestino);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof LogTrafico) {
+			return this.getFecha() == ((LogTrafico) obj).getFecha() && this.origen.equals(((LogTrafico) obj).getOrigen()) && this.destinos.equals(((LogTrafico) obj).getDestinos());
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[fecha: %s; origen: %s; destinos: %s]", getFecha(), getOrigen(), getDestinos());
 	}
 }

@@ -147,4 +147,23 @@ public class ControladorMensajeria {
 			e.printStackTrace();
 		}
 	}
+
+	public void bloquearCasilla(String nombreUsuario, String direccionCasilla) {
+		try {
+			mensajeria.bloquearCasilla(nombreUsuario, direccionCasilla);
+		} catch (RemoteException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public int obtenerCantidadMensajesNoLeidosDeUsuario(String nombreUsuario) {
+		try {
+			return mensajeria.obtenerCantidadMensajesNoLeidosDeUsuario(nombreUsuario);
+		} catch (RemoteException e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }

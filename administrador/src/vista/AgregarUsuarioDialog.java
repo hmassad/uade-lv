@@ -1,11 +1,10 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -13,12 +12,9 @@ import javax.swing.JTextField;
 
 import controlador.ControladorGestion;
 
-public class AgregarUsuarioDialog extends JDialog {
+public class AgregarUsuarioDialog extends BaseDialog {
 
 	private static final long serialVersionUID = 1L;
-
-	private JButton aceptarButton;
-	private JButton cancelarButton;
 
 	private JLabel nombreLabel;
 	private JTextField nombreTextField;
@@ -26,21 +22,26 @@ public class AgregarUsuarioDialog extends JDialog {
 	private JLabel passwordLabel;
 	private JTextField passwordTextField;
 
-	private ControladorGestion controladorGestion;
-
 	public AgregarUsuarioDialog(ControladorGestion controladorGestion) {
-		super();
-		this.setControladorGestion(controladorGestion);
-		initGUI();
+		super(controladorGestion);
+		super.init();
 	}
 
-	private void initGUI() {
-		this.setTitle("Agregar Usuario");
-		this.setLayout(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(340, 140);
-		this.setResizable(false);
+	protected void cargarDatos() {
+	}
 
+	@Override
+	protected String getTitulo() {
+		return "Agregar Usuario";
+	}
+
+	@Override
+	protected Dimension getTamaño() {
+		return new Dimension(340, 140);
+	}
+
+	@Override
+	protected void inicializarVentanaEspecializada() {
 		Container contentPane = getContentPane();
 
 		nombreLabel = new JLabel();
@@ -62,48 +63,24 @@ public class AgregarUsuarioDialog extends JDialog {
 		passwordTextField.setText("");
 		contentPane.add(passwordTextField);
 		passwordTextField.setBounds(110, 40, 200, 20);
+	}
 
-		aceptarButton = new JButton();
-		aceptarButton.setText("Aceptar");
-		contentPane.add(aceptarButton);
-		aceptarButton.setBounds(110, 70, 80, 20);
-		aceptarButton.addActionListener(new ActionListener() {
+	@Override
+	protected ActionListener getAceptarActionListener() {
+		return new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String usuario = nombreTextField.getText();
 				String password = passwordTextField.getText();
 				try {
-					getControladorGestion().agregarUsuario(usuario, password);
+					controladorGestion.agregarUsuario(usuario, password);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al agregar el Usuario.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
-				AgregarUsuarioDialog.this.setVisible(false);
+				AgregarUsuarioDialog.this.dispose();
 			}
-		});
-
-		cancelarButton = new JButton();
-		cancelarButton.setText("Cancelar");
-		contentPane.add(cancelarButton);
-		cancelarButton.setBounds(230, 70, 80, 20);
-		cancelarButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AgregarUsuarioDialog.this.setVisible(false);
-			}
-		});
-
-		this.setModal(true);
-		this.setVisible(true);
-	}
-
-	public ControladorGestion getControladorGestion() {
-		return controladorGestion;
-	}
-
-	public void setControladorGestion(ControladorGestion controladorGestion) {
-		this.controladorGestion = controladorGestion;
+		};
 	}
 }

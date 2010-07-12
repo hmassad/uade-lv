@@ -1,14 +1,12 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.Collection;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -16,11 +14,9 @@ import javax.swing.JTextField;
 import beans.UsuarioVO;
 import controlador.ControladorGestion;
 
-public class AgregarCasillaDialog extends JDialog {
+public class AgregarCasillaDialog extends BaseDialog {
 
 	private static final long serialVersionUID = 1L;
-
-	private ControladorGestion controladorGestion;
 
 	private JLabel direccionLabel;
 	private JTextField direccionTextField;
@@ -28,39 +24,23 @@ public class AgregarCasillaDialog extends JDialog {
 	private JLabel usuarioLabel;
 	private JComboBox usuarioComboBox;
 
-	private JButton aceptarButton;
-	private JButton cancelarButton;
-
 	public AgregarCasillaDialog(ControladorGestion controladorGestion) {
-		super();
-		this.controladorGestion = controladorGestion;
-		initGUI();
+		super(controladorGestion);
+		super.init();
 	}
 
-	private void cargarDatos() {
-		try {
-			for (UsuarioVO u : controladorGestion.obtenerUsuarios()) {
-				usuarioComboBox.addItem(u);
-			}
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar Usuarios.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
-			e1.printStackTrace();
-			dispose();
-		}
+	@Override
+	protected String getTitulo() {
+		return "Agregar Casilla";
 	}
 
-	private void initGUI() {
-		this.setTitle("Agregar Casilla");
-		this.setLayout(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(340, 140);
-		this.setResizable(false);
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				AgregarCasillaDialog.this.dispose();
-			}
-		});
+	@Override
+	protected Dimension getTamaño() {
+		return new Dimension(340, 140);
+	}
 
+	@Override
+	protected void inicializarVentanaEspecializada() {
 		Container contentPane = getContentPane();
 
 		direccionLabel = new JLabel();
@@ -81,13 +61,27 @@ public class AgregarCasillaDialog extends JDialog {
 		usuarioComboBox = new JComboBox();
 		contentPane.add(usuarioComboBox);
 		usuarioComboBox.setBounds(110, 40, 200, 20);
-		cargarDatos();
+	}
 
-		aceptarButton = new JButton();
-		aceptarButton.setText("Aceptar");
-		contentPane.add(aceptarButton);
-		aceptarButton.setBounds(110, 70, 80, 20);
-		aceptarButton.addActionListener(new ActionListener() {
+	@Override
+	protected void cargarDatos() throws Exception {
+		Collection<UsuarioVO> usuarios;
+		try {
+			usuarios = controladorGestion.obtenerUsuarios();
+		} catch (Exception e1) {
+			throw new Exception(String.format("Ocurrió un error al listar Usuarios.\n\"%s\"", e1.getMessage()));
+		}
+		if (usuarios.size() == 0) {
+			throw new Exception("No se registran Usuarios.");
+		}
+		for (UsuarioVO u : usuarios) {
+			usuarioComboBox.addItem(u);
+		}
+	}
+
+	@Override
+	protected ActionListener getAceptarActionListener() {
+		return new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -101,21 +95,6 @@ public class AgregarCasillaDialog extends JDialog {
 				}
 				AgregarCasillaDialog.this.dispose();
 			}
-		});
-
-		cancelarButton = new JButton();
-		cancelarButton.setText("Cancelar");
-		contentPane.add(cancelarButton);
-		cancelarButton.setBounds(230, 70, 80, 20);
-		cancelarButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AgregarCasillaDialog.this.setVisible(false);
-			}
-		});
-
-		this.setModal(true);
-		this.setVisible(true);
+		};
 	}
 }

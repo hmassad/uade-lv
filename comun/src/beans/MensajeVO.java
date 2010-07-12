@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,17 +16,18 @@ public class MensajeVO implements Serializable {
 	private int id;
 	private Date fecha;
 	private String origen;
-	private Collection<String> destinos = new ArrayList<String>();
+	private Collection<String> destinos;
 	private MensajeTipo tipo;
 	private MensajeEstado estado;
 	private String asunto;
 	private String cuerpo;
 
 	public MensajeVO() {
+		destinos = new ArrayList<String>();
 	}
 
 	public MensajeVO(int id, Date fecha, String origen, Collection<String> destinos, MensajeTipo tipo, MensajeEstado estado, String asunto, String cuerpo) {
-		super();
+		this();
 		this.id = id;
 		this.fecha = fecha;
 		this.origen = origen;
@@ -106,5 +108,15 @@ public class MensajeVO implements Serializable {
 
 	public void removerDestino(String destino) {
 		getDestinos().remove(destino);
+	}
+
+	@Override
+	public boolean equals(Object arg) {
+		return this.getId() == ((CasillaVO) arg).getId();
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Mensaje(id: %d; fecha: %s; origen: %s; destinos: %s; tipo: %s; asunto: %s)", getId(), new SimpleDateFormat("dd-MM-yyyy HH:mm").format(getFecha()), getOrigen(), getDestinos(), getTipo(), getAsunto());
 	}
 }

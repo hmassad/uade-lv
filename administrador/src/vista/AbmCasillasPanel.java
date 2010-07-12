@@ -63,8 +63,7 @@ public class AbmCasillasPanel extends AbmBasePanel {
 			return data[row][col];
 		}
 
-		@SuppressWarnings( { "unchecked" })
-		public Class getColumnClass(int c) {
+		public Class<?> getColumnClass(int c) {
 			if (data == null)
 				return null;
 			if (data.length > 0) {
@@ -131,7 +130,10 @@ public class AbmCasillasPanel extends AbmBasePanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Modificar Casilla
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					new ModificarCasillaDialog(getControladorGestion(), (Integer) row[0], (String) row[1]);
+				}
 			}
 		};
 	}

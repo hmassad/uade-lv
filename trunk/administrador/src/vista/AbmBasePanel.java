@@ -40,7 +40,7 @@ public abstract class AbmBasePanel extends JPanel implements LocalObserver {
 		try {
 			controladorGestion.addLocalObserver(this);
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al suscribirse al Server.\n\"%s\"", e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, String.format("Ocurrió un error al suscribirse al Server.\n\"%s\"", e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		initGUI();

@@ -28,7 +28,6 @@ public class Mensaje implements Serializable {
 	@Column(name = "mensaje_id", nullable = false)
 	private int id;
 
-	@Column(name = "fecha")
 	private Date fecha;
 
 	@ManyToOne
@@ -38,13 +37,10 @@ public class Mensaje implements Serializable {
 	private Collection<MensajeEnCasilla> destinos = new ArrayList<MensajeEnCasilla>();
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo")
 	private MensajeTipo tipo;
 
-	@Column(name = "asunto")
 	private String asunto;
 
-	@Column(name = "cuerpo")
 	private String cuerpo;
 
 	public int getId() {
@@ -103,7 +99,15 @@ public class Mensaje implements Serializable {
 		this.cuerpo = cuerpo;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Mensaje) {
+			return this.getId() == ((Mensaje) obj).getId();
+		}
+		return false;
+	}
+
 	public String toString() {
-		return String.format("Mensaje(ID: %d; Fecha: %t; Asunto: %s; Cuerpo: %s", getId(), getFecha(), getAsunto(), getCuerpo());
+		return String.format("[id: %d; Fecha: %t; Asunto: %s; Cuerpo: %s]", getId(), getFecha(), getAsunto(), getCuerpo());
 	}
 }

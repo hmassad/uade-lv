@@ -32,6 +32,12 @@
 		return;
 	}
 
+	if(request.getParameter("bloquear") != null){
+		controladorMensajeria.bloquearCasilla(usuario, mensaje.getOrigen());
+		response.sendRedirect(response.encodeURL(String.format("/webserver/listar?anuncio=%s", URLEncoder.encode("La casilla ha sido bloqueada.", "iso-8859-1"))));
+		return;
+	}
+
 	if(mensaje.getEstado().equals(MensajeEstado.NoLeido)){
 		controladorMensajeria.cambiarMensajeEstado(casilla, idMensaje, MensajeEstado.Leido);
 	}
@@ -51,6 +57,7 @@
 <div id="main-content">
 <form method="post" action="/webserver/mensaje?casilla=<%= casilla %>&idMensaje=<%= idMensaje %>&">
 	<input type="submit" id="borrar" name="borrar" value="Borrar" />
+	<input type="submit" id="bloquear" name="bloquear" value="Bloquear" />
 </form>
 <div id="mensaje-recuadro">
 	<div><label>Fecha</label> <%= new SimpleDateFormat("d-MMM HH:mm").format(mensaje.getFecha()) %></div>
@@ -60,6 +67,7 @@
 			<%= s + ";&nbsp;" %>
 		<% } %>
 	</div>
+	<div><label>Tipo</label> <%= mensaje.getTipo() %></div>
 	<div><label>Asunto</label> <%= mensaje.getAsunto() %></div>
 	<div><label>Cuerpo</label><br/><%= mensaje.getCuerpo().replaceAll("\r\n", "<br/>") %></div>
 	</div>

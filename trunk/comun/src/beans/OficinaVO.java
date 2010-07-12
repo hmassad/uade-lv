@@ -35,6 +35,12 @@ public class OficinaVO implements Serializable {
 	}
 	
 	@Override
+	public boolean equals(Object arg) {
+		OficinaVO other = (OficinaVO) arg;
+		return this.getId() == other.getId();
+	}
+
+	@Override
 	public String toString() {
 		return getNombre();
 	}

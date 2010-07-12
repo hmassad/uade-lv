@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -38,7 +39,20 @@ public class LogTraficoVO implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object arg) {
+		return this.getFecha().equals(((LogTraficoVO) arg).getFecha()) && this.getOrigen().equals(((LogTraficoVO) arg).getOrigen()) && this.getDestinos().equals(((LogTraficoVO) arg).getDestinos());
+	}
+
+	@Override
 	public String toString() {
-		return String.format("LogTrafico(fecha: %s, origen: %s, destinos: %s)", getFecha(), getOrigen(), getDestinos());
+		return String.format("[fecha: %s, origen: %s, destinos: %s]", new SimpleDateFormat("dd-MM-yy HH:mm").format(getFecha()), getOrigen(), getDestinos());
+	}
+
+	public void agregarDestino(String destino) {
+		destinos.add(destino);
+	}
+
+	public void borrarDestino(String destino) {
+		destinos.remove(destino);
 	}
 }

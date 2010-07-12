@@ -74,8 +74,7 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 			return data[row][col];
 		}
 
-		@SuppressWarnings( { "unchecked" })
-		public Class getColumnClass(int c) {
+		public Class<?> getColumnClass(int c) {
 			if (data == null)
 				return null;
 			if (data.length > 0) {
@@ -120,7 +119,7 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 							getControladorGestion().eliminarRelacionConfianza(idOficinaOrigen, idOficinaDestino);
 						}
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al eliminar la Relación de Confianza.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(AbmRelacionesConfianzaPanel.this, String.format("Ocurrió un error al eliminar la Relación de Confianza.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 				}
@@ -134,7 +133,10 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Modificar Relación Confianza
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					new ModificarRelacionConfianzaDialog(getControladorGestion(), (Integer) row[0], (String) row[1], (Integer)row[2]);
+				}
 			}
 		};
 	}

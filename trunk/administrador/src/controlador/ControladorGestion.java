@@ -52,7 +52,7 @@ public class ControladorGestion implements RemoteObserverLocalObservable {
 		remoteObserverLocalObservable.update(observable, eventoObservable);
 	}
 
-	public Collection<UsuarioVO> obtenerUsuarios() throws Exception {
+	public Collection<UsuarioVO> obtenerUsuarios() throws RemoteException {
 		return gestion.obtenerUsuarios();
 	}
 
@@ -76,11 +76,11 @@ public class ControladorGestion implements RemoteObserverLocalObservable {
 		gestion.agregarCasilla(idUsuario, direccion);
 	}
 
-	public void agregarCasillaAOficina(int idOficina, int idCasilla) throws RemoteException {
+	public void agregarCasillaAOficina(int idOficina, int idCasilla) throws Exception {
 		gestion.agregarCasillaAOficina(idOficina, idCasilla);
 	}
 
-	public void borrarCasillaDeOficina(int idOficina, int idCasilla) throws RemoteException {
+	public void borrarCasillaDeOficina(int idOficina, int idCasilla) throws Exception {
 		gestion.borrarCasillaDeOficina(idOficina, idCasilla);
 	}
 
@@ -122,5 +122,25 @@ public class ControladorGestion implements RemoteObserverLocalObservable {
 
 	public void borrarLogsTrafico() throws Exception {
 		gestion.borrarLogs();
+	}
+
+	public String resetearContraseña(Integer idUsuario) throws Exception {
+		return gestion.resetearContraseña(idUsuario);
+	}
+
+	public void modificarUsuario(int idUsuario, String nombreUsuario) throws Exception {
+		gestion.modificarUsuario(idUsuario, nombreUsuario);
+	}
+
+	public void modificarCasilla(int idCasilla, String direccionCasilla) throws Exception {
+		gestion.modificarCasilla(idCasilla, direccionCasilla);
+	}
+
+	public void modificarOficina(int idOficina, String nombreOficina) throws Exception {
+		gestion.modificarOficina(idOficina, nombreOficina);
+	}
+
+	public void modificarRelacionConfianza(int idOficinaOrigen, int idOficinaDestinoOriginal, int idOficinaDestinoNueva) throws Exception {
+		gestion.modificarRelacionConfianza(idOficinaOrigen, idOficinaDestinoOriginal, idOficinaDestinoNueva);
 	}
 }

@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import controlador.ControladorGestion;
 
@@ -50,6 +51,12 @@ public class AdministradorFrame extends JFrame {
 	}
 
 	private void initGUI() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, String.format("No se pudo cargar el Administrador de Ventanas del sistema operativo.\n\"%s\"", e.getMessage()), "Warning", JOptionPane.ERROR_MESSAGE);
+		}
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
@@ -58,88 +65,82 @@ public class AdministradorFrame extends JFrame {
 		try {
 			setSize(600, 400);
 			setTitle("Administrador");
-			{
-				mainMenuBar = new JMenuBar();
-				this.setJMenuBar(mainMenuBar);
-				{
-					usuariosMenuItem = new JMenuItem();
-					mainMenuBar.add(usuariosMenuItem);
-					usuariosMenuItem.setText("Usuarios");
-					usuariosMenuItem.addActionListener(new ActionListener() {
 
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							AdministradorFrame.this.setContentPane(new AbmUsuariosPanel(controladorGestion));
-							AdministradorFrame.this.setVisible(true);
-						}
+			mainMenuBar = new JMenuBar();
+			this.setJMenuBar(mainMenuBar);
 
-					});
+			usuariosMenuItem = new JMenuItem();
+			mainMenuBar.add(usuariosMenuItem);
+			usuariosMenuItem.setText("Usuarios");
+			usuariosMenuItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					AdministradorFrame.this.setContentPane(new AbmUsuariosPanel(controladorGestion));
+					AdministradorFrame.this.setVisible(true);
 				}
-				{
-					oficinasMenuItem = new JMenuItem();
-					mainMenuBar.add(oficinasMenuItem);
-					oficinasMenuItem.setText("Oficinas");
-					oficinasMenuItem.addActionListener(new ActionListener() {
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							AdministradorFrame.this.setContentPane(new AbmOficinasPanel(controladorGestion));
-							AdministradorFrame.this.setVisible(true);
-						}
-					});
-				}
-				{
-					casillasMenuItem = new JMenuItem();
-					mainMenuBar.add(casillasMenuItem);
-					casillasMenuItem.setText("Casillas");
-					casillasMenuItem.addActionListener(new ActionListener() {
+			});
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							AdministradorFrame.this.setContentPane(new AbmCasillasPanel(controladorGestion));
-							AdministradorFrame.this.setVisible(true);
-						}
-					});
-				}
-				{
-					relacionesConfianzaMenuItem = new JMenuItem();
-					mainMenuBar.add(relacionesConfianzaMenuItem);
-					relacionesConfianzaMenuItem.setText("Relaciones de Confianza");
-					relacionesConfianzaMenuItem.addActionListener(new ActionListener() {
+			oficinasMenuItem = new JMenuItem();
+			mainMenuBar.add(oficinasMenuItem);
+			oficinasMenuItem.setText("Oficinas");
+			oficinasMenuItem.addActionListener(new ActionListener() {
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							AdministradorFrame.this.setContentPane(new AbmRelacionesConfianzaPanel(controladorGestion));
-							AdministradorFrame.this.setVisible(true);
-						}
-					});
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AdministradorFrame.this.setContentPane(new AbmOficinasPanel(controladorGestion));
+					AdministradorFrame.this.setVisible(true);
 				}
-				{
-					logsMenuItem = new JMenuItem();
-					mainMenuBar.add(logsMenuItem);
-					logsMenuItem.setText("Logs");
-					logsMenuItem.addActionListener(new ActionListener() {
+			});
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							AdministradorFrame.this.setContentPane(new LogsPanel(controladorGestion));
-							AdministradorFrame.this.setVisible(true);
-						}
-					});
-				}
-				{
-					salirMenuItem = new JMenuItem();
-					mainMenuBar.add(salirMenuItem);
-					salirMenuItem.setText("Salir");
-					salirMenuItem.addActionListener(new ActionListener() {
+			casillasMenuItem = new JMenuItem();
+			mainMenuBar.add(casillasMenuItem);
+			casillasMenuItem.setText("Casillas");
+			casillasMenuItem.addActionListener(new ActionListener() {
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							System.exit(0);
-						}
-					});
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AdministradorFrame.this.setContentPane(new AbmCasillasPanel(controladorGestion));
+					AdministradorFrame.this.setVisible(true);
 				}
-			}
+			});
+
+			relacionesConfianzaMenuItem = new JMenuItem();
+			mainMenuBar.add(relacionesConfianzaMenuItem);
+			relacionesConfianzaMenuItem.setText("Relaciones de Confianza");
+			relacionesConfianzaMenuItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AdministradorFrame.this.setContentPane(new AbmRelacionesConfianzaPanel(controladorGestion));
+					AdministradorFrame.this.setVisible(true);
+				}
+			});
+
+			logsMenuItem = new JMenuItem();
+			mainMenuBar.add(logsMenuItem);
+			logsMenuItem.setText("Logs");
+			logsMenuItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AdministradorFrame.this.setContentPane(new LogsPanel(controladorGestion));
+					AdministradorFrame.this.setVisible(true);
+				}
+			});
+
+			salirMenuItem = new JMenuItem();
+			mainMenuBar.add(salirMenuItem);
+			salirMenuItem.setText("Salir");
+			salirMenuItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

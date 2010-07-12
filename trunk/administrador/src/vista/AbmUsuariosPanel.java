@@ -72,8 +72,7 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 			return data[row][col];
 		}
 
-		@SuppressWarnings( { "unchecked" })
-		public Class getColumnClass(int c) {
+		public Class<?> getColumnClass(int c) {
 			if (data == null)
 				return null;
 			if (data.length > 0) {
@@ -116,7 +115,7 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 							getControladorGestion().borrarUsuario(id);
 						}
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al eliminar la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(AbmUsuariosPanel.this, String.format("Ocurrió un error al eliminar el Usuario.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 				}
@@ -130,14 +129,39 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Abrir Ventana de Modificar Usuario
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					new ModificarUsuarioDialog(getControladorGestion(), (Integer) row[0], (String) row[1]);
+				}
 			}
 		};
 	}
 
 	@Override
 	protected Collection<JButton> getBotonesAdicionales() {
-		return new ArrayList<JButton>();
+		Collection<JButton> botones = new ArrayList<JButton>();
+		JButton resetearContraseñaButton = new JButton();
+		resetearContraseñaButton.setText("Resetear Contraseña");
+		resetearContraseñaButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				Object[] row = getSelectedRow();
+				if (row != null) {
+					String nuevaContraseña;
+					try {
+						nuevaContraseña = getControladorGestion().resetearContraseña((Integer)row[0]);
+						JOptionPane.showMessageDialog(AbmUsuariosPanel.this, String.format("La nueva contraseña es \"%s\".", nuevaContraseña), "Information", JOptionPane.INFORMATION_MESSAGE);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(AbmUsuariosPanel.this, String.format("Ocurrió un error al resetear la contraseña.\n\"%s\"", e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		botones.add(resetearContraseñaButton);
+		return botones;
 	}
 
 	@Override

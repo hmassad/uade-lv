@@ -38,4 +38,8 @@ public interface InterfazMensajeria extends Remote {
 	MensajeVO obtenerMensaje(String direccionCasilla, Integer idMensaje) throws RemoteException;
 
 	void cambiarMensajeEstado(String direccionCasilla, Integer idMensaje, MensajeEstado estado) throws RemoteException;
+
+	void bloquearCasilla(String nombreUsuario, String direccionCasilla) throws RemoteException;
+
+	int obtenerCantidadMensajesNoLeidosDeUsuario(String nombreUsuario) throws RemoteException;
 }

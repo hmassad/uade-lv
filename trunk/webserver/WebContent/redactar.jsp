@@ -146,7 +146,7 @@ function mostrarDireccionesPosibles(){
 
 function ocultarDireccionesPosibles(){
 	var div = document.getElementById('direccionesPosibles');
-	div.style.height = '1px';
+	div.style.height = '0';
 	div.innerHTML = '';
 }
 
@@ -178,7 +178,7 @@ function actualizarDireccionesPosibles(){
 </head>
 <body>
 
-<%@include file="encabezado.jsp"%>
+<%@include file="encabezado.jsp" %>
 
 <%@include file="acciones.jsp" %>
 
@@ -212,8 +212,7 @@ function actualizarDireccionesPosibles(){
 </div>
 <div>
 	<label for="destinatarios">Destinatarios</label>
-	<input type="text" id="destinatarios" name="destinatarios"
-	<%
+	<input type="text" id="destinatarios" name="destinatarios" <%
 		String destinatarios = (String) request.getParameter("destinatarios");
 		if (destinatarios != null){
 			 out.write("value=\"" + destinatarios + "\"");
@@ -224,12 +223,10 @@ function actualizarDireccionesPosibles(){
 </div>
 <div>
 	<label for="tipo">Urgente</label>
-	<input type="checkbox" id="tipo" name="tipo" value="Urgente"
-	<%
-		if(mensaje != null && mensaje.getTipo() == MensajeTipo.Urgente) { %>
-			<%= "checked=\"checked\"" %>
-		<% } %>
-	/>
+	<input type="checkbox" id="tipo" name="tipo" value="Urgente" <%
+		if(mensaje != null && mensaje.getTipo().equals(MensajeTipo.Urgente)) {
+			 out.write("checked=\"checked\"");
+		} %>/>
 </div>
 <div>
 	<label for="asunto">Asunto</label>

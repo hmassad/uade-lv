@@ -34,6 +34,12 @@ public class RelacionConfianzaVO implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object arg) {
+		RelacionConfianzaVO otra = (RelacionConfianzaVO) arg;
+		return this.getOrigen().equals(otra.getOrigen()) && this.getDestino().equals(otra.getDestino());
+	}
+
+	@Override
 	public String toString() {
 		return String.format("'%s' a '%s'", origen.getNombre(), destino.getNombre());
 	}

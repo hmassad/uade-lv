@@ -29,7 +29,12 @@ public class RemoteObserverLocalObservableImpl extends UnicastRemoteObject imple
 	@Override
 	public void update(RemoteObservable observable, EventoObservable eventoObservable) throws RemoteException {
 		for (LocalObserver localObserver : localObservers) {
-			localObserver.update(this, eventoObservable);
+			try {
+				localObserver.update(this, eventoObservable);
+			} catch (RemoteException e) {
+				localObservers.remove(localObserver);
+				e.printStackTrace();
+			}
 		}
 	}
 

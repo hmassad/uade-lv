@@ -87,7 +87,15 @@ public class Casilla implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Casilla) {
+			return this.getId() == ((Casilla) obj).getId();
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
-		return "Casilla(ID: " + getId() + "; Direccion: " + getDireccion() + ")";
+		return "[id: " + getId() + "; direccion: " + getDireccion() + "]";
 	}
 }

@@ -1,25 +1,22 @@
 package vista;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.Collection;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import beans.OficinaVO;
 import controlador.ControladorGestion;
 
-public class BorrarCasillaDeOficinaDialog extends JDialog {
+public class BorrarCasillaDeOficinaDialog extends BaseDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private ControladorGestion controladorGestion;
 	private int idCasilla;
 	private String direccionCasilla;
 
@@ -29,46 +26,31 @@ public class BorrarCasillaDeOficinaDialog extends JDialog {
 	private JLabel oficinaLabel;
 	private JComboBox oficinasComboBox;
 
-	private JButton aceptarButton;
-	private JButton cancelarButton;
-
 	public BorrarCasillaDeOficinaDialog(ControladorGestion controladorGestion, int idCasilla, String direccionCasilla) {
-		super();
-		this.controladorGestion = controladorGestion;
+		super(controladorGestion);
 		this.idCasilla = idCasilla;
 		this.direccionCasilla = direccionCasilla;
-		initGUI();
-		cargarDatos();
+		super.init();
 	}
 
-	private void cargarDatos() {
+	@Override
+	protected void cargarDatos() throws Exception {
+		Collection<OficinaVO> oficinas;
 		try {
-			for (OficinaVO o : controladorGestion.obtenerOficinasPorCasilla(idCasilla)) {
-				oficinasComboBox.addItem(o);
-			}
-			if (oficinasComboBox.getItemCount() == 0) {
-				JOptionPane.showMessageDialog(null, "La Casilla no pertenece a ninguna Oficina.", "Information", JOptionPane.ERROR_MESSAGE);
-				dispose();
-			}
+			oficinas = controladorGestion.obtenerOficinasPorCasilla(idCasilla);
 		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, String.format("Ocurrió un error al listar las Oficinas de la Casilla.\n\"%s\"", e1.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);
-			e1.printStackTrace();
-			dispose();
+			throw new Exception(String.format("Ocurrió un error al listar las Oficinas de la Casilla.\n\"%s\"", e1.getMessage()));
+		}
+		for (OficinaVO o : oficinas) {
+			oficinasComboBox.addItem(o);
+		}
+		if (oficinasComboBox.getItemCount() == 0) {
+			throw new Exception("La Casilla no pertenece a ninguna Oficina.");
 		}
 	}
 
-	private void initGUI() {
-		this.setTitle("Agregar Casilla");
-		this.setLayout(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(340, 140);
-		this.setResizable(false);
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				BorrarCasillaDeOficinaDialog.this.dispose();
-			}
-		});
-
+	@Override
+	protected void inicializarVentanaEspecializada() {
 		Container contentPane = getContentPane();
 
 		casillaLabel = new JLabel();
@@ -89,12 +71,11 @@ public class BorrarCasillaDeOficinaDialog extends JDialog {
 		oficinasComboBox = new JComboBox();
 		contentPane.add(oficinasComboBox);
 		oficinasComboBox.setBounds(110, 40, 200, 20);
+	}
 
-		aceptarButton = new JButton();
-		aceptarButton.setText("Aceptar");
-		contentPane.add(aceptarButton);
-		aceptarButton.setBounds(110, 70, 80, 20);
-		aceptarButton.addActionListener(new ActionListener() {
+	@Override
+	protected ActionListener getAceptarActionListener() {
+		return new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -107,21 +88,16 @@ public class BorrarCasillaDeOficinaDialog extends JDialog {
 				}
 				BorrarCasillaDeOficinaDialog.this.dispose();
 			}
-		});
+		};
+	}
 
-		cancelarButton = new JButton();
-		cancelarButton.setText("Cancelar");
-		contentPane.add(cancelarButton);
-		cancelarButton.setBounds(230, 70, 80, 20);
-		cancelarButton.addActionListener(new ActionListener() {
+	@Override
+	protected String getTitulo() {
+		return "Borrar Casilla de Oficina";
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BorrarCasillaDeOficinaDialog.this.setVisible(false);
-			}
-		});
-
-		this.setModal(true);
-		this.setVisible(true);
+	@Override
+	protected Dimension getTamaño() {
+		return new Dimension(340, 140);
 	}
 }

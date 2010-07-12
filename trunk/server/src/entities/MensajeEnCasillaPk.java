@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
@@ -13,7 +14,7 @@ public class MensajeEnCasillaPk implements Serializable {
 	@ManyToOne
 	private Casilla casilla;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	private Mensaje mensaje;
 
 	public Casilla getCasilla() {

@@ -44,8 +44,16 @@ public class UsuarioVO implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof UsuarioVO) {
+			UsuarioVO otro = (UsuarioVO) obj;
+			return this.getId() == otro.getId() || this.getNombre().equalsIgnoreCase(otro.getNombre());
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
-		//return String.format("Usuario(id: %d, nombre: %s, password: %s)", getId(), getNombre(), getPassword());
 		return getNombre();
 	}
 }

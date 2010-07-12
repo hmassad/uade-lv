@@ -66,7 +66,9 @@ public interface InterfazGestion extends Remote, RemoteObservable {
 
 	void agregarUsuario(String nombreUsuario, String password) throws RemoteException;
 
-	void modificarUsuario(int idUsuario, String nombre, String password) throws RemoteException;
+	void modificarUsuario(int idUsuario, String nombre) throws RemoteException;
+
+	String resetearContraseña(int idUsuario) throws RemoteException;
 
 	void borrarUsuario(int id) throws RemoteException;
 

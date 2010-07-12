@@ -48,7 +48,23 @@ public class RelacionConfianza implements Serializable {
 		getPk().setDestino(destino);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+
+		RelacionConfianza that = (RelacionConfianza) obj;
+
+		if (getPk() != null ? !getPk().equals(that.getPk()) : that.getPk() != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return "RelacionConfianza(Origen: " + getOrigen() + "; Destino: " + getDestino() + ")";
+		return "[origen: " + getOrigen() + "; destino: " + getDestino() + "]";
 	}
 }

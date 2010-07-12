@@ -78,7 +78,19 @@ public class Usuario implements Serializable {
 		casilla.setUsuario(this);
 	}
 
+	public void agregarCasillaBloqueada(Casilla casilla) {
+		casillasBloqueadas.add(casilla);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Usuario) {
+			return this.getId() == ((Usuario) obj).getId();
+		}
+		return false;
+	}
+
 	public String toString() {
-		return "Usuario(ID: " + getId() + "; Nombre: " + getNombre() + ")";
+		return "[id: " + getId() + "; nombre: " + getNombre() + "]";
 	}
 }

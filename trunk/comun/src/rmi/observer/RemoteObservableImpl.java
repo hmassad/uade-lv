@@ -8,21 +8,26 @@ public class RemoteObservableImpl implements RemoteObservable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Collection<RemoteObserver> observers = new ArrayList<RemoteObserver>();
+	private Collection<RemoteObserver> remoteObservers = new ArrayList<RemoteObserver>();
 
 	@Override
-	public void addRemoteObserver(RemoteObserver o) throws RemoteException {
-		observers.add(o);
+	public void addRemoteObserver(RemoteObserver remoteObserver) throws RemoteException {
+		remoteObservers.add(remoteObserver);
 	}
 
 	@Override
-	public void deleteRemoteObserver(RemoteObserver o) throws RemoteException {
-		observers.remove(o);
+	public void deleteRemoteObserver(RemoteObserver remoteObserver) throws RemoteException {
+		remoteObservers.remove(remoteObserver);
 	}
 
 	public void notifyRemoteObservers(EventoObservable eo) throws RemoteException {
-		for (RemoteObserver ro : observers) {
-			ro.update(this, eo);
+		for (RemoteObserver remoteObserver : remoteObservers) {
+			try {
+				remoteObserver.update(this, eo);
+			} catch (RemoteException e) {
+				remoteObservers.remove(remoteObserver);
+				e.printStackTrace();
+			}
 		}
 	}
 

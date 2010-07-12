@@ -34,6 +34,11 @@ public class CasillaVO implements Serializable {
 	}
 
 	@Override
+	public boolean equals(Object arg) {
+		return this.getId() == ((CasillaVO) arg).getId();
+	}
+
+	@Override
 	public String toString() {
 		return getDireccion();
 	}

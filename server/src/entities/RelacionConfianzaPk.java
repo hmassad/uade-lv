@@ -5,29 +5,56 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
+/**
+ * @author  hmassad
+ */
 @Embeddable
 public class RelacionConfianzaPk implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="origen"
+	 * @uml.associationEnd  
+	 */
 	@ManyToOne
 	private Oficina origen;
 
+	/**
+	 * @uml.property  name="destino"
+	 * @uml.associationEnd  
+	 */
 	@ManyToOne
 	private Oficina destino;
 
+	/**
+	 * @return
+	 * @uml.property  name="origen"
+	 */
 	public Oficina getOrigen() {
 		return origen;
 	}
 
+	/**
+	 * @param origen
+	 * @uml.property  name="origen"
+	 */
 	public void setOrigen(Oficina origen) {
 		this.origen = origen;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="destino"
+	 */
 	public Oficina getDestino() {
 		return destino;
 	}
 
+	/**
+	 * @param destino
+	 * @uml.property  name="destino"
+	 */
 	public void setDestino(Oficina destino) {
 		this.destino = destino;
 	}

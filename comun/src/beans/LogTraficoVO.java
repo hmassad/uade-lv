@@ -6,34 +6,70 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * @author  hmassad
+ */
 public class LogTraficoVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="fecha"
+	 */
 	private Date fecha;
+	/**
+	 * @uml.property  name="origen"
+	 */
 	private String origen;
+	/**
+	 * @uml.property  name="destinos"
+	 */
 	private Collection<String> destinos = new ArrayList<String>();
 
+	/**
+	 * @return
+	 * @uml.property  name="fecha"
+	 */
 	public Date getFecha() {
 		return fecha;
 	}
 
+	/**
+	 * @param fecha
+	 * @uml.property  name="fecha"
+	 */
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="origen"
+	 */
 	public String getOrigen() {
 		return origen;
 	}
 
+	/**
+	 * @param direccionOrigen
+	 * @uml.property  name="origen"
+	 */
 	public void setOrigen(String direccionOrigen) {
 		this.origen = direccionOrigen;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="destinos"
+	 */
 	public Collection<String> getDestinos() {
 		return destinos;
 	}
 
+	/**
+	 * @param destinos
+	 * @uml.property  name="destinos"
+	 */
 	public void setDestinos(Collection<String> destinos) {
 		this.destinos = destinos;
 	}

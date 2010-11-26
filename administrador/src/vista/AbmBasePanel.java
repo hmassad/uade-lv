@@ -23,10 +23,17 @@ import rmi.observer.LocalObserver;
 import rmi.observer.RemoteObserverLocalObservable;
 import controlador.ControladorGestion;
 
+/**
+ * @author  hmassad
+ */
 public abstract class AbmBasePanel extends JPanel implements LocalObserver {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="controladorGestion"
+	 * @uml.associationEnd  
+	 */
 	private ControladorGestion controladorGestion;
 
 	private JTable abmTable;
@@ -100,6 +107,10 @@ public abstract class AbmBasePanel extends JPanel implements LocalObserver {
 		this.add(buttonPane, BorderLayout.PAGE_END);
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="controladorGestion"
+	 */
 	protected ControladorGestion getControladorGestion() {
 		return controladorGestion;
 	}

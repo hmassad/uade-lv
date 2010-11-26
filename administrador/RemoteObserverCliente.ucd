@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="RemoteObserverCliente" size="1217,782" id="rmi.observer" metadata="uml2-1.0" initialized="true" tag="1000" key="32303037303533312D313030302061646D696E6973747261646F722F686D6173736164">
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.1/@sourceConnections.0" name="RemoteObserverLocalObservable" location="420,144" size="255,99" id="rmi.observer/RemoteObserverLocalObservable" runTimeClassModel="deleteLocalObserver(Lrmi.observer.LocalObserver;),addLocalObserver(Lrmi.observer.LocalObserver;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="203,36">
+      <children xsi:type="editmodel:MethodEditModel" name="addLocalObserver" id="rmi.observer/RemoteObserverLocalObservable#addLocalObserver(Lrmi.observer.LocalObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteLocalObserver" id="rmi.observer/RemoteObserverLocalObservable#deleteLocalObserver(Lrmi.observer.LocalObserver;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="rmi.observer/RemoteObserver&lt;-rmi.observer/RemoteObserverLocalObservable" source="//@children.0" target="//@children.2" targetEnd="//@children.0/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="127,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="136,81"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.6/@sourceConnections.1" name="ControladorGestion" location="195,351" size="273,117" id="controlador/ControladorGestion" runTimeClassModel="agregarOficina(Ljava.lang.String;),obtenerCasillasPorUsuario(I),obtenerCasillas(),borrarCasilla(I),addLocalObserver(Lrmi.observer.LocalObserver;),agregarRelacionConfianza(II),borrarLogsTrafico(),agregarUsuario(Ljava.lang.String;Ljava.lang.String;),eliminarRelacionConfianza(II),borrarCasillaDeOficina(II),borrarOficina(I),modificarCasilla(ILjava.lang.String;),update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;),modificarUsuario(ILjava.lang.String;),obtenerRelacionesConfianza(),agregarCasillaAOficina(II),obtenerOficinas(),obtenerLogsTrafico(),obtenerOficinasPorCasilla(I),modificarOficina(ILjava.lang.String;),modificarRelacionConfianza(III),deleteLocalObserver(Lrmi.observer.LocalObserver;),ControladorGestion(),obtenerUsuarios(),resetearContraseña(Ljava.lang.Integer;),borrarUsuario(I),agregarCasilla(ILjava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="250,54">
+      <children xsi:type="editmodel:MethodEditModel" name="addLocalObserver" id="controlador/ControladorGestion#addLocalObserver(Lrmi.observer.LocalObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteLocalObserver" id="controlador/ControladorGestion#deleteLocalObserver(Lrmi.observer.LocalObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="controlador/ControladorGestion#update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.8/@sourceConnections.0" autoLocated="true" id="rmi.observer/RemoteObserverLocalObservable&lt;-controlador/ControladorGestion" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.1" sourceEnd="//@children.1/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="136,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="127,99" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" id="rmi/InterfazGestion@gestion+controlador/ControladorGestion@" source="//@children.1" target="//@children.3" targetEnd="//@children.1/@sourceConnections.1/@children.2" label="//@children.1/@sourceConnections.1/@children.0" sourceEnd="//@children.1/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,68" id="rmi/InterfazGestion@gestion+controlador/ControladorGestion@|controlador/ControladorGestion#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="gestion" location="68,57" id="rmi/InterfazGestion@gestion+controlador/ControladorGestion@|rmi/InterfazGestion#gestion" multiplicityLabel="//@children.1/@sourceConnections.1/@children.2/@children.1" roleLabel="//@children.1/@sourceConnections.1/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - gestion" location="81,250" size="45,14" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="140,250" size="18,14" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="controlador/ControladorGestion-Standard::Instantiate->rmi.observer/RemoteObserverLocalObservableImpl" source="//@children.1" target="//@children.8" targetEnd="//@children.1/@sourceConnections.2/@children.2" label="//@children.1/@sourceConnections.2/@children.0" sourceEnd="//@children.1/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Instantiate»" location="512,396" size="61,14" automaticRelocationAllowed="false" locationOnWireFromSource="1.0" distanceFromWire="5.999999999999999" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="273,58" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,60"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.0/@sourceConnections.0" name="RemoteObserver" location="411,15" size="273,81" id="rmi.observer/RemoteObserver" runTimeClassModel="update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="250,18">
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="rmi.observer/RemoteObserver#update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.1/@sourceConnections.1" name="InterfazGestion" location="65,186" size="138,57" id="rmi/InterfazGestion" runTimeClassModel="agregarOficina(Ljava.lang.String;),obtenerRelacionConfianza(II),obtenerCasillasPorUsuario(I),obtenerCasilla(I),obtenerCasillas(),borrarCasilla(I),agregarRelacionConfianza(II),borrarLogs(),agregarUsuario(Ljava.lang.String;Ljava.lang.String;),obtenerOficina(I),borrarCasillaDeOficina(II),borrarOficina(I),modificarCasilla(ILjava.lang.String;),modificarUsuario(ILjava.lang.String;),obtenerRelacionesConfianza(),agregarCasillaAOficina(II),borrarRelacionConfianza(II),obtenerOficinas(),obtenerOficinasPorCasilla(I),modificarOficina(ILjava.lang.String;),modificarRelacionConfianza(III),resetearContraseña(I),obtenerLogs(),obtenerCasillasPorOficina(I),obtenerUsuarios(),borrarUsuario(I),agregarCasilla(ILjava.lang.String;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="rmi.observer/RemoteObservable&lt;-rmi/InterfazGestion" source="//@children.3" target="//@children.4" targetEnd="//@children.3/@sourceConnections.0/@children.1" sourceEnd="//@children.3/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="69,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="128,117" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.3/@sourceConnections.0" name="RemoteObservable" location="6,15" size="257,117" id="rmi.observer/RemoteObservable" runTimeClassModel="deleteRemoteObserver(Lrmi.observer.RemoteObserver;),notifyRemoteObservers(Lrmi.observer.EventoObservable;),addRemoteObserver(Lrmi.observer.RemoteObserver;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="234,54">
+      <children xsi:type="editmodel:MethodEditModel" name="addRemoteObserver" id="rmi.observer/RemoteObservable#addRemoteObserver(Lrmi.observer.RemoteObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteRemoteObserver" id="rmi.observer/RemoteObservable#deleteRemoteObserver(Lrmi.observer.RemoteObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="notifyRemoteObservers" id="rmi.observer/RemoteObservable#notifyRemoteObservers(Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.6/@sourceConnections.0" name="LocalObserver" location="390,527" size="345,81" id="rmi.observer/LocalObserver" runTimeClassModel="update(Lrmi.observer.RemoteObserverLocalObservable;Lrmi.observer.EventoObservable;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="322,18">
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="rmi.observer/LocalObserver#update(Lrmi.observer.RemoteObserverLocalObservable;Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="LogsPanel" location="431,681" size="109,81" id="vista/LogsPanel" runTimeClassModel="update(Lrmi.observer.RemoteObserverLocalObservable;Lrmi.observer.EventoObservable;),LogsPanel(Lcontrolador.ControladorGestion;),vista.LogsPanel.LogTableModel">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="80,36">
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="vista/LogsPanel#update(Lrmi.observer.RemoteObserverLocalObservable;Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="140,177"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.7/@sourceConnections.0" autoLocated="true" id="rmi.observer/LocalObserver&lt;-vista/LogsPanel" source="//@children.6" target="//@children.5" targetEnd="//@children.6/@sourceConnections.0/@children.1" sourceEnd="//@children.6/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="53,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="172,81" anchorKind="FixedAtEdge"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:DependencyEditModel" id="vista/LogsPanel-Standard::Call->controlador/ControladorGestion" source="//@children.6" target="//@children.1" targetEnd="//@children.6/@sourceConnections.1/@children.2" label="//@children.6/@sourceConnections.1/@children.0" sourceEnd="//@children.6/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:WireLabelEditModel" name="«Call»" size="29,14" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="0,45" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="106,117"/>
+      <bendpoints secondRelativeDimension="-1,257" firstRelativeDimension="-131,-1"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="AbmBasePanel" location="570,681" size="139,81" id="vista/AbmBasePanel" runTimeClassModel="AbmBasePanel(Lcontrolador.ControladorGestion;),update(Lrmi.observer.RemoteObserverLocalObservable;Lrmi.observer.EventoObservable;)">
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="102,36">
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="vista/AbmBasePanel#update(Lrmi.observer.RemoteObserverLocalObservable;Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="rmi.observer/LocalObserver&lt;-vista/AbmBasePanel" source="//@children.7" target="//@children.6/@sourceConnections.0" targetEnd="//@children.7/@sourceConnections.0/@children.1" sourceEnd="//@children.7/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="69,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@sourceConnections.2" name="RemoteObserverLocalObservableImpl" location="615,349" size="283,121" id="rmi.observer/RemoteObserverLocalObservableImpl" runTimeClassModel="deleteLocalObserver(Lrmi.observer.LocalObserver;),update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;),RemoteObserverLocalObservableImpl(),addLocalObserver(Lrmi.observer.LocalObserver;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="212,72">
+      <children xsi:type="editmodel:MethodEditModel" name="RemoteObserverLocalObservableImpl" id="rmi.observer/RemoteObserverLocalObservableImpl#RemoteObserverLocalObservableImpl()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addLocalObserver" id="rmi.observer/RemoteObserverLocalObservableImpl#addLocalObserver(Lrmi.observer.LocalObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="deleteLocalObserver" id="rmi.observer/RemoteObserverLocalObservableImpl#deleteLocalObserver(Lrmi.observer.LocalObserver;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="update" id="rmi.observer/RemoteObserverLocalObservableImpl#update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="rmi.observer/RemoteObserverLocalObservable&lt;-rmi.observer/RemoteObserverLocalObservableImpl" source="//@children.8" target="//@children.1/@sourceConnections.0" targetEnd="//@children.8/@sourceConnections.0/@children.1" sourceEnd="//@children.8/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="141,0" anchorKind="FixedAtEdge" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="224,99"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="java.rmi.server/UnicastRemoteObject&lt;-rmi.observer/RemoteObserverLocalObservableImpl" source="//@children.8" target="//@children.10" targetEnd="//@children.8/@sourceConnections.1/@children.1" sourceEnd="//@children.8/@sourceConnections.1/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="200,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="81,43"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:NotepadEditModel" location="507,420" size="82,24" fontInfo="Arial-8-0" note="Fachada"/>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.8/@sourceConnections.1" name="UnicastRemoteObject" location="734,242" size="178,43" id="java.rmi.server/UnicastRemoteObject" runTimeClassModel="">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

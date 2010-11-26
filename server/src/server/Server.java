@@ -11,13 +11,24 @@ import rmi.InterfazGestion;
 import rmi.InterfazMensajeria;
 import rmi.Mensajeria;
 
+/**
+ * @author  hmassad
+ */
 public class Server {
 
 	public static void main(String[] args) {
 		new Server();
 	}
 
+	/**
+	 * @uml.property  name="gestion"
+	 * @uml.associationEnd  
+	 */
 	private InterfazGestion gestion;
+	/**
+	 * @uml.property  name="mensajeria"
+	 * @uml.associationEnd  
+	 */
 	private InterfazMensajeria mensajeria;
 
 	public Server() {
@@ -45,8 +56,8 @@ public class Server {
 	private void inicializarRmi() {
 		try {
 			LocateRegistry.createRegistry(1099);
-			Naming.rebind("rmi://localhost/gestion", gestion);
-			Naming.rebind("rmi://localhost/mensajeria", mensajeria);
+			Naming.rebind("rmi://hmassad-laptop/gestion", gestion);
+			Naming.rebind("rmi://hmassad-laptop/mensajeria", mensajeria);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -54,7 +65,7 @@ public class Server {
 	}
 
 	private void desinicializarRmi() throws RemoteException, MalformedURLException, NotBoundException {
-		Naming.unbind("rmi://localhost/gestion");
-		Naming.unbind("rmi://localhost/mensajeria");
+		Naming.unbind("rmi://hmassad-laptop/gestion");
+		Naming.unbind("rmi://hmassad-laptop/mensajeria");
 	}
 }

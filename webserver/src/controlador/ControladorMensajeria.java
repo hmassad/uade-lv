@@ -12,8 +12,15 @@ import beans.MensajeVO;
 import enums.MensajeEstado;
 import enums.MensajeTipo;
 
+/**
+ * @author  hmassad
+ */
 public class ControladorMensajeria {
 
+	/**
+	 * @uml.property  name="mensajeria"
+	 * @uml.associationEnd  
+	 */
 	private InterfazMensajeria mensajeria;
 
 	public ControladorMensajeria() throws MalformedURLException, RemoteException, NotBoundException {

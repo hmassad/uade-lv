@@ -13,6 +13,9 @@ import javax.persistence.Transient;
 
 import enums.MensajeEstado;
 
+/**
+ * @author  hmassad
+ */
 @Entity
 @AssociationOverrides( {
 	@AssociationOverride(name = "pk.casilla", joinColumns = {@JoinColumn(name = "casilla_id", nullable = false)}),
@@ -22,17 +25,33 @@ public class MensajeEnCasilla implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="pk"
+	 * @uml.associationEnd  
+	 */
 	@EmbeddedId
 	private MensajeEnCasillaPk pk = new MensajeEnCasillaPk();
 
+	/**
+	 * @uml.property  name="estado"
+	 * @uml.associationEnd  
+	 */
 	@Enumerated(EnumType.STRING)
 	private MensajeEstado estado;
 
+	/**
+	 * @param pk
+	 * @uml.property  name="pk"
+	 */
 	@SuppressWarnings("unused")
 	private void setPk(MensajeEnCasillaPk pk) {
 		this.pk = pk;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="pk"
+	 */
 	private MensajeEnCasillaPk getPk() {
 		return pk;
 	}
@@ -55,10 +74,18 @@ public class MensajeEnCasilla implements Serializable {
 		getPk().setMensaje(mensaje);
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="estado"
+	 */
 	public MensajeEstado getEstado() {
 		return estado;
 	}
 
+	/**
+	 * @param estado
+	 * @uml.property  name="estado"
+	 */
 	public void setEstado(MensajeEstado estado) {
 		this.estado = estado;
 	}

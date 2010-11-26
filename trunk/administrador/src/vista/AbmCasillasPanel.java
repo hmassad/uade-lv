@@ -83,16 +83,17 @@ public class AbmCasillasPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public TableModel getTableModel() {
+	protected TableModel getTableModel() {
 		return new CasillasTableModel();
 	}
 
+	@Override
 	protected String getTitulo() {
 		return "Casillas";
 	}
 
 	@Override
-	public ActionListener getAgregarActionListener() {
+	protected ActionListener getAgregarActionListener() {
 		return new ActionListener() {
 
 			@Override
@@ -103,7 +104,7 @@ public class AbmCasillasPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public ActionListener getBorrarActionListener() {
+	protected ActionListener getBorrarActionListener() {
 		return new ActionListener() {
 
 			@Override
@@ -125,7 +126,7 @@ public class AbmCasillasPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public ActionListener getModificarActionListener() {
+	protected ActionListener getModificarActionListener() {
 		return new ActionListener() {
 
 			@Override

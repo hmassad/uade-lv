@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="rmi" size="1234,677" id="" metadata="uml2-1.0" initialized="true" scrolledX="-5" scrolledY="-5" tag="1000" key="32303037303533312D31303030207365727665722F686D6173736164">
+  <children xsi:type="editmodel:PackageEditModel" name="rmi" size="586,871" id="rmi">
+    <children xsi:type="editmodel:ClassEditModel" name="Mensajeria" location="272,251" size="273,355" id="rmi/Mensajeria" runTimeClassModel="obtenerMensaje(Ljava.lang.String;Ljava.lang.Integer;),listarMensajesPorCasillaPorEstado(Ljava.lang.String;Lenums.MensajeEstado;),validarLogin(Ljava.lang.String;Ljava.lang.String;),listarDireccionesPosibles(Ljava.lang.String;),obtenerCantidadMensajesNoLeidosDeUsuario(Ljava.lang.String;),guardarMensaje(Ljava.lang.Integer;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Lenums.MensajeTipo;),listarMensajesPorUsuarioPorEstado(Ljava.lang.String;Lenums.MensajeEstado;),cambiarPassword(Ljava.lang.String;Ljava.lang.String;),eliminarMensaje(Ljava.lang.Integer;),Mensajeria(),bloquearCasilla(Ljava.lang.String;Ljava.lang.String;),cambiarMensajeEstado(Ljava.lang.String;Ljava.lang.Integer;Lenums.MensajeEstado;),listarDireccionesPosiblesQueComiencenCon(Ljava.lang.String;Ljava.lang.String;),listarMensajesPorCasilla(Ljava.lang.String;),listarCasillasPorUsuario(Ljava.lang.String;),enviarMensaje(Ljava.lang.Integer;Ljava.lang.String;Ljava.util.Collection;Ljava.lang.String;Ljava.lang.String;Lenums.MensajeTipo;),listarMensajesPorUsuario(Ljava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="250,306">
+        <children xsi:type="editmodel:MethodEditModel" name="Mensajeria" id="rmi/Mensajeria#Mensajeria()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="bloquearCasilla" id="rmi/Mensajeria#bloquearCasilla(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="cambiarMensajeEstado" id="rmi/Mensajeria#cambiarMensajeEstado(Ljava.lang.String;Ljava.lang.Integer;Lenums.MensajeEstado;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="cambiarPassword" id="rmi/Mensajeria#cambiarPassword(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="eliminarMensaje" id="rmi/Mensajeria#eliminarMensaje(Ljava.lang.Integer;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="enviarMensaje" id="rmi/Mensajeria#enviarMensaje(Ljava.lang.Integer;Ljava.lang.String;Ljava.util.Collection;Ljava.lang.String;Ljava.lang.String;Lenums.MensajeTipo;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="guardarMensaje" id="rmi/Mensajeria#guardarMensaje(Ljava.lang.Integer;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Lenums.MensajeTipo;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarCasillasPorUsuario" id="rmi/Mensajeria#listarCasillasPorUsuario(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarDireccionesPosibles" id="rmi/Mensajeria#listarDireccionesPosibles(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarDireccionesPosiblesQueComiencenCon" id="rmi/Mensajeria#listarDireccionesPosiblesQueComiencenCon(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarMensajesPorCasilla" id="rmi/Mensajeria#listarMensajesPorCasilla(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarMensajesPorCasillaPorEstado" id="rmi/Mensajeria#listarMensajesPorCasillaPorEstado(Ljava.lang.String;Lenums.MensajeEstado;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarMensajesPorUsuario" id="rmi/Mensajeria#listarMensajesPorUsuario(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listarMensajesPorUsuarioPorEstado" id="rmi/Mensajeria#listarMensajesPorUsuarioPorEstado(Ljava.lang.String;Lenums.MensajeEstado;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCantidadMensajesNoLeidosDeUsuario" id="rmi/Mensajeria#obtenerCantidadMensajesNoLeidosDeUsuario(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerMensaje" id="rmi/Mensajeria#obtenerMensaje(Ljava.lang.String;Ljava.lang.Integer;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="validarLogin" id="rmi/Mensajeria#validarLogin(Ljava.lang.String;Ljava.lang.String;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="rmi/InterfazMensajeria&lt;-rmi/Mensajeria" source="//@children.0/@children.0" target="//@children.0/@children.5" targetEnd="//@children.0/@children.0/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@children.0/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="201,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="71,43"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.0/@children.3/@sourceConnections.1" autoLocated="true" id="java.rmi.server/UnicastRemoteObject&lt;-rmi/Mensajeria" source="//@children.0/@children.0" target="//@children.0/@children.1" targetEnd="//@children.0/@children.0/@sourceConnections.1/@children.1" sourceEnd="//@children.0/@children.0/@sourceConnections.1/@children.0" connectionRouterKind="GeneralizationManhattan">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="136,0" anchorKind="FixedAtEdge" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="89,43" anchorKind="FixedAtEdge"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.0/@children.0/@sourceConnections.1" name="UnicastRemoteObject" location="194,157" size="178,43" id="java.rmi.server/UnicastRemoteObject" runTimeClassModel="">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.0/@children.3/@sourceConnections.0" name="InterfazGestion" location="26,157" size="138,43" id="rmi/InterfazGestion" runTimeClassModel="agregarOficina(Ljava.lang.String;),obtenerRelacionConfianza(II),obtenerCasillasPorUsuario(I),obtenerCasilla(I),borrarCasilla(I),obtenerCasillas(),agregarRelacionConfianza(II),borrarLogs(),agregarUsuario(Ljava.lang.String;Ljava.lang.String;),obtenerOficina(I),borrarCasillaDeOficina(II),borrarOficina(I),modificarCasilla(ILjava.lang.String;),modificarUsuario(ILjava.lang.String;),obtenerRelacionesConfianza(),agregarCasillaAOficina(II),borrarRelacionConfianza(II),obtenerOficinas(),obtenerOficinasPorCasilla(I),modificarOficina(ILjava.lang.String;),modificarRelacionConfianza(III),resetearContraseña(I),obtenerLogs(),obtenerCasillasPorOficina(I),obtenerUsuarios(),borrarUsuario(I),agregarCasilla(ILjava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="java.rmi/Remote&lt;-rmi/InterfazGestion" source="//@children.0/@children.2" target="//@children.0/@children.5/@sourceConnections.0" targetEnd="//@children.0/@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@children.2/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="69,0" anchorKind="FixedAtEdge" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="1,0"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" name="Gestion" location="26,250" size="192,607" id="rmi/Gestion" runTimeClassModel="obtenerRelacionConfianza(II),agregarOficina(Ljava.lang.String;),obtenerCasillasPorUsuario(I),obtenerCasillas(),borrarCasilla(I),obtenerCasilla(I),agregarRelacionConfianza(II),borrarLogs(),Gestion(),agregarUsuario(Ljava.lang.String;Ljava.lang.String;),obtenerOficina(I),borrarOficina(I),borrarCasillaDeOficina(II),modificarCasilla(ILjava.lang.String;),modificarUsuario(ILjava.lang.String;),obtenerRelacionesConfianza(),agregarCasillaAOficina(II),borrarRelacionConfianza(II),obtenerOficinas(),deleteRemoteObserver(Lrmi.observer.RemoteObserver;),obtenerOficinasPorCasilla(I),modificarOficina(ILjava.lang.String;),modificarRelacionConfianza(III),notifyRemoteObservers(Lrmi.observer.EventoObservable;),resetearContraseña(I),addRemoteObserver(Lrmi.observer.RemoteObserver;),obtenerLogs(),obtenerCasillasPorOficina(I),obtenerUsuarios(),borrarUsuario(I),agregarCasilla(ILjava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="169,558">
+        <children xsi:type="editmodel:MethodEditModel" name="Gestion" id="rmi/Gestion#Gestion()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="addRemoteObserver" id="rmi/Gestion#addRemoteObserver(Lrmi.observer.RemoteObserver;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarCasilla" id="rmi/Gestion#agregarCasilla(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarCasillaAOficina" id="rmi/Gestion#agregarCasillaAOficina(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarOficina" id="rmi/Gestion#agregarOficina(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarRelacionConfianza" id="rmi/Gestion#agregarRelacionConfianza(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarUsuario" id="rmi/Gestion#agregarUsuario(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarCasilla" id="rmi/Gestion#borrarCasilla(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarCasillaDeOficina" id="rmi/Gestion#borrarCasillaDeOficina(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarLogs" id="rmi/Gestion#borrarLogs()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarOficina" id="rmi/Gestion#borrarOficina(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarRelacionConfianza" id="rmi/Gestion#borrarRelacionConfianza(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarUsuario" id="rmi/Gestion#borrarUsuario(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="deleteRemoteObserver" id="rmi/Gestion#deleteRemoteObserver(Lrmi.observer.RemoteObserver;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarCasilla" id="rmi/Gestion#modificarCasilla(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarOficina" id="rmi/Gestion#modificarOficina(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarRelacionConfianza" id="rmi/Gestion#modificarRelacionConfianza(III)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarUsuario" id="rmi/Gestion#modificarUsuario(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="notifyRemoteObservers" id="rmi/Gestion#notifyRemoteObservers(Lrmi.observer.EventoObservable;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCasilla" id="rmi/Gestion#obtenerCasilla(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCasillas" id="rmi/Gestion#obtenerCasillas()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCasillasPorOficina" id="rmi/Gestion#obtenerCasillasPorOficina(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCasillasPorUsuario" id="rmi/Gestion#obtenerCasillasPorUsuario(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerLogs" id="rmi/Gestion#obtenerLogs()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerOficina" id="rmi/Gestion#obtenerOficina(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerOficinas" id="rmi/Gestion#obtenerOficinas()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerOficinasPorCasilla" id="rmi/Gestion#obtenerOficinasPorCasilla(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerRelacionConfianza" id="rmi/Gestion#obtenerRelacionConfianza(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerRelacionesConfianza" id="rmi/Gestion#obtenerRelacionesConfianza()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerUsuarios" id="rmi/Gestion#obtenerUsuarios()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="resetearContraseña" id="rmi/Gestion#resetearContraseña(I)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="rmi/InterfazGestion&lt;-rmi/Gestion" source="//@children.0/@children.3" target="//@children.0/@children.2" targetEnd="//@children.0/@children.3/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@children.3/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="68,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="68,43"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="java.rmi.server/UnicastRemoteObject&lt;-rmi/Gestion" source="//@children.0/@children.3" target="//@children.0/@children.0/@sourceConnections.1" targetEnd="//@children.0/@children.3/@sourceConnections.1/@children.1" sourceEnd="//@children.0/@children.3/@sourceConnections.1/@children.0" connectionRouterKind="GeneralizationManhattan">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="96,0" anchorKind="FixedAtEdge" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="0,76"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.0/@children.5/@sourceConnections.0" name="Remote" location="243,50" size="91,57" id="java.rmi/Remote" runTimeClassModel="">
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.0/@children.0/@sourceConnections.0" name="InterfazMensajeria" location="402,157" size="160,43" id="rmi/InterfazMensajeria" runTimeClassModel="obtenerMensaje(Ljava.lang.String;Ljava.lang.Integer;),listarMensajesPorCasillaPorEstado(Ljava.lang.String;Lenums.MensajeEstado;),validarLogin(Ljava.lang.String;Ljava.lang.String;),obtenerCantidadMensajesNoLeidosDeUsuario(Ljava.lang.String;),listarDireccionesPosibles(Ljava.lang.String;),guardarMensaje(Ljava.lang.Integer;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Lenums.MensajeTipo;),listarMensajesPorUsuarioPorEstado(Ljava.lang.String;Lenums.MensajeEstado;),cambiarPassword(Ljava.lang.String;Ljava.lang.String;),eliminarMensaje(Ljava.lang.Integer;),bloquearCasilla(Ljava.lang.String;Ljava.lang.String;),cambiarMensajeEstado(Ljava.lang.String;Ljava.lang.Integer;Lenums.MensajeEstado;),listarDireccionesPosiblesQueComiencenCon(Ljava.lang.String;Ljava.lang.String;),listarMensajesPorCasilla(Ljava.lang.String;),listarCasillasPorUsuario(Ljava.lang.String;),enviarMensaje(Ljava.lang.Integer;Ljava.lang.String;Ljava.util.Collection;Ljava.lang.String;Ljava.lang.String;Lenums.MensajeTipo;),listarMensajesPorUsuario(Ljava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" targetConnections="//@children.0/@children.2/@sourceConnections.0" autoLocated="true" id="java.rmi/Remote&lt;-rmi/InterfazMensajeria" source="//@children.0/@children.5" target="//@children.0/@children.4" targetEnd="//@children.0/@children.5/@sourceConnections.0/@children.1" sourceEnd="//@children.0/@children.5/@sourceConnections.0/@children.0" connectionRouterKind="GeneralizationManhattan">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="80,0" anchorKind="FixedAtEdge" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="45,57" anchorKind="FixedAtEdge"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=1;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

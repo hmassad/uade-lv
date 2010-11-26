@@ -14,6 +14,9 @@ import javax.swing.UIManager;
 
 import controlador.ControladorGestion;
 
+/**
+ * @author  hmassad
+ */
 public class AdministradorFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +29,10 @@ public class AdministradorFrame extends JFrame {
 	private JMenuItem salirMenuItem;
 	private JMenuBar mainMenuBar;
 
+	/**
+	 * @uml.property  name="controladorGestion"
+	 * @uml.associationEnd  
+	 */
 	private ControladorGestion controladorGestion;
 
 	public static void main(String[] args) {

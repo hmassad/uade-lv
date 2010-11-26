@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="lib/mssqlserver.jar"/>
 	<classpathentry kind="lib" path="lib/msutil.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/comun"/>
+	<classpathentry kind="con" path="com.soyatec.uml.CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

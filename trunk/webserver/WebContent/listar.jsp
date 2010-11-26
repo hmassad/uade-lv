@@ -24,7 +24,7 @@
 <link rel="stylesheet" type="text/css" href="estilo.css" />
 
 <script type="text/javascript">
-	//setTimeout('window.location.reload(true);', 10000);
+	setTimeout('window.location.reload(true);', 10000);
 </script>
 </head>
 <body>

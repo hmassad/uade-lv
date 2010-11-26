@@ -24,10 +24,17 @@ import rmi.observer.RemoteObserverLocalObservable;
 import beans.LogTraficoVO;
 import controlador.ControladorGestion;
 
+/**
+ * @author  hmassad
+ */
 public class LogsPanel extends JPanel implements LocalObserver {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="controladorGestion"
+	 * @uml.associationEnd  
+	 */
 	private ControladorGestion controladorGestion;
 	private JTable logTable;
 	private JButton borrarButton;
@@ -44,10 +51,18 @@ public class LogsPanel extends JPanel implements LocalObserver {
 		initGUI();
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="controladorGestion"
+	 */
 	public ControladorGestion getControladorGestion() {
 		return controladorGestion;
 	}
 
+	/**
+	 * @param controladorGestion
+	 * @uml.property  name="controladorGestion"
+	 */
 	public void setControladorGestion(ControladorGestion controladorGestion) {
 		this.controladorGestion = controladorGestion;
 	}

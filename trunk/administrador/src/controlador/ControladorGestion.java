@@ -16,17 +16,28 @@ import beans.OficinaVO;
 import beans.RelacionConfianzaVO;
 import beans.UsuarioVO;
 
+/**
+ * @author  hmassad
+ */
 public class ControladorGestion implements RemoteObserverLocalObservable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="gestion"
+	 * @uml.associationEnd  
+	 */
 	private InterfazGestion gestion;
 
+	/**
+	 * @uml.property  name="remoteObserverLocalObservable"
+	 * @uml.associationEnd  
+	 */
 	private RemoteObserverLocalObservable remoteObserverLocalObservable;
 
 	public ControladorGestion() throws Exception {
 		super();
-		gestion = (InterfazGestion) Naming.lookup("rmi://localhost/gestion");
+		gestion = (InterfazGestion) Naming.lookup("rmi://hmassad-laptop/gestion");
 		remoteObserverLocalObservable = new RemoteObserverLocalObservableImpl();
 		gestion.addRemoteObserver(remoteObserverLocalObservable);
 	}

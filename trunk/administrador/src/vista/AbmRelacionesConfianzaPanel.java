@@ -23,7 +23,7 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public TableModel getTableModel() {
+	protected TableModel getTableModel() {
 		return new RelacionesConfianzaTableModel();
 	}
 
@@ -89,12 +89,13 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 		}
 	}
 
+	@Override
 	protected String getTitulo() {
 		return "Relaciones de Confianza";
 	}
 
 	@Override
-	public ActionListener getAgregarActionListener() {
+	protected ActionListener getAgregarActionListener() {
 		return new ActionListener() {
 
 			@Override
@@ -105,7 +106,7 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public ActionListener getBorrarActionListener() {
+	protected ActionListener getBorrarActionListener() {
 		return new ActionListener() {
 
 			@Override
@@ -128,7 +129,7 @@ public class AbmRelacionesConfianzaPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public ActionListener getModificarActionListener() {
+	protected ActionListener getModificarActionListener() {
 		return new ActionListener() {
 
 			@Override

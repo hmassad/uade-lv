@@ -2,12 +2,24 @@ package beans;
 
 import java.io.Serializable;
 
+/**
+ * @author  hmassad
+ */
 public class UsuarioVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="id"
+	 */
 	private int id;
+	/**
+	 * @uml.property  name="nombre"
+	 */
 	private String nombre;
+	/**
+	 * @uml.property  name="password"
+	 */
 	private String password;
 
 	public UsuarioVO() {
@@ -19,26 +31,50 @@ public class UsuarioVO implements Serializable {
 		this.password = password;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="id"
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @param id
+	 * @uml.property  name="id"
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="nombre"
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * @param nombre
+	 * @uml.property  name="nombre"
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="password"
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * @param password
+	 * @uml.property  name="password"
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}

@@ -13,9 +13,16 @@ import javax.swing.JOptionPane;
 
 import controlador.ControladorGestion;
 
+/**
+ * @author  hmassad
+ */
 public abstract class BaseDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+	/**
+	 * @uml.property  name="controladorGestion"
+	 * @uml.associationEnd  
+	 */
 	protected ControladorGestion controladorGestion;
 	private JButton aceptarButton;
 	private JButton cancelarButton;

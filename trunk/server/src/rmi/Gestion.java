@@ -32,12 +32,19 @@ import entities.RelacionConfianza;
 import entities.RelacionConfianzaPk;
 import entities.Usuario;
 
+/**
+ * @author  hmassad
+ */
 public class Gestion extends UnicastRemoteObject implements InterfazGestion, Serializable, RemoteObservable {
 
 	private static final long serialVersionUID = 1L;
 
 	private EntityManagerFactory emf;
 
+	/**
+	 * @uml.property  name="remoteObservable"
+	 * @uml.associationEnd  
+	 */
 	private RemoteObservable remoteObservable;
 
 	public Gestion() throws RemoteException {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="administrador" size="1646,926" id="" metadata="uml2-1.0" initialized="true" zoom="0.75" scrolledX="-3" scrolledY="-3" tag="1000" key="32303037303533312D313030302061646D696E6973747261646F722F686D6173736164">
+  <children xsi:type="editmodel:PackageEditModel" name="controlador" location="2,2" size="240,584" id="controlador">
+    <children xsi:type="editmodel:ClassEditModel" name="ControladorGestion" location="25,38" size="192,535" id="controlador/ControladorGestion" runTimeClassModel="agregarOficina(Ljava.lang.String;),obtenerCasillasPorUsuario(I),borrarCasilla(I),obtenerCasillas(),addLocalObserver(Lrmi.observer.LocalObserver;),agregarRelacionConfianza(II),borrarLogsTrafico(),agregarUsuario(Ljava.lang.String;Ljava.lang.String;),eliminarRelacionConfianza(II),borrarOficina(I),borrarCasillaDeOficina(II),modificarCasilla(ILjava.lang.String;),update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;),modificarUsuario(ILjava.lang.String;),obtenerRelacionesConfianza(),agregarCasillaAOficina(II),obtenerOficinas(),obtenerLogsTrafico(),obtenerOficinasPorCasilla(I),modificarRelacionConfianza(III),modificarOficina(ILjava.lang.String;),deleteLocalObserver(Lrmi.observer.LocalObserver;),ControladorGestion(),obtenerUsuarios(),resetearContraseña(Ljava.lang.Integer;),borrarUsuario(I),agregarCasilla(ILjava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="169,486">
+        <children xsi:type="editmodel:MethodEditModel" name="ControladorGestion" id="controlador/ControladorGestion#ControladorGestion()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="addLocalObserver" id="controlador/ControladorGestion#addLocalObserver(Lrmi.observer.LocalObserver;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarCasilla" id="controlador/ControladorGestion#agregarCasilla(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarCasillaAOficina" id="controlador/ControladorGestion#agregarCasillaAOficina(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarOficina" id="controlador/ControladorGestion#agregarOficina(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarRelacionConfianza" id="controlador/ControladorGestion#agregarRelacionConfianza(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="agregarUsuario" id="controlador/ControladorGestion#agregarUsuario(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarCasilla" id="controlador/ControladorGestion#borrarCasilla(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarCasillaDeOficina" id="controlador/ControladorGestion#borrarCasillaDeOficina(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarLogsTrafico" id="controlador/ControladorGestion#borrarLogsTrafico()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarOficina" id="controlador/ControladorGestion#borrarOficina(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="borrarUsuario" id="controlador/ControladorGestion#borrarUsuario(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="deleteLocalObserver" id="controlador/ControladorGestion#deleteLocalObserver(Lrmi.observer.LocalObserver;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="eliminarRelacionConfianza" id="controlador/ControladorGestion#eliminarRelacionConfianza(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarCasilla" id="controlador/ControladorGestion#modificarCasilla(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarOficina" id="controlador/ControladorGestion#modificarOficina(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarRelacionConfianza" id="controlador/ControladorGestion#modificarRelacionConfianza(III)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="modificarUsuario" id="controlador/ControladorGestion#modificarUsuario(ILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCasillas" id="controlador/ControladorGestion#obtenerCasillas()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerCasillasPorUsuario" id="controlador/ControladorGestion#obtenerCasillasPorUsuario(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerLogsTrafico" id="controlador/ControladorGestion#obtenerLogsTrafico()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerOficinas" id="controlador/ControladorGestion#obtenerOficinas()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerOficinasPorCasilla" id="controlador/ControladorGestion#obtenerOficinasPorCasilla(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerRelacionesConfianza" id="controlador/ControladorGestion#obtenerRelacionesConfianza()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="obtenerUsuarios" id="controlador/ControladorGestion#obtenerUsuarios()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="resetearContraseña" id="controlador/ControladorGestion#resetearContraseña(Ljava.lang.Integer;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="update" id="controlador/ControladorGestion#update(Lrmi.observer.RemoteObservable;Lrmi.observer.EventoObservable;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=7;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

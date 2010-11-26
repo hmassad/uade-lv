@@ -23,7 +23,7 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public TableModel getTableModel() {
+	protected TableModel getTableModel() {
 		return new UsuariosTableModel();
 	}
 
@@ -87,12 +87,13 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 		}
 	}
 
+	@Override
 	protected String getTitulo() {
 		return "Usuarios";
 	}
 
 	@Override
-	public ActionListener getAgregarActionListener() {
+	protected ActionListener getAgregarActionListener() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -102,7 +103,7 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public ActionListener getBorrarActionListener() {
+	protected ActionListener getBorrarActionListener() {
 		return new ActionListener() {
 
 			@Override
@@ -124,7 +125,7 @@ public class AbmUsuariosPanel extends AbmBasePanel {
 	}
 
 	@Override
-	public ActionListener getModificarActionListener() {
+	protected ActionListener getModificarActionListener() {
 		return new ActionListener() {
 
 			@Override

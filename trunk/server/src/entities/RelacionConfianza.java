@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Transient;
 
+/**
+ * @author  hmassad
+ */
 @Entity
 @AssociationOverrides( {
 	@AssociationOverride(name = "pk.origen", joinColumns = { @JoinColumn(name = "casilla_origen_id", nullable = false) }),
@@ -18,13 +21,25 @@ public class RelacionConfianza implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @uml.property  name="pk"
+	 * @uml.associationEnd  
+	 */
 	@EmbeddedId
 	private RelacionConfianzaPk pk = new RelacionConfianzaPk();
 
+	/**
+	 * @return
+	 * @uml.property  name="pk"
+	 */
 	private RelacionConfianzaPk getPk() {
 		return pk;
 	}
 
+	/**
+	 * @param pk
+	 * @uml.property  name="pk"
+	 */
 	@SuppressWarnings("unused")
 	private void setPk(RelacionConfianzaPk pk) {
 		this.pk = pk;

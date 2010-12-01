@@ -1,5 +1,5 @@
 package vista;
-
+//Panel
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -24,9 +24,7 @@ import rmi.observer.RemoteObserverLocalObservable;
 import beans.LogTraficoVO;
 import controlador.ControladorGestion;
 
-/**
- * @author  hmassad
- */
+
 public class LogsPanel extends JPanel implements LocalObserver {
 
 	private static final long serialVersionUID = 1L;

@@ -37,7 +37,7 @@ public class ControladorGestion implements RemoteObserverLocalObservable {
 
 	public ControladorGestion() throws Exception {
 		super();
-		gestion = (InterfazGestion) Naming.lookup("rmi://hmassad-laptop/gestion");
+		gestion = (InterfazGestion) Naming.lookup("rmi://localhost/gestion");
 		remoteObserverLocalObservable = new RemoteObserverLocalObservableImpl();
 		gestion.addRemoteObserver(remoteObserverLocalObservable);
 	}

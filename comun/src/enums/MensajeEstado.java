@@ -1,8 +1,5 @@
 package enums;
 
-/**
- * @author   hmassad
- */
 public enum MensajeEstado {
 	/**
 	 * @uml.property  name="enviado"

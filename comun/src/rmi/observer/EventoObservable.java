@@ -1,8 +1,6 @@
 package rmi.observer;
 
-/**
- * @author   hmassad
- */
+
 public enum EventoObservable {
 	/**
 	 * @uml.property  name="usuarios"

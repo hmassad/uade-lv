@@ -1,5 +1,5 @@
 package rmi.observer;
-
+//
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -2,9 +2,7 @@ package beans;
 
 import java.io.Serializable;
 
-/**
- * @author  hmassad
- */
+
 public class RelacionConfianzaVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

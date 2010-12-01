@@ -2,9 +2,7 @@ package beans;
 
 import java.io.Serializable;
 
-/**
- * @author  hmassad
- */
+
 public class CasillaVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

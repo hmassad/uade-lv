@@ -1,0 +1,29 @@
+﻿<html>
+<head>
+    <title>Login</title>
+
+    <script type="text/javascript">
+        function validarCampo() {
+            var txtuser = document.getElementById('txtuser');
+            valor = txtuser.value;
+            if (valor.length == 0) {
+                //alert('campo usuario es requerido');
+                m = document.getElementById("message");
+                m.innerHTML = "El campo user es requerido.";
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <form action="" method="post">
+    <label>
+        user:</label><input type="text" name="txtuser" id="txtuser" />
+    <label>
+        pass:</label><input type="password" name="txtpass" id="txtpass" />
+    <input type="submit" value="ingresar" onclick="javascript:validarCampo();" />
+    <div id="message">
+    </div>
+    </form>
+</body>
+</html>
